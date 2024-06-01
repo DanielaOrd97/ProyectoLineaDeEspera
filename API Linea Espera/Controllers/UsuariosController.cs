@@ -104,5 +104,44 @@ namespace API_Linea_Espera.Controllers
                 return BadRequest();
             }
         }
+
+        ///<summary>
+        ///EDITAR UN OPERADOR.  (ACCION PARA EL ADMIN)
+        /// </summary>
+        /// 
+        [HttpPut("EditarOperador")]
+        public IActionResult PutOperador(UsuarioDTO dto)
+        {
+            if (dto != null)
+            {
+                var operador = Repository.GetAllWithInclude()
+               .First(x => x.Id == dto.Id);
+
+                if (operador != null)
+                {
+
+                    operador.NombreUsuario = dto.NombreUsuario;
+                    operador.Contraseña = dto.Contraseña;
+                    operador.Nombre = dto.Nombre;
+                    operador.FechaDeRegistro = operador.FechaDeRegistro;
+                    operador.IdRol = dto.IdRol;
+                    operador.IdCaja = dto.IdCaja;
+
+                    if (dto.IdCaja == null)
+                    {
+                        operador.IdCaja = operador.IdCaja;
+                    }
+                    else
+                    {
+                        operador.IdCaja = dto.IdCaja;
+                    }
+
+                    Repository.Update(operador);
+                    return Ok();
+                }
+            }
+            return NotFound();
+        }
+
     }
 }
