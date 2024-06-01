@@ -52,6 +52,13 @@ namespace API_Linea_Espera.Controllers
             };
         }
 
+
+        ////////////////////////USUARIO ADMINISTRADOR/////////////////////////////////////
+
+
+
+        ////////////////////////USUARIO OPERADOR DE CAJA/////////////////////////////
+
         /// <summary>
         /// MOSTRAR SOLO AQUELLOS QUE SON OPERADORES. (ACCION PARA EL ADMIN)
         /// </summary>
@@ -162,7 +169,7 @@ namespace API_Linea_Espera.Controllers
         }
 
 
-        /////////////////////////CRUD CLIENTES///////////////////////////////////////////
+        /////////////////////////USUARIO CLIENTE///////////////////////////////////////////
         /// <summary>
         /// VER SOLO USUARIOS CLIENTES.
         /// </summary>
