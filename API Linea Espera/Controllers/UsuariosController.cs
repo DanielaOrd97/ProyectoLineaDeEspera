@@ -62,8 +62,7 @@ namespace API_Linea_Espera.Controllers
             var operadores = Repository.GetAllWithInclude()
                 .Where(x => x.IdRol == 2)
                 .OrderBy(x => x.Id)
-                .Select(x => MapToDto(x))
-                ;
+                .Select(x => MapToDto(x));
 
             return Ok(operadores);
         }
@@ -156,6 +155,93 @@ namespace API_Linea_Espera.Controllers
             if (operador != null)
             {
                 Repository.Delete(operador);
+                return Ok();
+            }
+
+            return NotFound();
+        }
+
+
+        /////////////////////////CRUD CLIENTES///////////////////////////////////////////
+        /// <summary>
+        /// VER SOLO USUARIOS CLIENTES.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Clientes")]
+        public IActionResult GetAllClientes()
+        {
+            var clientes = Repository.GetAllWithInclude()
+                .Where(x => x.IdRol == 3)
+               .OrderBy(x => x.Id)
+               .Select(x => new UsuarioDTO
+               {
+                   Id = x.Id,
+                   NombreUsuario = x.NombreUsuario,
+                   Contraseña = x.Contraseña,
+                   Nombre = x.Nombre,
+                   IdRol = (int)x.IdRol,
+                   NombreRol = x.IdRolNavigation.NombreRol
+               });
+
+            return Ok(clientes);
+        }
+
+
+        ///<summary>
+        ///AGREGAR USUARIO CLIENTE.
+        /// </summary>
+        /// 
+        [HttpPost("AgregarCliente")]
+        public IActionResult PostCliente(UsuarioDTO dto)
+        {
+            if(dto != null)
+            {
+                Usuarios entity = new()
+                {
+                    Id = 0,
+                    NombreUsuario = dto.NombreUsuario,
+                    Contraseña = dto.Contraseña,
+                    Nombre = dto.Nombre,
+                    IdRol = dto.IdRol   //////podria descartarse??????
+                };
+
+                Repository.Insert(entity);
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpPut("EditarCliente")]
+        public IActionResult PutCliente(UsuarioDTO dto)
+        {
+            if (dto != null)
+            {
+                var cliente = Repository.GetAllWithInclude()
+                    .FirstOrDefault(x => x.Id == dto.Id);   
+
+                if(cliente != null)
+                {
+                    cliente.NombreUsuario = dto.NombreUsuario;
+                    cliente.Contraseña = dto.Contraseña;
+                    cliente.Nombre = dto.Nombre;
+                    cliente.IdRol = dto.IdRol;
+
+                    Repository.Update(cliente);
+                    return Ok();
+                }
+            }
+            return NotFound();
+        }
+
+
+        [HttpDelete("EliminarCliente/{id}")]
+        public IActionResult DeleteCliente(int id)
+        {
+            var cliente = Repository.Get(id);
+
+            if (cliente != null)
+            {
+                Repository.Delete(cliente);
                 return Ok();
             }
 
