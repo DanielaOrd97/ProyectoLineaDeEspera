@@ -9,6 +9,8 @@ namespace API_Linea_Espera.Repositories
         void Delete(T item);
         T? Get(object id);
         IEnumerable<T> GetAll();
+        IEnumerable<Usuarios> GetAllWithInclude();
+        object GetOperador(int id);
         void Insert(T item);
         void Update(T item);
 

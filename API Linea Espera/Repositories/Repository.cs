@@ -1,10 +1,11 @@
 ﻿using API_Linea_Espera.Models.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_Linea_Espera.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        public SistemaDeEspera1Context Context { get; }
+        public SistemaDeEspera1Context Context { get; set; }
 
         public Repository(SistemaDeEspera1Context context)
         {
@@ -14,12 +15,25 @@ namespace API_Linea_Espera.Repositories
         public virtual T? Get(object id)
         {
             return Context.Find<T>(id);
+
+        }
+
+        public object GetOperador(int id)
+        {
+            return Context.Find<Usuarios>(id);
         }
 
         public virtual IEnumerable<T> GetAll()
         {
             return Context.Set<T>();
         }
+
+        public IEnumerable<Usuarios> GetAllWithInclude()
+        {
+            return Context.Usuarios.Include(x => x.IdRolNavigation)
+                .Include(x => x.IdCajaNavigation);
+        }
+
 
         public virtual void Insert(T item)
         {
