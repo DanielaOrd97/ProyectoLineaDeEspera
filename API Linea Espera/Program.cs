@@ -1,3 +1,7 @@
+using API_Linea_Espera.Models.Entities;
+using API_Linea_Espera.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +12,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+var connectionString = builder.Configuration.GetConnectionString("BancoConnectionString");
+
+builder.Services.AddDbContext<SistemaDeEspera1Context>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
