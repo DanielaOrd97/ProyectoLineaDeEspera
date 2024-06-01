@@ -143,5 +143,23 @@ namespace API_Linea_Espera.Controllers
             return NotFound();
         }
 
+
+        /// <summary>
+        /// ELIMINAR UN OPERADOR.  (ACCION PARA EL ADMIN)
+        /// </summary>
+
+        [HttpDelete("EliminarOperador/{id}")]
+        public IActionResult DeleteOperador(int id)
+        {
+            var operador = Repository.Get(id);
+
+            if (operador != null)
+            {
+                Repository.Delete(operador);
+                return Ok();
+            }
+
+            return NotFound();
+        }
     }
 }
