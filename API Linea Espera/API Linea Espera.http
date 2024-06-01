@@ -1,0 +1,6 @@
+@API_Linea_Espera_HostAddress = http://localhost:5261
+
+GET {{API_Linea_Espera_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
