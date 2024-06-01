@@ -10,7 +10,7 @@ namespace API_Linea_Espera.Repositories
         T? Get(object id);
         IEnumerable<T> GetAll();
         IEnumerable<Usuarios> GetAllWithInclude();
-        object GetOperador(int id);
+        IEnumerable<Turnos> GetAllTurnosWithInclude();
         void Insert(T item);
         void Update(T item);
 

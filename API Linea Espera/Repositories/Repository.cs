@@ -18,11 +18,6 @@ namespace API_Linea_Espera.Repositories
 
         }
 
-        public object GetOperador(int id)
-        {
-            return Context.Find<Usuarios>(id);
-        }
-
         public virtual IEnumerable<T> GetAll()
         {
             return Context.Set<T>();
@@ -34,6 +29,12 @@ namespace API_Linea_Espera.Repositories
                 .Include(x => x.IdCajaNavigation);
         }
 
+        public IEnumerable<Turnos> GetAllTurnosWithInclude()
+        {
+            return Context.Turnos.Include(x => x.Caja)
+                .Include(x => x.Usuario)
+                .Include(x => x.Estado);
+        }
 
         public virtual void Insert(T item)
         {
