@@ -33,5 +33,69 @@ namespace API_Linea_Espera.Controllers
             return Ok(cajas);
         }
 
+        ///<summary>
+        ///AGREGAR CAJA
+        /// </summary>
+        /// 
+        [HttpPost]
+        public IActionResult PostCaja(CajaDTO dto)
+        {
+            if (dto != null)
+            {
+                Cajas entity = new()
+                {
+                    IdCaja = 0,
+                    NombreCaja = dto.NombreCaja,
+                    Estado = dto.Estado
+                };
+
+                Repository.Insert(entity);
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        ///<summary>
+        ///EDITAR CAJA
+        /// </summary>
+        /// 
+        [HttpPut]
+        public IActionResult PutCaja(CajaDTO dto)
+        {
+            if (dto != null)
+            {
+                var caja = Repository.Get(dto.Id);
+
+                if (caja != null)
+                {
+                    caja.NombreCaja = dto.NombreCaja;
+                    caja.Estado = dto.Estado;
+
+                    Repository.Update(caja);
+                    return Ok();
+                }
+
+            }
+            return NotFound();
+        }
+
+
+        ///<summary>
+        ///ELIMINAR CAJA
+        /// </summary>
+        /// 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteCaja(int id)
+        {
+            var caja = Repository.Get(id);
+
+            if (caja != null)
+            {
+                Repository.Delete(caja);
+                return Ok();
+            }
+
+            return NotFound();
+        }
     }
 }
