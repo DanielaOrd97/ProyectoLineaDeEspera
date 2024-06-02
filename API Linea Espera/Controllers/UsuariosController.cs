@@ -54,6 +54,16 @@ namespace API_Linea_Espera.Controllers
 
 
         ////////////////////////USUARIO ADMINISTRADOR/////////////////////////////////////
+        ///
+        [HttpGet]
+        public IActionResult GetAllUsuarios()
+        {
+            var todosusuarios = Repository.GetAllWithInclude()
+                .OrderBy(x => x.IdRol)
+                .Select(x => MapToDto(x));
+
+            return Ok(todosusuarios);   
+        }
 
 
 
