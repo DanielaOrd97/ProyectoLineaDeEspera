@@ -96,6 +96,10 @@ namespace API_Linea_Espera.Controllers
             return NotFound();
         }
 
+        /// <summary>
+        /// ADELANTAR TURNO.
+        /// </summary>
+
         [HttpPost("Adelantar/{id}")]
         public IActionResult AdelantarTurno(int id)
         {
@@ -130,6 +134,10 @@ namespace API_Linea_Espera.Controllers
 
             return BadRequest();
         }
+
+        /// <summary>
+        /// ATRASAR TURNO.
+        /// </summary>
 
         [HttpPost("Atrasar/{id}")]
         public IActionResult AtrasarTurno(int id)
