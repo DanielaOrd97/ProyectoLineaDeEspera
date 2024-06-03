@@ -13,6 +13,8 @@ public partial class Turnos
 
     public int? EstadoId { get; set; }
 
+    public int Posicion { get; set; }
+
     public virtual Cajas? Caja { get; set; }
 
     public virtual Estadosturno? Estado { get; set; }

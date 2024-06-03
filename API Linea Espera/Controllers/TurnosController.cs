@@ -11,9 +11,11 @@ namespace API_Linea_Espera.Controllers
     public class TurnosController : ControllerBase
     {
         public IRepository<Turnos> Repository { get; }
+        public static int UltimaPosicion { get; set; }
         public TurnosController(IRepository<Turnos> repository)
         {
             this.Repository = repository;
+            UltimaPosicion = UltimaPosicion;
         }
 
         ///<summary>
@@ -29,8 +31,12 @@ namespace API_Linea_Espera.Controllers
                     IdTurno = x.IdTurno,
                     NombreCliente = x.Usuario.Nombre,
                     NombreCaja = x.Caja.NombreCaja,
-                    EstadoTurno = x.Estado.Estado
-                });
+                    EstadoTurno = x.Estado.Estado,
+                    Posicion = x.Posicion
+                })
+                .OrderBy(x => x.Posicion);
+
+            UltimaPosicion =  turnos.Last().Posicion;
 
             return Ok(turnos);
         }
@@ -49,8 +55,11 @@ namespace API_Linea_Espera.Controllers
                     IdTurno = 0,
                     UsuarioId = dto.IdCliente,
                     CajaId = dto.IdCaja,
-                    EstadoId = dto.IdEstado
+                    EstadoId = dto.IdEstado,
+                    Posicion = UltimaPosicion+=1
                 };
+
+                UltimaPosicion = entity.Posicion;
 
                 Repository.Insert(entity);
                 return Ok();
@@ -75,13 +84,51 @@ namespace API_Linea_Espera.Controllers
                     IdTurno = x.IdTurno,
                     NombreCliente = x.Usuario.Nombre,
                     NombreCaja = x.Caja.NombreCaja,
-                    EstadoTurno = x.Estado.Estado
-                });
+                    EstadoTurno = x.Estado.Estado,
+                    Posicion = x.Posicion
+                })
+                .OrderBy(x => x.Posicion);
+
 
                 return Ok(turnos);
             }
 
             return NotFound();
+        }
+
+        [HttpPost("Adelantar/{id}")]
+        public IActionResult AdelantarTurno(int id)
+        {
+            var turnos = Repository.GetAllTurnosWithInclude()
+                .OrderBy(x => x.Posicion).ToList();
+
+            var turnoseleccionado = Repository.GetAllTurnosWithInclude()
+                .FirstOrDefault(x => x.IdTurno == id);
+
+
+            if(turnoseleccionado != null)
+            {
+                var posicion = turnos.IndexOf(turnoseleccionado);
+
+                if (posicion == 0)
+                {
+                    return BadRequest();
+                }
+
+                var posicionanterior = turnos[posicion - 1];
+
+                var posicionTemp = turnoseleccionado.Posicion;
+                turnoseleccionado.Posicion = posicionanterior.Posicion;
+                posicionanterior.Posicion = posicionTemp;
+
+
+                Repository.Update(turnoseleccionado);
+                Repository.Update(posicionanterior);
+
+                return Ok();
+            }
+
+            return BadRequest();
         }
     }
 }

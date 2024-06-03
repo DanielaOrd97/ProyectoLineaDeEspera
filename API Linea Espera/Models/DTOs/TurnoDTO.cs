@@ -9,6 +9,7 @@
         public int? IdCliente { get; set; }
         public int? IdCaja { get; set; }
         public int? IdEstado { get; set; }
+        public int Posicion { get; set; }
 
     }
 }
