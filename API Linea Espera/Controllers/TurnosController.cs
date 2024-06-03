@@ -89,6 +89,7 @@ namespace API_Linea_Espera.Controllers
                 })
                 .OrderBy(x => x.Posicion);
 
+                UltimaPosicion = turnos.Last().Posicion;
 
                 return Ok(turnos);
             }
