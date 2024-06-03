@@ -130,5 +130,40 @@ namespace API_Linea_Espera.Controllers
 
             return BadRequest();
         }
+
+        [HttpPost("Atrasar/{id}")]
+        public IActionResult AtrasarTurno(int id)
+        {
+            var turnos = Repository.GetAllTurnosWithInclude()
+                .OrderBy(x => x.Posicion).ToList();
+
+            var turnoseleccionado = Repository.GetAllTurnosWithInclude()
+                .FirstOrDefault(x => x.IdTurno == id);
+
+
+            if (turnoseleccionado != null)
+            {
+                var posicion = turnos.IndexOf(turnoseleccionado);
+
+                if (posicion == 0)
+                {
+                    return BadRequest();
+                }
+
+                var posicionsig = turnos[posicion + 1];
+
+                var posicionTemp = turnoseleccionado.Posicion;
+                turnoseleccionado.Posicion = posicionsig.Posicion;
+                posicionsig.Posicion = posicionTemp;
+
+
+                Repository.Update(turnoseleccionado);
+                Repository.Update(posicionsig);
+
+                return Ok();
+            }
+
+            return BadRequest();
+        }
     }
 }
