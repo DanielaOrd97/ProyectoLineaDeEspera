@@ -33,6 +33,8 @@ namespace API_Linea_Espera.Controllers
             return Ok(cajas);
         }
 
+
+
         ///<summary>
         ///AGREGAR CAJA
         /// </summary>

@@ -42,6 +42,29 @@ namespace API_Linea_Espera.Controllers
         }
 
         ///<summary>
+        ///VER TURNOS POR CAJA
+        /// </summary>
+        /// 
+        [HttpGet("TurnosPorCaja")]
+        public IActionResult GetTurnosPorCaja()
+        {
+            var turnos = Repository.GetAllTurnosWithInclude()
+                 .Select(x => new TurnoDTO
+                 {
+                     IdTurno = x.IdTurno,
+                     NombreCliente = x.Usuario.Nombre,
+                     IdCaja = x.CajaId,
+                     NombreCaja = x.Caja.NombreCaja,
+                     EstadoTurno = x.Estado.Estado,
+                     Posicion = x.Posicion
+                 })
+                .OrderBy(x => x.Posicion)
+                .GroupBy(x => x.IdCaja);
+
+			return Ok(turnos);
+		}
+
+        ///<summary>
         ///AGREGAR TURNO.
         /// </summary>
         /// 

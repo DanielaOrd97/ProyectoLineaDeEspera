@@ -55,6 +55,7 @@ namespace API_Linea_Espera.Controllers
 
         ////////////////////////USUARIO ADMINISTRADOR/////////////////////////////////////
         ///
+        
         [HttpGet]
         public IActionResult GetAllUsuarios()
         {
@@ -65,15 +66,24 @@ namespace API_Linea_Espera.Controllers
             return Ok(todosusuarios);   
         }
 
+		[HttpGet("Admin")]
+		public IActionResult GetAdmin()
+		{
+			var todosusuarios = Repository.GetAllWithInclude()
+                .Where(x => x.IdRol == 1)
+				.OrderBy(x => x.IdRol)
+				.Select(x => MapToDto(x));
 
+			return Ok(todosusuarios);
+		}
 
-        ////////////////////////USUARIO OPERADOR DE CAJA/////////////////////////////
+		////////////////////////USUARIO OPERADOR DE CAJA/////////////////////////////
 
-        /// <summary>
-        /// MOSTRAR SOLO AQUELLOS QUE SON OPERADORES. (ACCION PARA EL ADMIN)
-        /// </summary>
+		/// <summary>
+		/// MOSTRAR SOLO AQUELLOS QUE SON OPERADORES. (ACCION PARA EL ADMIN)
+		/// </summary>
 
-        [HttpGet("Operadores")]
+		[HttpGet("Operadores")]
         public IActionResult GetAll()
         {
             var operadores = Repository.GetAllWithInclude()
@@ -84,10 +94,10 @@ namespace API_Linea_Espera.Controllers
             return Ok(operadores);
         }
 
-        ///<summary>
-        ///BUSCAR UN OPERADOR EN ESPECIFICO.  (ACCION PARA EL ADMIN)
-        /// </summary>
-        [HttpGet("Operador/{id}")]
+		///<summary>
+		///BUSCAR UN OPERADOR EN ESPECIFICO.  (ACCION PARA EL ADMIN)
+		/// </summary>
+		[HttpGet("Operador/{id}")]
         public IActionResult GetOperador(int id)
         {
             //var operador = Repository.Get(id);
@@ -264,5 +274,79 @@ namespace API_Linea_Espera.Controllers
 
             return NotFound();
         }
-    }
+
+		///<summary>
+		///AGREGAR USUARIOS EN GENERAL
+		/// </summary>
+		/// 
+		[HttpPost("AgregarUsuario")]
+		public IActionResult PostUsuario(UsuarioDTO dto)
+		{
+			if (dto != null)
+			{
+				Usuarios entity = new()
+				{
+					Id = 0,
+					NombreUsuario = dto.NombreUsuario,
+					Contraseña = dto.Contraseña,
+					Nombre = dto.Nombre,
+					IdRol = dto.IdRol,
+                    IdCaja = dto.IdCaja
+				};
+
+                if(entity.IdRol != 3)
+                {
+                    entity.FechaDeRegistro = DateTime.UtcNow;
+                }
+
+				Repository.Insert(entity);
+				return Ok();
+			}
+			return BadRequest();
+		}
+
+        ///<summary>
+        ///EDITAR UN USUARIO EN GENERAL.
+        /// </summary>
+        /// 
+        [HttpPut("{id}")]
+        public IActionResult PutUsuario(UsuarioDTO dto)
+        {
+            if(dto != null)
+            {
+                var usuario = Repository.Get(dto.Id);
+
+                if (usuario != null)
+                {
+					usuario.NombreUsuario = dto.NombreUsuario;
+					usuario.Contraseña = dto.Contraseña;
+					usuario.Nombre = dto.Nombre;
+					usuario.IdRol = dto.IdRol;
+                    usuario.IdCaja = dto.IdCaja;
+
+					Repository.Update(usuario);
+					return Ok();
+				}
+            }
+			return NotFound();
+		}
+
+		///<summary>
+		///OBTENER UN USUARIO EN ESPECIFICO SIN IMPORTAR EL ROL.
+		/// </summary>
+		/// 
+		[HttpGet("{id}")]
+		public IActionResult GetUsuario(int id)
+		{
+			var usuario = Repository.GetAllWithInclude()
+				.First(x => x.Id == id);
+
+			if (usuario == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(MapToDto(usuario));
+		}
+	}
 }
