@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="Style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <title>Document</title>
+  </head>
+  <body>
+    <nav class="navbar">
+      <h1>Admin</h1>
+      <a href="#usuarios"> <i class="fas fa-users"></i>Usuarios</a>
+      <a href="#usuarios"> <i class="fas fa-cash-register"></i>Cajas</a>
+      <div class="logout">
+        <a href="#logout"><i class="fas fa-sign-out-alt"></i>Cerrar Sesíon</a>
+      </div>
+    </nav>
+    <section class="main">
+      <div class="search-section">
+        <div class="jugadores-section">
+          <i class="fas fa-user"></i>
+          <span>Editar Usuario</span>
+        </div>
+      </div>
+      <!-- Formulario para agregar jugador -->
+      <section class="attendance">
+        <div class="attendance-list">
+          <div class="form-group">
+            <div class="half-width">
+              <label for="nombre">Nombre(s):</label>
+              <input type="text" id="nombre" name="nombre" required />
+            </div>
+            <div class="half-width">
+              <label for="nombre">Nombre de usuario:</label>
+              <input type="text" id="nombre" name="nombre" required />
+            </div>
+            <div class="half-width">
+              <label for="apellidos">Contraseña:</label>
+              <input type="text" id="apellidos" name="apellidos" required />
+            </div>
+          </div>
+        </div>
+        <!-- Botones -->
+        <div class="buttons">
+          <button class="accept-button">Guardar</button>
+          <button class="cancel-button">Cancelar</button>
+        </div>
+      </section>
+    </section>
+  </body>
+</html>

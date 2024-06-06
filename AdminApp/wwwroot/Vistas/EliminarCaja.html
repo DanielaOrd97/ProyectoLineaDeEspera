@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banco Tec</title>
+    <link rel="stylesheet" href="Style.css" />
+    <!-- Font Awesome Cdn Link -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Navbar -->
+      <nav class="navbar">
+        <h1>Admin</h1>
+        <a href="#usuarios"> <i class="fas fa-users"></i>Usuarios</a>
+        <a href="#usuarios"> <i class="fas fa-cash-register"></i>Cajas</a>
+        <div class="logout">
+          <a href="#logout"><i class="fas fa-sign-out-alt"></i>Cerrar Sesíon</a>
+        </div>
+      </nav>
+      <!-- Fin Navbar -->
+      <section class="main">
+        <section class="attendance">
+          <div class="attendance-list Card-Eliminar">
+            <div class="half-width">
+              <label for="Eliminar"
+                ><span class="red-text"><i class="fas fa-trash-alt"></i></span
+                >Eliminar Caja</label
+              >
+              <br />
+              <label
+                >¿Deseas Eliminar la Caja:
+                <span class="red-text">1</span>?</label
+              >
+            </div>
+          </div>
+
+          <!-- Botones -->
+          <div class="buttons">
+            <button class="accept-button">Aceptar</button>
+            <button class="cancel-button">Cancelar</button>
+          </div>
+        </section>
+      </section>
+    </div>
+  </body>
+</html>
