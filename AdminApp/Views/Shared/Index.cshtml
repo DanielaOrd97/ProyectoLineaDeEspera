@@ -1,0 +1,44 @@
+﻿@* @{
+	Layout = "Layout";
+}
+ *@
+
+
+
+@* @model IEnumerable<UsuarioViewModel>
+
+	<section>
+		<a href="~/Administrador/Usuarios/Administradores">Administradores</a>
+		<a href="~/Administrador/Usuarios/Operadores">Operadores</a>
+		<a href="~/Administrador/Usuarios/Clientes">Clientes</a>
+		<a href="~/Administrador/Usuarios/AgregarUsuario">Agregar Usuario</a>
+	</section>
+
+
+<table>
+	<thead>
+	<th>Nombre de Usuario</th>
+	<th>Nombre</th>
+	<th>FechaDeRegistro</th>
+	<th>NombreRol</th>
+	<th>NombreCaja</th>
+	</thead>
+	<tbody>
+		@foreach (var item in Model)
+		{
+			<tr>
+				<td>@item.NombreUsuario</td>
+				<td>@item.Nombre</td>
+				<td>@item.FechaDeRegistro</td>
+				<td>@item.NombreRol</td>
+				<td>@item.NombreCaja</td>
+				<td>
+					<section>
+						<a href="#">Editar</a>
+						<a href="#">Eliminar</a>
+					</section>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table> *@

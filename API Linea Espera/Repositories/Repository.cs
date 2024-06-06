@@ -36,6 +36,11 @@ namespace API_Linea_Espera.Repositories
                 .Include(x => x.Estado);
         }
 
+        //public IEnumerable<Cajas> GetAllCajasWithInclude()
+        //{
+        //    return Context.Cajas.Include(x => x.Turnos).Include(x => x.Usuarios);
+        //}
+
         public virtual void Insert(T item)
         {
             Context.Add(item);

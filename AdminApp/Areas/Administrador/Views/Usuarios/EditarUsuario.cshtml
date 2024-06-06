@@ -1,0 +1,148 @@
+﻿@model AdminApp.Areas.Administrador.Models.ViewModels.AgregarUsuarioViewModel1
+
+@{
+	Layout = "AdminLayout";
+}
+
+
+<section class="main">
+	<div class="search-section">
+		<div class="jugadores-section">
+			<i class="fas fa-user"></i>
+			<span>Editar Usuario</span>
+		</div>
+	</div>
+	<form action="~/Admin/Usuarios/EditarUsuario" method="post" enctype="multipart/form-data">
+		<section class="attendance">
+			<div class="attendance-list">
+				<div class="form-group">
+					<div class="half-width">
+						<label for="nombre">Nombre de usuario:</label>
+						<input type="text" id="nombre" name="NombreUsuario" value="@Model.NombreUsuario" required />
+					</div>
+					<div class="half-width">
+						<label for="apellidos">Contraseña:</label>
+						<input type="text" id="apellidos" name="Contraseña" value="@Model.Contraseña" required />
+					</div>
+					<div class="half-width">
+						<label for="apellidos">Nombre:</label>
+						<input type="text" id="apellidos" name="Nombre" value="@Model.Nombre" required />
+					</div>
+					<div class="half-width">
+						<label for="IdRol">Rol:</label>
+						<select id="IdRol" value="@Model.IdRol" name="IdRol">
+							@foreach (var item in Model.ListaRoles)
+							{
+								@if (Model.IdRol == item.Id)
+								{
+									<option selected value="@item.Id">@item.NombreRol</option>
+								}
+								else
+								{
+									<option value="@item.Id">@item.NombreRol</option>
+								}
+							}
+						</select>
+					</div>
+					<div class="half-width">
+						<label for="IdCaja">Caja:</label>
+						<select id="IdCaja" value="@Model.IdCaja" name="IdCaja">
+							@foreach (var item in Model.ListaCajas)
+							{
+								<option selected="@Model.IdCaja" value="@item.Id">@item.NombreCaja</option>
+							}
+							@if (Model.IdCaja == 0 || Model.IdCaja == null)
+							{
+								<option value="null" selected>Ninguna</option>
+							}
+							else
+							{
+								<option value="null">Ninguna</option>
+							}
+							>
+						</select>
+					</div>
+				</div>
+			</div>
+			<!-- Botones -->
+			<div class="buttons">
+				<input type="submit" value="Editar Usuario" class="accept-button" />
+				<a href="~/Usuarios">
+					<input type="button" value="Cancelar" class="cancel-button" />
+				</a>
+			</div>
+		</section>
+	</form>
+</section>
+
+
+
+
+@* @model AdminApp.Models.ViewModels.AgregarUsuarioViewModel
+
+<style>
+	span {
+		display: block;
+	}
+</style>
+
+
+<form action="~/Usuarios/EditarUsuario" method="post" enctype="multipart/form-data">
+	<h1>Editar usuario</h1>
+
+	<input type="hidden" value="@Model.Id" name="Id"/>
+
+	<span>
+		<label for="NombreUsuario">Nombre de usuario:</label>
+		<input type="text" id="NombreUsuario" name="NombreUsuario" value="@Model.NombreUsuario" />
+	</span>
+	<span>
+		<label for="Contraseña">Contraseña:</label>
+		<input type="text" id="Contraseña" name="Contraseña" value="@Model.Contraseña" />
+	</span>
+	<span>
+		<label for="Nombre">Nombre:</label>
+		<input type="text" id="Nombre" name="Nombre" value="@Model.Nombre" />
+	</span>
+	<span>
+		<label for="IdRol">Rol:</label>
+		<select id="IdRol" value="@Model.IdRol" name="IdRol">
+			@foreach (var item in Model.ListaRoles)
+			{
+				@* <option selected="@Model.IdRol" value="@item.Id">@item.NombreRol</option> *@
+@* 	@if(Model.IdRol == item.Id)
+				{
+					<option selected value="@item.Id">@item.NombreRol</option>
+				}
+				else
+				{
+					<option value="@item.Id">@item.NombreRol</option>
+				}
+			}
+		</select>
+	</span>
+	<span>
+		<label for="IdCaja">Caja:</label>
+		<select id="IdCaja" value="@Model.IdCaja" name="IdCaja">
+			@foreach (var item in Model.ListaCajas)
+			{
+				<option selected="@Model.IdCaja" value="@item.Id">@item.NombreCaja</option>
+			}
+			@if (Model.IdCaja == 0 || Model.IdCaja == null)
+			{
+				<option value="null" selected>Ninguna</option>
+			}
+			else
+			{
+				<option value="null">Ninguna</option>
+			}
+			>
+		</select>
+	</span>
+	<div>
+		<input type="submit" value="Editar Usuario" />
+		<a href="~/Usuarios">
+			<input type="button" value="Cancelar" />
+		</a>
+	</div>
+</form> *@ 

@@ -11,7 +11,9 @@ namespace API_Linea_Espera.Repositories
         IEnumerable<T> GetAll();
         IEnumerable<Usuarios> GetAllWithInclude();
         IEnumerable<Turnos> GetAllTurnosWithInclude();
-        void Insert(T item);
+        //IEnumerable<Cajas> GetAllCajasWithInclude();
+
+		void Insert(T item);
         void Update(T item);
 
     }

@@ -1,0 +1,28 @@
+﻿@model IEnumerable<IEnumerable<AdminApp.Areas.Administrador.Models.ViewModels.TurnoViewModel1>>
+
+@foreach(var item in Model)
+{
+	<h1>@item.First().NombreCaja</h1>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Num. turno</th>
+				<th>Nombre del cliente</th>
+				<th>Estado de espera del turno</th>
+			</tr>
+		</thead>
+		<tbody>
+				@foreach (var i in item)
+				{
+					<tr>
+						<td>@i.IdTurno</td>
+						<td>@i.NombreCliente</td>
+						<td>@i.EstadoTurno</td>
+						<td><a href="#">Adelantar Turno</a></td>
+					    <td><a href="#">Atrasar Turno</a></td>
+					</tr>
+				}
+		</tbody>
+	</table>
+}

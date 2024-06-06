@@ -1,0 +1,77 @@
+﻿@model AdminApp.Areas.Administrador.Models.ViewModels.UsuarioViewModel1
+
+@{
+	Layout = "AdminLayout";
+}
+
+
+<section class="main">
+	<form action="~/Administrador/Usuarios/EliminarUsuario" method="post" enctype="multipart/form-data">
+		<section class="attendance">
+			<div class="attendance-list Card-Eliminar">
+				<div class="half-width">
+					<label for="Eliminar">
+						<span class="red-text"><i class="fas fa-trash-alt"></i></span>Eliminar usuario
+					</label>
+					<br />
+					<label>
+						¿Deseas Eliminar al usuario:
+						<span class="red-text">@Model.NombreUsuario</span>?
+					</label>
+					@if (Model.IdRol == 2)
+					{
+						<div class="half-width">
+							<label>Caja asignada:</label>
+							<label type="text" name="NombreCaja">@Model.NombreCaja</label>
+						</div>
+					}
+				</div>
+			</div>
+
+
+			<!-- Botones -->
+			<div class="buttons">
+				<input type="submit" value="Confirmar" class="accept-button" />
+				<a href="~/Usuarios">
+					<input type="button" value="Cancelar" class="cancel-button" />
+				</a>
+			</div>
+		</section>
+
+	</form>
+</section>
+
+@* <style>
+	span {
+		display: block;
+	}
+</style>
+
+<form method="post" action="Usuarios/EliminarUsuario">
+
+	<h1>Eliminar Usuario</h1>
+
+	<input type="hidden" name="Id" value="@Model.Id" />
+
+	<span class="pregunta"><b>Confirmacion de la eliminacion del usuario: <b>@Model.NombreUsuario</b></b></span>
+	<span>
+		<label>Rol:</label>
+		<input type="text" id="nombre" name="NombreRol" value="@Model.NombreRol">
+	</span>
+
+	@if (Model.IdRol == 2)
+	{
+		<span>
+			<label>Caja asignada:</label>
+			<label type="text" name="NombreCaja">@Model.NombreCaja</label>
+		</span>
+	}
+
+	<div>
+		<input type="submit" value="Confirmar" />
+		<a href="~/Usuarios">
+			<input type="button" value="Cancelar" />
+		</a>
+	</div>
+
+</form> *@
