@@ -45,11 +45,10 @@ namespace API_Linea_Espera.Controllers
             }
             else
             {
-                var rol = RepositoryRoles.GetAllWithInclude().Where(x => x.IdRol == usuario.IdRol);
+                var rol = RepositoryRoles.GetAll().First(x => x.IdRol == usuario.IdRol);
 
                 TokenGeneratorJwt jwtToken = new();
-                // TODO: CAMBIAR ROL
-                return Ok(jwtToken.GetToken(usuario.Nombre, "Administrador", usuario.Id.ToString()));
+                return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString()));
                 
             }
                 
