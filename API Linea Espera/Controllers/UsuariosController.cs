@@ -331,6 +331,25 @@ namespace API_Linea_Espera.Controllers
 			return NotFound();
 		}
 
+
+        ///<summary>
+        ///ELIMINAR UN USUARIO EN GENERAL.
+        /// </summary>
+        /// 
+        [HttpDelete("{id}")]
+        public IActionResult DeleteUsuario(int id)
+        {
+			var usuario = Repository.GetAllWithInclude()
+				.First(x => x.Id == id);
+
+            if(usuario != null)
+            {
+                Repository.Delete(usuario);
+                return Ok();
+            }
+            return NotFound();
+		}
+
 		///<summary>
 		///OBTENER UN USUARIO EN ESPECIFICO SIN IMPORTAR EL ROL.
 		/// </summary>

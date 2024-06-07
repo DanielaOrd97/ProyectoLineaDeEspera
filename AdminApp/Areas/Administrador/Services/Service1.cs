@@ -1,5 +1,6 @@
 ﻿using AdminApp.Areas.Administrador.Models.ViewModels;
 using Newtonsoft.Json;
+using NuGet.Packaging.Signing;
 
 namespace AdminApp.Areas.Administrador.Services
 {
@@ -162,6 +163,16 @@ namespace AdminApp.Areas.Administrador.Services
 		public async Task UpdateUsuario(AgregarUsuarioViewModel1 dto)
 		{
 			var response = await client.PutAsJsonAsync($"Usuarios/{dto.Id}", dto);
+
+			if (response.IsSuccessStatusCode)
+			{
+
+			}
+		}
+
+		public async Task DeleteUsuario(int id)
+		{
+			var response = await client.DeleteAsync($"Usuarios/{id}");
 
 			if (response.IsSuccessStatusCode)
 			{

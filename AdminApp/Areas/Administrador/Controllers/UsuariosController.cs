@@ -89,6 +89,11 @@ namespace AdminApp.Areas.Administrador.Controllers
 
 			if (vm != null)
 			{
+				if(vm.IdCaja == 0)
+				{
+					vm.IdCaja = null;
+				}
+
 				await Service.AddUsuario(vm);
 
 				RedirectToAction("Index");
@@ -158,7 +163,22 @@ namespace AdminApp.Areas.Administrador.Controllers
 			UsuarioViewModel1 vm = new();
 			vm = usuario;
 
+			
 			return View(vm);
+		}
+
+		[HttpPost]
+		public async void EliminarUsuario(UsuarioViewModel1 vm)
+		{
+			if(vm != null)
+			{
+				var usuario = await Service.GetUsuario1((int)vm.Id);
+
+				if(usuario != null)
+				{
+				  await	Service.DeleteUsuario((int)usuario.Id);
+				}
+			}
 		}
 	}
 

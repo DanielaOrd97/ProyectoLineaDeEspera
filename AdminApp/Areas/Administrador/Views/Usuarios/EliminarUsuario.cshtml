@@ -6,7 +6,10 @@
 
 
 <section class="main">
+	
+
 	<form action="~/Administrador/Usuarios/EliminarUsuario" method="post" enctype="multipart/form-data">
+		<input type="hidden" value="@Model.Id" name="Id" />
 		<section class="attendance">
 			<div class="attendance-list Card-Eliminar">
 				<div class="half-width">
