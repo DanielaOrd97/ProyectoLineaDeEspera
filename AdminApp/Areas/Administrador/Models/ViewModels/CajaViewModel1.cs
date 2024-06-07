@@ -4,5 +4,6 @@
 	{
 		public int Id { get; set; }
 		public string NombreCaja { get; set; } = null!;
+		public sbyte? Estado { get; set; }
 	}
 }

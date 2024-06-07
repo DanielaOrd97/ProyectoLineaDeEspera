@@ -33,7 +33,30 @@ namespace API_Linea_Espera.Controllers
             return Ok(cajas);
         }
 
+        ///<summary>
+        ///VER CAJA.
+        /// </summary>
+        /// 
+        [HttpGet("{id}")]
+        public IActionResult GetCaja(int id)
+        {
+            var caja = Repository.GetAll()
+                .First(x => x.IdCaja == id);
 
+            CajaDTO c = new()
+            {
+                Id = caja.IdCaja,
+                NombreCaja = caja.NombreCaja,
+                Estado = caja.Estado
+            };
+
+            if (caja == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(c);
+        }
 
         ///<summary>
         ///AGREGAR CAJA

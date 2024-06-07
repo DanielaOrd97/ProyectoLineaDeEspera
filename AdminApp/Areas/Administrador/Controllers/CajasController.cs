@@ -1,0 +1,71 @@
+﻿using AdminApp.Areas.Administrador.Models.ViewModels;
+using AdminApp.Areas.Administrador.Services;
+using Microsoft.AspNetCore.Mvc;
+
+namespace AdminApp.Areas.Administrador.Controllers
+{
+	[Area("Administrador")]
+	public class CajasController : Controller
+	{
+		Service1 Service;
+
+        public CajasController()
+        {
+            Service = new Service1();
+        }
+        public IActionResult Index()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public IActionResult AgregarCaja()
+		{
+			CajaViewModel1 vm = new();
+			return View(vm);
+		}
+
+		[HttpPost]
+		public async void AgregarCaja(CajaViewModel1 vm)
+		{
+			if(vm != null)
+			{
+				await Service.AddCaja(vm);
+			}
+		}
+
+		[HttpGet]
+        public async Task<IActionResult> EditarCaja(int id)
+		{
+			var caja = await Service.GetCaja(id);
+
+			if (caja != null)
+			{
+				CajaViewModel1 vm = new();
+				vm = caja;
+				return View(vm);
+			}
+
+			return null;
+		}
+
+		[HttpPost]
+		public async Task<IActionResult> EditarCaja(CajaViewModel1 vm)
+		{
+			if(vm != null)
+			{
+				var caja = await Service.GetCaja(vm.Id);
+
+				if(caja != null)
+				{
+					caja.NombreCaja = vm.NombreCaja;
+					caja.Estado = vm.Estado;
+
+					await Service.UpdateCaja(caja);
+				}
+			}
+			return RedirectToAction("Index");
+		}
+
+    }
+}

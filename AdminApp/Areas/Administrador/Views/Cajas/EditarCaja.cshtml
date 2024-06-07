@@ -1,0 +1,51 @@
+﻿@model AdminApp.Areas.Administrador.Models.ViewModels.CajaViewModel1
+
+@{
+    Layout = "AdminLayout";
+}
+
+
+
+<section class="main">
+    <div class="Caja-Section">
+        <div class="Menu-Caja">
+            <i class="fas fa-user"></i>
+            <span>Editar Caja</span>
+        </div>
+    </div>
+    <form action="~/Administrador/Cajas/EditarCaja" method="post" enctype="multipart/form-data">
+        <input name="Id" value="@Model.Id" type="hidden"/>
+        <section class="Card">
+            <div class="Datos-Card">
+                <div class="Datos">
+                    <div class="Contenedor">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="nombre" name="NombreCaja" value="@Model.NombreCaja" required />
+                    </div>
+                    <div class="Contenedor">
+                        <label for="nombre">Estado:</label>
+                        <select name="Estado" value="@Model.Estado">
+                            @if(Model.Estado == 0)
+                            {
+                                <option value="0" selected>No activa</option>
+
+                            }
+                            else
+                            {
+                                <option value="1" selected>Activa</option>
+
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <input type="submit" value="Editar Caja" class="accept-button" />
+                <a href="~/Administrador/Cajas">
+                    <input type="button" value="Cancelar" class="cancel-button" />
+                </a>
+            </div>
+        </section>
+    </form>
+</section>

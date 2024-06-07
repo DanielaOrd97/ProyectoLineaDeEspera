@@ -205,5 +205,44 @@ namespace AdminApp.Areas.Administrador.Services
 			}
 			return null;
 		}
-	}
+
+
+
+        //////////////////////////////CAJAS/////////////////////////////////////
+        ///
+        public async Task<CajaViewModel1> GetCaja(int id)
+        {
+            var response = await client.GetAsync($"Cajas/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonresponse = await response.Content.ReadAsStringAsync();
+                var caja = JsonConvert.DeserializeObject<CajaViewModel1>(jsonresponse);
+                return caja;
+            }
+            return null;
+        }
+
+        public async Task AddCaja(CajaViewModel1 dto)
+		{
+			var response = await client.PostAsJsonAsync($"Cajas", dto);
+
+			if (response.IsSuccessStatusCode)
+			{
+
+			}
+		}
+
+        public async Task UpdateCaja(CajaViewModel1 dto)
+        {
+            var response = await client.PutAsJsonAsync($"Cajas", dto);
+
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
+        }
+
+
+    }
 }
