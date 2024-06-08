@@ -109,6 +109,66 @@ label.Error{
     width: calc(100% - 250px);
   }
 
+/**NAVBAR HORIZONTAL*/
+.navbar-horizontal {
+    width: 100%;
+    height: 60px;
+    background-color: #d32f2f; /* Rojo principal */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-logo {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 25px;
+    margin: 0;
+}
+
+.navbar-username {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+}
+
+    .navbar-username i {
+        margin-right: 10px;
+    }
+
+.navbar-logout a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    margin-right: 40px;
+}
+
+    .navbar-logout a:hover {
+        background-color: #b52b27; /* Rojo oscuro para hover */
+        border-radius: 5px;
+        padding: 5px 10px;
+    }
+
+    .navbar-logout a i {
+        margin-right: 10px;
+    }
+
+.content {
+    margin-top: 80px; /* Dejar espacio para la barra de navegación */
+    padding: 20px;
+    width: calc(100% - 40px);
+}
+
 /*Tabla del cliente*/
 .bank-table {
     width: 100%;
@@ -446,3 +506,97 @@ label.Error{
   color: white;
 }
 
+/*VISTA DEL CAJERO*/
+.BodyCajero {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    border: 2px solid #d32f2f; /* Color rojo del banco */
+    box-sizing: border-box;
+}
+
+.turno {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+    .turno .label {
+        font-size: 44px;
+        color: #d32f2f; /* Color rojo del banco */
+        margin-bottom: 10px;
+    }
+
+    .turno .codigo {
+        font-size: 68px;
+        font-weight: bold;
+        color: #d32f2f; /* Color rojo del banco */
+    }
+
+.botones {
+    display: flex;
+    gap: 35px;
+}
+
+#user {
+    margin: 0 20px;
+}
+
+.btnSaltar {
+    background-color: #d32f2f; /* Color rojo del banco */
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnAnterior {
+    background-color: #087421;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnSiguiente {
+    background-color: #087421;
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    font-size: 22px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btnSaltar:hover {
+    background-color: #a00000; /* Color rojo oscuro para el hover */
+}
+
+.btnAnterior:hover {
+    background-color: #0e501e; /* Color rojo oscuro para el hover */
+}
+
+.btnSiguiente:hover {
+    background-color: #043d12; /* Color rojo oscuro para el hover */
+}
