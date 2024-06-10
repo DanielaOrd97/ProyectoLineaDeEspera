@@ -1,10 +1,10 @@
-﻿using AdminApp.Areas.Administrador.Models.ViewModels;
-using AdminApp.Areas.Administrador.Services;
+﻿using AdminApp.Models.ViewModels;
+using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Administrador.Controllers
 {
-	[Area("Administrador")]
+    [Area("Administrador")]
 	public class UsuariosController : Controller
 	{
 		Service1 Service;
@@ -139,9 +139,10 @@ namespace AdminApp.Areas.Administrador.Controllers
 				usuario.IdCaja = vm.IdCaja;
 
 				await Service.UpdateUsuario(usuario);
-			}
-			return RedirectToAction("Index");
-
+                return RedirectToAction("Index");
+            }
+			
+			return View(vm);	
 		}
 
 

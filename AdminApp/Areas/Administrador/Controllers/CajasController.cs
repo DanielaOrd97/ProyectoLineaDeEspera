@@ -1,10 +1,10 @@
-﻿using AdminApp.Areas.Administrador.Models.ViewModels;
-using AdminApp.Areas.Administrador.Services;
+﻿using AdminApp.Models.ViewModels;
+using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Administrador.Controllers
 {
-	[Area("Administrador")]
+    [Area("Administrador")]
 	public class CajasController : Controller
 	{
 		Service1 Service;

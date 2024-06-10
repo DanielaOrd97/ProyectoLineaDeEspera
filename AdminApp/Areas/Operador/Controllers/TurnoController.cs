@@ -1,5 +1,5 @@
-﻿using AdminApp.Areas.Administrador.Models.ViewModels;
-using AdminApp.Areas.Administrador.Services;
+﻿using AdminApp.Models.ViewModels;
+using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Operador.Controllers

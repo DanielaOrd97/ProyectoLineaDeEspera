@@ -1,6 +1,5 @@
-using AdminApp.Areas.Administrador.Models.ViewModels;
-using AdminApp.Areas.Cliente.Services;
 using AdminApp.Models.ViewModels;
+using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -10,13 +9,13 @@ namespace AdminApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        Service Service;
+        Service1 Service;
         public List<TurnoViewModel1> listaTurnos { get; set; } = new();
 
         public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            Service = new Service();
+            Service = new Service1();
         }
 
         //public IActionResult Index()

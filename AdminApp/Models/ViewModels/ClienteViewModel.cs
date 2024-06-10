@@ -1,6 +1,4 @@
-﻿using AdminApp.Areas.Administrador.Models.ViewModels;
-
-namespace AdminApp.Models.ViewModels
+﻿namespace AdminApp.Models.ViewModels
 {
     public class ClienteViewModel
     {

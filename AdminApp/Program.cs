@@ -1,4 +1,4 @@
-using AdminApp.Areas.Administrador.Models.ViewModels;
+using AdminApp.Models.ViewModels;
 
 var builder = WebApplication.CreateBuilder(args);
 
