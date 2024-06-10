@@ -27,8 +27,9 @@ namespace API_Linea_Espera.Controllers
                 {
                     Id = x.IdCaja,
                     NombreCaja = x.NombreCaja,
-                    Estado = x.Estado
-                });
+                    Estado = x.Estado,
+                    EstadoTurno = x.Estado == 0 ? "Inactiva" : "Activa"
+                });;
 
             return Ok(cajas);
         }

@@ -1,0 +1,32 @@
+﻿@model AdminApp.Areas.Administrador.Models.ViewModels.CajaViewModel1
+
+@{
+	Layout = "AdminLayout";
+}
+
+<section class="main">
+    <form method="post" href="~/Administrador/Cajas/EliminarCaja">
+        <input type="hidden" value="@Model.Id"/>
+        <section class="attendance">
+            <div class="attendance-list Card-Eliminar">
+                <div class="half-width">
+                    <label for="Eliminar">
+                        <span class="red-text"><i class="fas fa-trash-alt"></i></span>Eliminar Caja
+                    </label>
+                    <br />
+                    <label>
+                        ¿Deseas Eliminar la Caja:
+                        <span class="red-text">@Model.NombreCaja</span>?
+                    </label>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="buttons">
+                <input type="hidden" value="@Model.Id" />
+                <button type="submit" class="accept-button">Aceptar</button>
+                <a class="cancel-button" href="~/Administrador/Cajas">Cancelar</a>
+            </div>
+        </section>
+    </form>
+</section>

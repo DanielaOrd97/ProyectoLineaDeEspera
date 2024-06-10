@@ -1,0 +1,42 @@
+﻿@model IEnumerable<AdminApp.Areas.Administrador.Models.ViewModels.CajaViewModel1>
+
+@{
+	Layout = "AdminLayout";
+}
+
+
+<div class="add-button-container">
+    <a href="~/Administrador/Cajas/AgregarCaja" class="add-button">
+        <i class="fas fa-plus"></i> Agregar
+    </a>
+</div>
+
+<div class="contenidoTabla">
+    <table class="user-table">
+        <thead>
+            <tr>
+                <th class="table-header">Nombre</th>
+                <th class="table-header">Estado</th>
+                <th class="table-header">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="table-cell">@item.NombreCaja</td>
+                    <td class="table-cell">@item.EstadoTurno</td>
+                    <td class="table-cell action-buttons">
+                        <a class="action-button" href="~/Administrador/Cajas/EditarCaja/@(item.Id)">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="action-button" href="~/Administrador/Cajas/EliminarCaja/@(item.Id)">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

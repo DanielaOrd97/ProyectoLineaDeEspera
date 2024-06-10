@@ -133,25 +133,7 @@ namespace AdminApp.Areas.Administrador.Services
 			return null;
 		}
 
-		///<summary>
-		///CARGAR TODAS LAS CAJAS
-		/// </summary>
-		/// 
-		public async Task<List<CajaViewModel1>> GetAllCajas()
-		{
-			List<CajaViewModel1> listCajas = new();
-
-			var response = await client.GetAsync($"Cajas");
-
-			if (response.IsSuccessStatusCode)
-			{
-				var jsonresponse = await response.Content.ReadAsStringAsync();
-				listCajas = JsonConvert.DeserializeObject<List<CajaViewModel1>>(jsonresponse);
-                return listCajas;
-            }
-
-			return null;
-		}
+		
 
 		///<summary>
 		///CRUD USUARIOS
@@ -218,7 +200,22 @@ namespace AdminApp.Areas.Administrador.Services
 
         //////////////////////////////CAJAS/////////////////////////////////////
         ///
-        public async Task<CajaViewModel1> GetCaja(int id)
+        
+		public async Task<List<CajaViewModel1>> GetCajas()
+		{
+			var response = await client.GetAsync($"Cajas");
+
+			if (response.IsSuccessStatusCode)
+			{
+				var jsonresponse = await response.Content.ReadAsStringAsync();
+				var lista = JsonConvert.DeserializeObject<List<CajaViewModel1>>(jsonresponse);
+				return lista;
+			}
+			
+			return null;
+		}
+		
+		public async Task<CajaViewModel1> GetCaja(int id)
         {
             var response = await client.GetAsync($"Cajas/{id}");
 
@@ -251,19 +248,27 @@ namespace AdminApp.Areas.Administrador.Services
             }
         }
 
+        public async Task DeleteCaja(int id)
+        {
+            var response = await client.DeleteAsync($"Cajas/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+
+            }
+        }
+
+        ///<summary>
+        ///USUARIO OPERADOR*****************************
+        /// </summary>
+        /// 
 
 
-		///<summary>
-		///USUARIO OPERADOR*****************************
-		/// </summary>
-		/// 
-
-
-		///<summary>
-		///VER TURNO ACTUAL
-		/// </summary>
-		/// 
-		public async Task<TurnoViewModel1> GetTurnoActual(int idcaja)
+        ///<summary>
+        ///VER TURNO ACTUAL
+        /// </summary>
+        /// 
+        public async Task<TurnoViewModel1> GetTurnoActual(int idcaja)
 		{
 			var response = await client.GetAsync($"Turnos/TurnoActual/{idcaja}");
 

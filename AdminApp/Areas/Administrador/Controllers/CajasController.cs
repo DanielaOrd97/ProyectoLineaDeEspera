@@ -8,14 +8,22 @@ namespace AdminApp.Areas.Administrador.Controllers
 	public class CajasController : Controller
 	{
 		Service1 Service;
+		public List<CajaViewModel1> ListaCajas { get; set; } = new();
 
         public CajasController()
         {
             Service = new Service1();
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
 		{
-			return View();
+			var cajas = await Service.GetCajas();
+
+            foreach (var item in cajas)
+            {
+				ListaCajas.Add(item);
+            }
+
+            return View(ListaCajas);
 		}
 
 		[HttpGet]
@@ -26,15 +34,17 @@ namespace AdminApp.Areas.Administrador.Controllers
 		}
 
 		[HttpPost]
-		public async void AgregarCaja(CajaViewModel1 vm)
+		public async Task<IActionResult> AgregarCaja(CajaViewModel1 vm)
 		{
 			if(vm != null)
 			{
 				await Service.AddCaja(vm);
+				return RedirectToAction("Index");
 			}
-		}
+            return View(vm);
+        }
 
-		[HttpGet]
+        [HttpGet]
         public async Task<IActionResult> EditarCaja(int id)
 		{
 			var caja = await Service.GetCaja(id);
@@ -62,10 +72,46 @@ namespace AdminApp.Areas.Administrador.Controllers
 					caja.Estado = vm.Estado;
 
 					await Service.UpdateCaja(caja);
-				}
-			}
-			return RedirectToAction("Index");
+                    return RedirectToAction("Index");
+
+                }
+            }
+			return View(vm);
 		}
 
+		/// <summary>
+		/// ELIMINAR CAJAS.
+		/// </summary>
+
+        [HttpGet]
+        public async Task<IActionResult> EliminarCaja(int id)
+        {
+            var caja = await Service.GetCaja(id);
+
+            if (caja == null)
+            {
+                return RedirectToAction("Index");
+            }
+            CajaViewModel1 vm = new();
+            vm = caja;
+
+            return View(vm);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EliminarCaja(CajaViewModel1 vm)
+        {
+            if (vm != null)
+            {
+                var caja = await Service.GetCaja(vm.Id);
+
+                if (caja != null)
+                {
+                    await Service.DeleteCaja(caja.Id);
+                    return RedirectToAction("Index");
+                }
+            }
+			return View(vm);
+        }
     }
 }

@@ -77,7 +77,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 		{
 			AgregarUsuarioViewModel1 vm = new();
 			vm.ListaRoles = await Service.GetAllRoles();
-			vm.ListaCajas = await Service.GetAllCajas();
+			vm.ListaCajas = await Service.GetCajas();
 
 			return View(vm);
 		}
@@ -115,7 +115,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 				AgregarUsuarioViewModel1 vm = new();
 				vm = usuario;
 				vm.ListaRoles = await Service.GetAllRoles();
-				vm.ListaCajas = await Service.GetAllCajas();
+				vm.ListaCajas = await Service.GetCajas();
 				return View(vm);
 			}
         }
