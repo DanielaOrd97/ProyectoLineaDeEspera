@@ -229,27 +229,20 @@ namespace API_Linea_Espera.Controllers
         public IActionResult AdelantarTurno(int id)
         {
             //Ver solo turnos de la caja que tiene el id del parametro.
-            var turnos = Repository.GetAllTurnosWithInclude()
-                .Where(x => x.CajaId == id);
-
-            //Ver ultima posicion para avanzar a la siguente.
-            UltimaPosicion = UltimaPosicion += 1;
-            
-
-
-            //Buscar el turno con la posicion siguente.
-
-            var turnosig = turnos
-                .Where(x => x.Posicion == UltimaPosicion)
+            var turnosig = Repository.GetAllTurnosWithInclude()
+                .Where(x => x.CajaId == id && x.Posicion > UltimaPosicion)
                 .Select(x => new TurnoDTO
                 {
-                    IdTurno = x.IdTurno,
-                    NombreCaja = x.Caja.NombreCaja
-                })
-                .FirstOrDefault();
+					IdTurno = x.IdTurno,
+					NombreCaja = x.Caja.NombreCaja,
+                    Posicion = x.Posicion
+				})
+            .FirstOrDefault();
 
-            return Ok(turnosig);    
-        }
+            UltimaPosicion = turnosig.Posicion;
+
+			return Ok(turnosig);
+		}
 
 
     }
