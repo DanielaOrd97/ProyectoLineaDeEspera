@@ -5,7 +5,9 @@ VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API Linea Espera", "API Linea Espera.csproj", "{C09EF4CF-62C5-4779-A15C-324C272FE715}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminApp", "..\AdminApp\AdminApp.csproj", "{C17D6695-8A32-4886-BC96-798B5FEB6470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApp", "..\AdminApp\AdminApp.csproj", "{C17D6695-8A32-4886-BC96-798B5FEB6470}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppCliente", "..\AppCliente\AppCliente.csproj", "{5F820BCB-8236-4B23-820C-55B03EED6DF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,12 @@ Global
 		{C17D6695-8A32-4886-BC96-798B5FEB6470}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C17D6695-8A32-4886-BC96-798B5FEB6470}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C17D6695-8A32-4886-BC96-798B5FEB6470}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F820BCB-8236-4B23-820C-55B03EED6DF2}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<AdminApp.Areas.Administrador.Models.ViewModels.UsuarioViewModel1>
+
+@{
+	Layout = "AdminLayout";
+}
+
+<div class="contenidoTabla">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th class="table-header">Nombre</th>
+            <th class="table-header">Nombre de usuario</th>
+            <th class="table-header">Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Nombre</td>
+                    <td>@item.NombreUsuario</td>
+                    <td class="table-cell action-buttons">
+                        <a style="text-decoration: none" class="action-button" href="~/Administrador/Usuarios/EditarUsuario/@(item.Id)">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                       @*  <button class="action-button" title="Eliminar">
+                            <i class="fas fa-trash-alt"></i>
+                        </button> *@
+                        <a style="text-decoration: none" class="action-button" href="~/Administrador/Usuarios/EliminarUsuario/@(item.Id)">
+                            <i class="fas fa-trash-alt"></i>
+                        </a>
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+      </table>
+    </div>

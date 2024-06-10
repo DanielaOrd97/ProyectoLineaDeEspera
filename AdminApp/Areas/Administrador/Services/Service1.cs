@@ -1,6 +1,7 @@
 ﻿using AdminApp.Areas.Administrador.Models.ViewModels;
 using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
+using System.Net.Http.Json;
 
 namespace AdminApp.Areas.Administrador.Services
 {
@@ -13,7 +14,7 @@ namespace AdminApp.Areas.Administrador.Services
 			client = new()
 			{
 				BaseAddress = new Uri("https://localhost:44385/api/")
-				//BaseAddress = new Uri("https://apilineaesperaeq2.websitos256.com/api")
+				//BaseAddress = new Uri("https://apilineaesperaeq2.websitos256.com/api/")
 			};
 		}
 
@@ -31,9 +32,10 @@ namespace AdminApp.Areas.Administrador.Services
 				var jsonResponse = await response.Content.ReadAsStringAsync();
 				//string data = response.Content.ReadAsStringAsync().Result;
 				usuarioslist = JsonConvert.DeserializeObject<List<UsuarioViewModel1>>(jsonResponse);
-			}
+                return usuarioslist;
+            }
 
-			return usuarioslist;
+			return null;
 		}
 
 		///<summary>
@@ -49,9 +51,10 @@ namespace AdminApp.Areas.Administrador.Services
 			{
 				var jsonresult = await response.Content.ReadAsStringAsync();
 				adminlist = JsonConvert.DeserializeObject<List<UsuarioViewModel1>>(jsonresult);
-			}
+                return adminlist;
+            }
 
-			return adminlist;
+			return null;
 		}
 
 		///<summary>
@@ -67,8 +70,9 @@ namespace AdminApp.Areas.Administrador.Services
 				var jsonResponse = await response.Content.ReadAsStringAsync();
 				//string data = response.Content.ReadAsStringAsync().Result;
 				operadoreslist = JsonConvert.DeserializeObject<List<UsuarioViewModel1>>(jsonResponse);
-			}
-			return operadoreslist;
+                return operadoreslist;
+            }
+			return null;
 		}
 
 		///<summary>
@@ -84,9 +88,10 @@ namespace AdminApp.Areas.Administrador.Services
 			{
 				var jsonResponse = await response.Content.ReadAsStringAsync();
 				clienteslist = JsonConvert.DeserializeObject<List<UsuarioViewModel1>>(jsonResponse);
-			}
+                return clienteslist;
+            }
 
-			return clienteslist;
+			return null;
 		}
 
 		///<summary>
@@ -102,9 +107,10 @@ namespace AdminApp.Areas.Administrador.Services
 			{
 				var jsonResponse = await response.Content.ReadAsStringAsync();
 				turnoslist = JsonConvert.DeserializeObject<List<List<TurnoViewModel1>>>(jsonResponse);
-			}
+                return turnoslist;
+            }
 
-			return turnoslist;
+			return null;
 		}
 
 		///<summary>
@@ -121,9 +127,10 @@ namespace AdminApp.Areas.Administrador.Services
 			{
 				var jsonResponse = await response.Content.ReadAsStringAsync();
 				listRoles = JsonConvert.DeserializeObject<List<RolViewModel1>>(jsonResponse);
-			}
+                return listRoles;
+            }
 
-			return listRoles;
+			return null;
 		}
 
 		///<summary>
@@ -140,9 +147,10 @@ namespace AdminApp.Areas.Administrador.Services
 			{
 				var jsonresponse = await response.Content.ReadAsStringAsync();
 				listCajas = JsonConvert.DeserializeObject<List<CajaViewModel1>>(jsonresponse);
-			}
+                return listCajas;
+            }
 
-			return listCajas;
+			return null;
 		}
 
 		///<summary>
@@ -244,5 +252,42 @@ namespace AdminApp.Areas.Administrador.Services
         }
 
 
+
+		///<summary>
+		///USUARIO OPERADOR*****************************
+		/// </summary>
+		/// 
+
+
+		///<summary>
+		///VER TURNO ACTUAL
+		/// </summary>
+		/// 
+		public async Task<TurnoViewModel1> GetTurnoActual(int idcaja)
+		{
+			var response = await client.GetAsync($"Turnos/TurnoActual/{idcaja}");
+
+			if (response.IsSuccessStatusCode)
+			{
+				var jsonresponse = await response.Content.ReadAsStringAsync();
+				var turno = JsonConvert.DeserializeObject<TurnoViewModel1>(jsonresponse);
+				return turno;
+			}
+			return null;
+		}
+
+        public async Task<TurnoViewModel1> Avanzar(int id) //MODIFICAR PARA ID CLAIMS
+        {
+            var response = await client.GetAsync($"Turnos/Avanzar/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonresponse = await response.Content.ReadAsStringAsync();
+                var turno = JsonConvert.DeserializeObject<TurnoViewModel1>(jsonresponse);
+                return turno;
+
+            }
+            return null;
+        }
     }
 }

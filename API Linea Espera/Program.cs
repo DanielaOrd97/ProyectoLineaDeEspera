@@ -1,3 +1,4 @@
+using API_Linea_Espera.Hubs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -12,15 +13,31 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
+
+builder.Services.AddSignalR();
+
+
+
 var connectionString = builder.Configuration.GetConnectionString("BancoConnectionString");
 
 builder.Services.AddDbContext<SistemaDeEspera1Context>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+//builder.Services.AddDbContext<SistemaDeEspera1Context>(x => x.UseMySql("server=localhost;user=root;password=root;database=SistemaDeEspera1", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.28-mysql")));
 
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 var app = builder.Build();
 
+app.UseCors(x =>
+{
+    x.AllowAnyHeader();
+    x.AllowAnyMethod();
+    x.AllowAnyOrigin();
+});
 
+app.UseRouting();
+
+
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -34,5 +51,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+app.MapHub<TurnosHub>("/turnos");
 
 app.Run();

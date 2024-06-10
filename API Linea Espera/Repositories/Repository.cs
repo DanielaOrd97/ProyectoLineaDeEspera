@@ -33,7 +33,8 @@ namespace API_Linea_Espera.Repositories
         {
             return Context.Turnos.Include(x => x.Caja)
                 .Include(x => x.Usuario)
-                .Include(x => x.Estado);
+                .Include(x => x.Estado)
+                .OrderBy(x => x.Posicion);
         }
 
         //public IEnumerable<Cajas> GetAllCajasWithInclude()

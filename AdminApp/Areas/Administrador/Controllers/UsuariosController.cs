@@ -83,7 +83,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 		}
 
 		[HttpPost]
-		public async Task AgregarUsuario(AgregarUsuarioViewModel1 vm)
+		public async Task<IActionResult> AgregarUsuario(AgregarUsuarioViewModel1 vm)
 		{
 			//Agregar validaciones correctamente.
 
@@ -95,11 +95,9 @@ namespace AdminApp.Areas.Administrador.Controllers
 				}
 
 				await Service.AddUsuario(vm);
-
-				RedirectToAction("Index");
-				//REGRESAR AL INDEX
 			}
-		}
+            return RedirectToAction("Index");
+        }
 
 		[HttpGet]
 		public async Task<IActionResult> EditarUsuario(int id)
@@ -110,7 +108,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 			if (usuario == null)
 			{
 				return null;
-				Index();
+				//Index();
 			}
 			else
 			{
@@ -168,7 +166,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 		}
 
 		[HttpPost]
-		public async void EliminarUsuario(UsuarioViewModel1 vm)
+		public async Task<IActionResult> EliminarUsuario(UsuarioViewModel1 vm)
 		{
 			if(vm != null)
 			{
@@ -179,6 +177,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 				  await	Service.DeleteUsuario((int)usuario.Id);
 				}
 			}
+			return RedirectToAction("~/Administrador/Usuarios/Index");
 		}
 	}
 

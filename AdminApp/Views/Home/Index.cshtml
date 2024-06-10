@@ -1,9 +1,74 @@
-﻿
-@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model AdminApp.Models.ViewModels.ClienteViewModel
+@inject TurnoViewModel1 turnoViewModel
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/css/Style.css" />
+</head>
+<body>
+    <table class="bank-table">
+        <thead>
+            <tr>
+                <th>Caja</th>
+                <th>Turno</th>
+            </tr>
+        </thead>
+        <tbody id="bodyTabla">
+            @foreach (var item in Model.ListaTurnos)
+            {
+                <tr>
+                    <td>@item.NombreCaja</td>
+                    <td>@item.IdTurno</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', (event) => {
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:44385/turnos", {
+                    skipNegotiation: true,
+                    transport: signalR.HttpTransportType.WebSockets,
+                })
+                .withAutomaticReconnect()
+                .build();
+
+            async function start() {
+                try {
+                    await connection.start();
+                    console.log("SignalR Connected.");
+                } catch (err) {
+                    console.log(err);
+                    setTimeout(start, 5000);
+                }
+            }
+
+            var tabla = document.querySelector("#bodyTabla");
+
+            connection.on("TurnoNuevo", (TurnoViewModel) => {
+                console.log(TurnoViewModel);
+                var tr = document.createElement("tr");
+                var td1 = document.createElement("td");
+                var td2 = document.createElement("td");
+                console.log(TurnoViewModel.nombreCaja);
+                td1.textContent = TurnoViewModel.nombreCaja;
+                td2.textContent = TurnoViewModel.idTurno;
+                tr.append(td1);
+                tr.append(td2);
+                tabla.append(tr);
+            });
+
+            start();
+        });
+
+    </script>
+</body>
+</html>
+
