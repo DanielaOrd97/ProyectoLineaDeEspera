@@ -95,7 +95,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 				}
 
 				await Service.AddUsuario(vm);
-			}
+            }
             return RedirectToAction("Index");
         }
 
@@ -118,7 +118,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 				vm.ListaCajas = await Service.GetAllCajas();
 				return View(vm);
 			}
-		}
+        }
 
 		[HttpPost]
 		public async Task<IActionResult> EditarUsuario(AgregarUsuarioViewModel1 vm)
@@ -177,8 +177,8 @@ namespace AdminApp.Areas.Administrador.Controllers
 				  await	Service.DeleteUsuario((int)usuario.Id);
 				}
 			}
-			return RedirectToAction("~/Administrador/Usuarios/Index");
-		}
+            return RedirectToAction("Index");
+        }
 	}
 
 }

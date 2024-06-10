@@ -12,9 +12,10 @@
 			<span>Editar Usuario</span>
 		</div>
 	</div>
-	<input type="hidden" value="@Model.Id" name="Id" />
+	
 
-	<form action="~/Admin/Usuarios/EditarUsuario" method="post" enctype="multipart/form-data">
+	<form action="~/Administrador/Usuarios/EditarUsuario" method="post" enctype="multipart/form-data">
+		<input type="hidden" value="@Model.Id" name="Id" />
 		<section class="attendance">
 			<div class="attendance-list">
 				<div class="form-group">
