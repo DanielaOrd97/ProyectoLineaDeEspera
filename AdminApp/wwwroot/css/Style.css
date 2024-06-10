@@ -755,3 +755,26 @@ label.Error{
         color: #333;
     }
 
+.add-button-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+    .add-button-container :hover {
+        background-color: #9e1a1a;
+    }
+
+.add-button {
+    background-color: #e01515;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+    .add-button i {
+        margin-right: 5px;
+    }
