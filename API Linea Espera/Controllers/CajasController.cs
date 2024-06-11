@@ -123,5 +123,31 @@ namespace API_Linea_Espera.Controllers
 
             return NotFound();
         }
+
+        ///<summary>
+        ///VER TOTAL DE CAJAS ACTIVAS
+        /// </summary>
+        /// 
+        [HttpGet("CajasActivas")]
+        public IActionResult VerTotalCajasActivas()
+        {
+            var activas = Repository.GetAll()
+                .Where(x => x.Estado == 1)
+                .Count();
+            return Ok(activas);
+        }
+
+        ///<summary>
+        ///VER TOTAL DE CAJAS INACTIVAS
+        /// </summary>
+        /// 
+        [HttpGet("CajasInactivas")]
+        public IActionResult VerTotalCajasInactivas()
+        {
+            var inactivas = Repository.GetAll()
+                .Where(x => x.Estado == 0)
+                .Count();
+            return Ok(inactivas);
+        }
     }
 }

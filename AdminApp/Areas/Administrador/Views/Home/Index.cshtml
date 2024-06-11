@@ -1,15 +1,17 @@
-﻿@{
+﻿@model AdminApp.Models.ViewModels.EstadisticasViewModel
+
+@{
 	Layout = "AdminLayout";
 }
 
 <section class="dashboard">
     <div class="card">
         <h2>Cajas <br />Activas</h2>
-        <p id="total-users">150</p>
+        <p id="total-users">@Model.TotalCajasActivas</p>
     </div>
     <div class="card">
         <h2>Cajas <br />Inactivas</h2>
-        <p id="total-money">3</p>
+        <p id="total-money">@Model.TotalCajasInactivas</p>
     </div>
     <div class="card">
         <h2>Clientes Atendidos</h2>

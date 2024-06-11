@@ -351,5 +351,32 @@ namespace AdminApp.Services
         //    }
         //    return null;
         //}
+
+
+        //////////////////////ESTADISTICAS/////////////////////////////////////
+        ///
+        public async Task<int> GetCajasActivas()
+        {
+            var response = await client.GetAsync($"Cajas/CajasActivas");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var total = await response.Content.ReadAsStringAsync();
+                return ((int.Parse(total)));
+            }
+            return 0;
+        }
+
+        public async Task<int> GetCajasInactivas()
+        {
+            var response = await client.GetAsync($"Cajas/CajasInactivas");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var total = await response.Content.ReadAsStringAsync();
+                return ((int.Parse(total)));
+            }
+            return 0;
+        }
     }
 }
