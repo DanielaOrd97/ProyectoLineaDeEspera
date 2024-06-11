@@ -24,18 +24,29 @@ namespace AdminApp.Areas.Operador.Controllers
             TurnoViewModel1 vm = new();
             vm = await turno;
 
-            return View("Index",vm);
+            return View(vm);
         }
 
         [HttpGet]
         public async Task<IActionResult> AdelantarTurno()
         {
-            var avanzar = Service.Avanzar(1);
+            var turnoSig = Service.Avanzar(1);
 
             TurnoViewModel1 vm = new();
-            vm = await avanzar;
+            vm = await turnoSig;
 
             return View("Index", vm);
         }
-    }
+
+		[HttpGet]
+		public async Task<IActionResult> AtrasarTurno()
+        {
+            var turnoAnterior = Service.Atrasar(1);
+
+            TurnoViewModel1 vm = new();
+            vm = await turnoAnterior;
+
+            return View("Index", vm);
+        }
+	}
 }

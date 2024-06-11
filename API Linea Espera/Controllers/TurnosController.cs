@@ -164,40 +164,40 @@ namespace API_Linea_Espera.Controllers
         /// ATRASAR TURNO.
         /// </summary>
 
-        [HttpPost("/Atrasar/{id}")]
-        public IActionResult AtrasarTurno(int id)
-        {
-            var turnos = Repository.GetAllTurnosWithInclude()
-                .OrderBy(x => x.Posicion).ToList();
+        //[HttpPost("/Atrasar/{id}")]
+        //public IActionResult AtrasarTurno(int id)
+        //{
+        //    var turnos = Repository.GetAllTurnosWithInclude()
+        //        .OrderBy(x => x.Posicion).ToList();
 
-            var turnoseleccionado = Repository.GetAllTurnosWithInclude()
-                .FirstOrDefault(x => x.IdTurno == id);
-
-
-            if (turnoseleccionado != null)
-            {
-                var posicion = turnos.IndexOf(turnoseleccionado);
-
-                if (posicion == 0)
-                {
-                    return BadRequest();
-                }
-
-                var posicionsig = turnos[posicion + 1];
-
-                var posicionTemp = turnoseleccionado.Posicion;
-                turnoseleccionado.Posicion = posicionsig.Posicion;
-                posicionsig.Posicion = posicionTemp;
+        //    var turnoseleccionado = Repository.GetAllTurnosWithInclude()
+        //        .FirstOrDefault(x => x.IdTurno == id);
 
 
-                Repository.Update(turnoseleccionado);
-                Repository.Update(posicionsig);
+        //    if (turnoseleccionado != null)
+        //    {
+        //        var posicion = turnos.IndexOf(turnoseleccionado);
 
-                return Ok();
-            }
+        //        if (posicion == 0)
+        //        {
+        //            return BadRequest();
+        //        }
 
-            return BadRequest();
-        }
+        //        var posicionsig = turnos[posicion + 1];
+
+        //        var posicionTemp = turnoseleccionado.Posicion;
+        //        turnoseleccionado.Posicion = posicionsig.Posicion;
+        //        posicionsig.Posicion = posicionTemp;
+
+
+        //        Repository.Update(turnoseleccionado);
+        //        Repository.Update(posicionsig);
+
+        //        return Ok();
+        //    }
+
+        //    return BadRequest();
+        //}
 
         ///<summary>
         ///VER TURNO ACTUAL
@@ -244,6 +244,24 @@ namespace API_Linea_Espera.Controllers
 			return Ok(turnosig);
 		}
 
+		[HttpGet("Atrasar/{id}")]
+		public IActionResult AtrasarTurno(int id)
+		{
+			//Ver solo turnos de la caja que tiene el id del parametro.
+			var turnoanterior = Repository.GetAllTurnosWithInclude()
+                .OrderByDescending(x => x.IdTurno)
+				.Where(x => x.CajaId == id && UltimaPosicion > x.Posicion)
+				.Select(x => new TurnoDTO
+				{
+					IdTurno = x.IdTurno,
+					NombreCaja = x.Caja.NombreCaja,
+					Posicion = x.Posicion
+				})
+			.FirstOrDefault();
 
-    }
+			UltimaPosicion = turnoanterior.Posicion;
+
+			return Ok(turnoanterior);
+		}
+	}
 }

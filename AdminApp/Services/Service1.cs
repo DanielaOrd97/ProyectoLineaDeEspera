@@ -295,18 +295,30 @@ namespace AdminApp.Services
             return null;
         }
 
+		public async Task<TurnoViewModel1> Atrasar(int id)
+        {
+			var response = await client.GetAsync($"Turnos/Atrasar/{id}");
+
+			if (response.IsSuccessStatusCode)
+			{
+				var jsonresponse = await response.Content.ReadAsStringAsync();
+				var turno = JsonConvert.DeserializeObject<TurnoViewModel1>(jsonresponse);
+				return turno;
+
+			}
+			return null;
+		}
 
 
-
-        ///<summary>
-        ///CLIENTE********************
-        /// </summary>
-        /// 
-        ///<summary>
-        ///VER TODOS LOS TURNOS
-        /// </summary>
-        /// 
-        public async Task<List<TurnoViewModel1>> GetAllTurnos()
+		///<summary>
+		///CLIENTE********************
+		/// </summary>
+		/// 
+		///<summary>
+		///VER TODOS LOS TURNOS
+		/// </summary>
+		/// 
+		public async Task<List<TurnoViewModel1>> GetAllTurnos()
         {
             List<TurnoViewModel1> listaTurnos = new();
 
