@@ -36,21 +36,10 @@ namespace API_Linea_Espera.Hubs
                 UltimaPosicion = entity.Posicion;
                 Repository.Insert(entity);
 
-                //var todo = Repository.GetAllTurnosWithInclude()
-                //    .Select(x => new TurnoDTO
-                //    {
-                //        IdTurno = entity.IdTurno,
-                //        IdCaja = entity.
-                //        EstadoTurno = entity.Estado.Estado
-                //    })
-                //    .LastOrDefault(x => x.IdTurno == entity.IdTurno);
-
                 var todo = Repository.GetAllTurnosWithInclude()
                 .Select(x => new TurnoDTO
                 {
                     IdTurno = x.IdTurno,
-                    //NombreCliente = x.Usuario.Nombre,
-                    //IdCaja = x.CajaId,
                     NombreCaja = x.Caja.NombreCaja,
                     EstadoTurno = x.Estado.Estado,
                     Posicion = x.Posicion
@@ -60,6 +49,31 @@ namespace API_Linea_Espera.Hubs
                 
 
                 await Clients.All.SendAsync("TurnoNuevo", todo);
+            }
+        }
+
+        /// <summary>
+        /// ABANDONAR TURNO.
+        /// </summary>
+        /// <returns></returns>
+        public async Task DeleteTurno(int idTurno)
+        {
+            if(idTurno != 0)
+            {
+                //selecciono de la cola solo mi turno.
+                var turno = Repository.GetAllTurnosWithInclude()
+                    .Where(x => x.IdTurno == idTurno).FirstOrDefault();
+
+                Turnos entity = new()
+                {
+                    IdTurno = turno.IdTurno,
+                    CajaId = turno.CajaId,
+                    EstadoId = 1,    ///En default esta en espera.
+                };
+
+                Repository.Delete(entity);
+
+                await Clients.All.SendAsync("AbandonarTurno", idTurno);
             }
         }
     }

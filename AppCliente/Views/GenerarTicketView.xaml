@@ -11,5 +11,7 @@
             </Picker.Items>
         </Picker>
         <Button Text="Generar Turno" x:Name="generar" Clicked="generar_Clicked"></Button>
+        <Label x:Name="NumTurno"></Label>
+        <Label x:Name="prueba"></Label>
     </VerticalStackLayout>
 </ContentPage>

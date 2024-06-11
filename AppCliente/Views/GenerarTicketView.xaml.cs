@@ -1,3 +1,4 @@
+using AppCliente.Helpers;
 using AppCliente.Models.DTOs;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -23,11 +24,27 @@ public partial class GenerarTicketView : ContentPage
             .Build();
 
         await hub.StartAsync();
+
+        MainThread.BeginInvokeOnMainThread(() =>
+        {
+            hub.On<TurnoDTO>("TurnoNuevo", x =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    NumTurno.Text = x.IdTurno.ToString();
+                    prueba.Text = x.EstadoTurno;
+                });
+            });
+        });
+
     }
+
+
 
     private async void generar_Clicked(object sender, EventArgs e)
     {
         //dto.IdCaja = 1;
         await hub.InvokeAsync("AddTurno", 2);
     }
+
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using AppCliente.Helpers;
+using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.Logging;
 
 namespace AppCliente
 {
@@ -18,6 +20,9 @@ namespace AppCliente
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            //builder.Services.AddSingleton<SignalRHelper>();
+
 
             return builder.Build();
         }

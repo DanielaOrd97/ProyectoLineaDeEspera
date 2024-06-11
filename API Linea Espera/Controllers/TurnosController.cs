@@ -263,5 +263,12 @@ namespace API_Linea_Espera.Controllers
 
 			return Ok(turnoanterior);
 		}
+
+
+        ///<summary>
+        ///VER EL TURNO ACTUAL DEL TICKET RECIEN GENERADO.
+        /// </summary>
+        /// 
+
 	}
 }
