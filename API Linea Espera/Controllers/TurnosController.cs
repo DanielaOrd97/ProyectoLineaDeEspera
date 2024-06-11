@@ -42,6 +42,26 @@ namespace API_Linea_Espera.Controllers
         }
 
         ///<summary>
+        ///VER TURNO DE ACUERDO A SU ID
+        /// </summary>
+        /// 
+        [HttpGet("Turno/{id}")]
+        public IActionResult GetTurno(int id)
+        {
+            var turno = Repository.GetAllTurnosWithInclude()
+                .Where(x => x.IdTurno == id)
+                .Select(x => new TurnoDTO
+                {
+                    IdTurno = x.IdTurno,
+                    NombreCaja = x.Caja.NombreCaja,
+                    EstadoTurno = x.Estado.Estado
+                })
+                .FirstOrDefault();
+
+            return Ok(turno);   
+        }
+
+        ///<summary>
         ///VER TURNOS POR CAJA
         /// </summary>
         /// 

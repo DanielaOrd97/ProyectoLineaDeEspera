@@ -13,6 +13,7 @@
             <tr>
                 <th>Caja</th>
                 <th>Turno</th>
+                <th>Estado de turno</th>
             </tr>
         </thead>
         <tbody id="bodyTabla">
@@ -21,6 +22,7 @@
                 <tr>
                     <td>@item.NombreCaja</td>
                     <td>@item.IdTurno</td>
+                    <td>@item.EstadoTurno</td>
                 </tr>
             }
         </tbody>
@@ -63,6 +65,22 @@
                 tr.append(td1);
                 tr.append(td2);
                 tabla.append(tr);
+            });
+
+            connection.on("LlamadoCliente", (TurnoViewModel) => {
+                const filas = tabla.getElementsByTagName("tr");
+
+                for (let i = 1; i < filas.length; i++) {
+
+                    const celdas = filas[i].getElementsByTagName("td");
+
+                    if (celdas[1].innerText == TurnoViewModel.IdTurno) {
+                        filas[i].style.backgroundColor = "yellow";
+                        celdas[2].innerText = TurnoViewModel.EstadoTurno;
+
+                        break;
+                    }
+                }
             });
 
             start();

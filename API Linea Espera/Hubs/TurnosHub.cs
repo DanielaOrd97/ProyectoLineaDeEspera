@@ -76,5 +76,35 @@ namespace API_Linea_Espera.Hubs
                 await Clients.All.SendAsync("AbandonarTurno", idTurno);
             }
         }
+
+        ///<summary>
+        ///LLAMAR AL CLIENTE ACTUAL PARA SER ATENDIDO.
+        /// </summary>
+        /// 
+        public async Task LlamarCliente(int idTurno)
+        {
+            if(idTurno != 0)
+            {
+                var turno = Repository.Get(idTurno);
+
+                if(turno != null)
+                {
+                    turno.EstadoId = 2;
+
+                    Repository.Update(turno);
+
+                    var turnoactualizado = Repository.GetAllTurnosWithInclude()
+                        .Where(x => x.IdTurno == idTurno)
+                        .Select(x => new TurnoDTO
+                        {
+                            IdTurno = turno.IdTurno,
+                            NombreCaja = turno.Caja.NombreCaja,
+                            EstadoTurno = turno.Estado.Estado
+                        });
+
+                    await Clients.All.SendAsync("LlamadoCliente", turnoactualizado);
+                }
+            }
+        }
     }
 }

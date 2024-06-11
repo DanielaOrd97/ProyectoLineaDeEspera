@@ -265,6 +265,25 @@ namespace AdminApp.Services
 
 
         ///<summary>
+        ///VER TURNO DE ACUERDO A ID.
+        /// </summary>
+        /// 
+        public async Task<TurnoViewModel1> GetTurno(int id)
+        {
+            var response = await client.GetAsync($"Turnos/Turno/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var jsonresponse = await response.Content.ReadAsStringAsync();
+                var turno = JsonConvert.DeserializeObject<TurnoViewModel1>(jsonresponse);
+                return turno;
+            }
+            return null;
+        }
+
+
+
+        ///<summary>
         ///VER TURNO ACTUAL
         /// </summary>
         /// 
