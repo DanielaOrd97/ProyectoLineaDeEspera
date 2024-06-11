@@ -42,7 +42,7 @@ namespace API_Linea_Espera.Helpers
                 Expires = DateTime.Now.AddDays(1),
                 NotBefore = DateTime.Now.AddMinutes(-1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(
-            System.Text.Encoding.UTF8.GetBytes("LALLAVESECRETADELBANCOESESTA")),
+            System.Text.Encoding.UTF8.GetBytes("LALLAVESUPERSECRETADELBANCOESESTA")),
             SecurityAlgorithms.HmacSha256)
             };
 
