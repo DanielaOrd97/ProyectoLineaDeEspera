@@ -106,5 +106,57 @@ namespace API_Linea_Espera.Hubs
                 }
             }
         }
+
+        public async Task AtenderCliente(int idTurno)
+        {
+            if (idTurno != 0)
+            {
+                var turno = Repository.Get(idTurno);
+
+                if (turno != null)
+                {
+                    turno.EstadoId = 3;
+
+                    Repository.Update(turno);
+
+                    var turnoactualizado = Repository.GetAllTurnosWithInclude()
+                        .Where(x => x.IdTurno == idTurno)
+                        .Select(x => new TurnoDTO
+                        {
+                            IdTurno = turno.IdTurno,
+                            NombreCaja = turno.Caja.NombreCaja,
+                            EstadoTurno = turno.Estado.Estado
+                        });
+
+                    await Clients.All.SendAsync("AtenderCliente", turnoactualizado);
+                }
+            }
+        }
+
+        public async Task TerminarAtencion(int idTurno)
+        {
+            if (idTurno != 0)
+            {
+                var turno = Repository.Get(idTurno);
+
+                if (turno != null)
+                {
+                    turno.EstadoId = 4;
+
+                    Repository.Update(turno);
+
+                    var turnoactualizado = Repository.GetAllTurnosWithInclude()
+                        .Where(x => x.IdTurno == idTurno)
+                        .Select(x => new TurnoDTO
+                        {
+                            IdTurno = turno.IdTurno,
+                            NombreCaja = turno.Caja.NombreCaja,
+                            EstadoTurno = turno.Estado.Estado
+                        });
+
+                    await Clients.All.SendAsync("Terminar", turnoactualizado);
+                }
+            }
+        }
     }
 }

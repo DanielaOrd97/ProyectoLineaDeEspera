@@ -30,7 +30,7 @@ namespace AdminApp.Areas.Operador.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AdelantarTurno()
+        public async Task<IActionResult> AvanzarTurno()
         {
             var turnoSig = Service.Avanzar(2);
 
@@ -75,5 +75,28 @@ namespace AdminApp.Areas.Operador.Controllers
             }
             return View("Index");
         }
-	}
+
+        [HttpGet]
+        public async Task<IActionResult> AtenderCliente(int id)
+        {
+            await Task.Run(() => Iniciar());
+            await hub.InvokeAsync("AtenderCliente", id);
+            TurnoViewModel1 vm = new();
+            var clienteactualizado = await Service.GetTurno(id);
+            vm = clienteactualizado;
+            return View("Index", vm);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TerminarAtencion(int id)
+        {
+            await Task.Run(() => Iniciar());
+            await hub.InvokeAsync("TerminarAtencion", id);
+            TurnoViewModel1 vm = new();
+            var clienteactualizado = await Service.GetTurno(id);
+            vm = clienteactualizado;
+            return View("Index", vm);
+        }
+
+    }
 }

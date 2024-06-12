@@ -68,6 +68,9 @@
             });
 
             connection.on("LlamadoCliente", (TurnoViewModel) => {
+
+                tabla.style.backgroundColor = "blue";
+
                 const filas = tabla.getElementsByTagName("tr");
 
                 for (let i = 1; i < filas.length; i++) {
@@ -75,7 +78,7 @@
                     const celdas = filas[i].getElementsByTagName("td");
 
                     if (celdas[1].innerText == TurnoViewModel.IdTurno) {
-                        filas[i].style.backgroundColor = "yellow";
+                        filas[1].style.backgroundColor = "Yellow";
                         celdas[2].innerText = TurnoViewModel.EstadoTurno;
 
                         break;
