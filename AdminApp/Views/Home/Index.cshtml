@@ -77,6 +77,10 @@
                 Prueba(TurnoViewModel);
             });
 
+            connection.on("AtenderCliente", (TurnoViewModel) => {
+                Prueba(TurnoViewModel);
+            })
+
             function Prueba(TurnoViewModel) {
                 console.log(TurnoViewModel);
                 const filas = tabla.getElementsByTagName("tr");
@@ -86,13 +90,24 @@
                     for (let j = 0; j < e.length; j++) {
                         console.log(e[j]);
                         if (e[j].textContent == TurnoViewModel[0].idTurno) {
-                            //e[j].style.backgroundColor = "Purple";
                             console.log("Jk");
 
-                            filas[i].style.backgroundColor = "Green";
-                            filas[i].style.color = "White";
+                            //filas[i].style.backgroundColor = "Green";
+                            //filas[i].style.color = "White";
                             e[2].innerText = TurnoViewModel[0].estadoTurno;
-                            e[2].style.backgroundColor = "Green";
+
+                            if (e[2].innerText == "Adelante") {
+                                filas[i].style.backgroundColor = "Green";
+                                filas[i].style.color = "White";
+                                e[2].style.backgroundColor = "Green";
+                            }
+                            else if (e[2].innerText == "En proceso") {
+                                filas[i].style.backgroundColor = "Orange";
+                                filas[i].style.color = "White";
+                                e[2].style.backgroundColor = "Orange";
+                            }
+
+                            //e[2].style.backgroundColor = "Green";
                             break;
                         }
                     }
@@ -105,9 +120,12 @@
                 for (let i = 0; i < filas.length; i++) {
                     const celdas = filas[i].getElementsByTagName("td");
                     if (celdas[2] && celdas[2].innerText == "En espera") {
-                        console.log("YAAAA BASTAAA");
                         celdas[2].style.backgroundColor = "Yellow";
                     }
+                    else if (celdas[2] && celdas[2].innerText == "Adelante") {
+                        celdas[2].style.backgroundColor = "Green";
+                    }
+
                 }
             }
 
