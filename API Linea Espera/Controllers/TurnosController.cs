@@ -41,6 +41,34 @@ namespace API_Linea_Espera.Controllers
             return Ok(turnos);
         }
 
+        /// <summary>
+        /// OBTENER TOTAL DE TURNOS EN ESPERA.
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("EnEspera")]
+        public IActionResult GetTotalTurnosEnEspera()
+        {
+            var turnos = Repository.GetAll()
+                .Where(x => x.EstadoId == 1)
+                .Count();
+
+            return Ok(turnos);
+        }
+
+        ///<summary>
+        ///OBTENER TOTAL DE TURNOS ATENDIDOS.
+        /// </summary>
+        /// 
+        [HttpGet("Atendidos")]
+        public IActionResult GetTotalTurnosAtendidos()
+        {
+            var turnos = Repository.GetAll()
+                .Where(x => x.EstadoId == 4)
+                .Count();
+
+            return Ok(turnos);
+        }
+
         ///<summary>
         ///VER TURNO DE ACUERDO A SU ID
         /// </summary>

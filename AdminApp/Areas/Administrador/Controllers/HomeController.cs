@@ -17,10 +17,14 @@ namespace AdminApp.Areas.Administrador.Controllers
         {
             var cajasActivas = await service.GetCajasActivas();
             var cajasInactivas = await service.GetCajasInactivas();
+            var turnosEnEspera = await service.GetTotalTurnosEspera();
+            var turnosAtendidos = await service.GetTotalTurnosAtendidos();  
 
             EstadisticasViewModel vm = new();
             vm.TotalCajasActivas = cajasActivas;
             vm.TotalCajasInactivas = cajasInactivas;
+            vm.TotalClientesAtendidos = turnosAtendidos;
+            vm.TotalClientesEnEspera = turnosEnEspera;
 
             return View(vm);
         }

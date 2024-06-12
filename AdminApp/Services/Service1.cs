@@ -397,5 +397,29 @@ namespace AdminApp.Services
             }
             return 0;
         }
+
+        public async Task<int> GetTotalTurnosEspera()
+        {
+            var response = await client.GetAsync($"Turnos/EnEspera");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var total = await response.Content.ReadAsStringAsync();
+                return ((int.Parse(total)));
+            }
+            return 0;
+        }
+
+        public async Task<int> GetTotalTurnosAtendidos()
+        {
+            var response = await client.GetAsync($"Turnos/Atendidos");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var total = await response.Content.ReadAsStringAsync();
+                return ((int.Parse(total)));
+            }
+            return 0;
+        }
     }
 }
