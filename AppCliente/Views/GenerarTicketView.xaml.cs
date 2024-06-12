@@ -44,7 +44,7 @@ public partial class GenerarTicketView : ContentPage
     private async void generar_Clicked(object sender, EventArgs e)
     {
         //dto.IdCaja = 1;
-        await hub.InvokeAsync("AddTurno", 2);
+        await hub.InvokeAsync("AddTurno", 1);
     }
 
 }

@@ -32,6 +32,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
+            ActualizarColores();
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("https://localhost:44385/turnos", {
                     skipNegotiation: true,
@@ -62,11 +63,12 @@
                 console.log(TurnoViewModel.nombreCaja);
                 td1.textContent = TurnoViewModel.nombreCaja;
                 td2.textContent = TurnoViewModel.idTurno;
-                td3.textContent = TurnoViewModel.EstadoTurno;
+                td3.textContent = TurnoViewModel.estadoTurno;
                 tr.append(td1);
                 tr.append(td2);
                 tr.append(td3);
                 tabla.append(tr);
+                ActualizarColores();
             });
 
             connection.on("LlamadoCliente", (TurnoViewModel) => {
@@ -79,7 +81,7 @@
                 console.log(TurnoViewModel);
                 const filas = tabla.getElementsByTagName("tr");
 
-                for (let i = 1; i < filas.length; i++) {
+                for (let i = 0; i < filas.length; i++) {
                     const e = filas[i].getElementsByTagName("td");
                     for (let j = 0; j < e.length; j++) {
                         console.log(e[j]);
@@ -98,13 +100,12 @@
             }
 
             function ActualizarColores() {
+                var tabla = document.querySelector("#bodyTabla");
                 const filas = tabla.getElementsByTagName("tr");
-                for (let i = 1; i < filas.length; i++) {
+                for (let i = 0; i < filas.length; i++) {
                     const celdas = filas[i].getElementsByTagName("td");
-                    // if (celdas[2] && celdas[2].innerText == "Adelante") {
-                    //     celdas[2].style.backgroundColor = "Green";
-                    // }
                     if (celdas[2] && celdas[2].innerText == "En espera") {
+                        console.log("YAAAA BASTAAA");
                         celdas[2].style.backgroundColor = "Yellow";
                     }
                 }
