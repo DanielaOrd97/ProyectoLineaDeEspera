@@ -22,7 +22,7 @@ namespace AdminApp.Areas.Operador.Controllers
         public async Task<IActionResult> Index()
         {
             //COLOCAR EL ID DE ACUERDO A LA CAJA
-            var turno = Service.GetTurnoActual(2);
+            var turno = Service.GetTurnoActual(1);
             TurnoViewModel1 vm = new();
             vm = await turno;
 
@@ -32,7 +32,7 @@ namespace AdminApp.Areas.Operador.Controllers
         [HttpGet]
         public async Task<IActionResult> AvanzarTurno()
         {
-            var turnoSig = Service.Avanzar(2);
+            var turnoSig = Service.Avanzar(1);
 
             TurnoViewModel1 vm = new();
             vm = await turnoSig;
@@ -43,7 +43,7 @@ namespace AdminApp.Areas.Operador.Controllers
 		[HttpGet]
 		public async Task<IActionResult> AtrasarTurno()
         {
-            var turnoAnterior = Service.Atrasar(2);
+            var turnoAnterior = Service.Atrasar(1);
 
             TurnoViewModel1 vm = new();
             vm = await turnoAnterior;
