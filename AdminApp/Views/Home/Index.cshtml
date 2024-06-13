@@ -81,30 +81,49 @@
                 Prueba(TurnoViewModel);
             })
 
+            var ter;
+
+            connection.on("Terminar", (TurnoViewModel) => {
+                Prueba(TurnoViewModel);
+
+                console.log(ter);
+
+                setTimeout(function () {
+                    if (ter) {
+                        ter.style.display = "none";
+                    }
+                }, 2000);
+                
+            })
+
             function Prueba(TurnoViewModel) {
-                console.log(TurnoViewModel);
+                //console.log(TurnoViewModel);
                 const filas = tabla.getElementsByTagName("tr");
 
                 for (let i = 0; i < filas.length; i++) {
                     const e = filas[i].getElementsByTagName("td");
                     for (let j = 0; j < e.length; j++) {
-                        console.log(e[j]);
+                        //console.log(e[j]);
                         if (e[j].textContent == TurnoViewModel[0].idTurno) {
-                            console.log("Jk");
 
                             //filas[i].style.backgroundColor = "Green";
                             //filas[i].style.color = "White";
                             e[2].innerText = TurnoViewModel[0].estadoTurno;
 
                             if (e[2].innerText == "Adelante") {
-                                filas[i].style.backgroundColor = "Green";
-                                filas[i].style.color = "White";
-                                e[2].style.backgroundColor = "Green";
+                                filas[i].style.backgroundColor = "#799351";
+                                //filas[i].style.color = "White";
+                                //e[2].style.backgroundColor = "#799351";
                             }
                             else if (e[2].innerText == "En proceso") {
-                                filas[i].style.backgroundColor = "Orange";
-                                filas[i].style.color = "White";
-                                e[2].style.backgroundColor = "Orange";
+                                filas[i].style.backgroundColor = "#FF7F3E";
+                                //filas[i].style.color = "White";
+                                //e[2].style.backgroundColor = "#FF7F3E";
+                            }
+                            else if (e[2].innerText == "Terminado") {
+                               //filas[i].style.backgroundColor = "#5C88C4";
+                                ter = filas[i];
+                                ter.style.backgroundColor = "#5C88C4";
                             }
 
                             //e[2].style.backgroundColor = "Green";
@@ -120,10 +139,21 @@
                 for (let i = 0; i < filas.length; i++) {
                     const celdas = filas[i].getElementsByTagName("td");
                     if (celdas[2] && celdas[2].innerText == "En espera") {
-                        celdas[2].style.backgroundColor = "Yellow";
+                        //celdas[2].style.backgroundColor = "#FFEEA9";
+                        filas[i].style.backgroundColor = "#FFEEA9";
                     }
                     else if (celdas[2] && celdas[2].innerText == "Adelante") {
-                        celdas[2].style.backgroundColor = "Green";
+                        //celdas[2].style.backgroundColor = "#81A263";
+                        filas[i].style.backgroundColor = "#81A263";
+                    }
+                    else if (celdas[2] && celdas[2].innerText == "En proceso") {
+                        //celdas[2].style.backgroundColor = "#FF7F3E";
+                        filas[i].style.backgroundColor = "#FF7F3E";
+                    }
+                    else if (celdas[2] && celdas[2].innerText == "Terminado") {
+                        //celdas[2].style.backgroundColor = "#FF7F3E";
+                        filas[i].style.backgroundColor = "#5C88C4";
+                        filas[i].style.display = "none";
                     }
 
                 }

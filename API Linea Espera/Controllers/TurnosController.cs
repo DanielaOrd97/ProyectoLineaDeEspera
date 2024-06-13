@@ -260,6 +260,7 @@ namespace API_Linea_Espera.Controllers
                 {
                     IdTurno = x.IdTurno,
                     NombreCaja = x.Caja.NombreCaja,
+                    EstadoTurno = x.Estado.Estado,
                     Posicion = x.Posicion
                 })
                 .FirstOrDefault();
@@ -283,9 +284,25 @@ namespace API_Linea_Espera.Controllers
                 {
 					IdTurno = x.IdTurno,
 					NombreCaja = x.Caja.NombreCaja,
+                    EstadoTurno = x.Estado.Estado,
                     Posicion = x.Posicion
 				})
             .FirstOrDefault();
+
+            if(turnosig == null)
+            {
+                turnosig = Repository.GetAllTurnosWithInclude()
+               .Where(x => x.CajaId == id)
+               .Select(x => new TurnoDTO
+               {
+                   IdTurno = x.IdTurno,
+                   NombreCaja = x.Caja.NombreCaja,
+                   Posicion = x.Posicion
+               })
+               .LastOrDefault();
+
+                return Ok(turnosig);
+            }
 
             UltimaPosicion = turnosig.Posicion;
 
@@ -303,9 +320,25 @@ namespace API_Linea_Espera.Controllers
 				{
 					IdTurno = x.IdTurno,
 					NombreCaja = x.Caja.NombreCaja,
-					Posicion = x.Posicion
+                    EstadoTurno = x.Estado.Estado,
+                    Posicion = x.Posicion
 				})
 			.FirstOrDefault();
+
+            if(turnoanterior == null)
+            {
+                turnoanterior = Repository.GetAllTurnosWithInclude()
+               .Where(x => x.CajaId == id)
+               .Select(x => new TurnoDTO
+               {
+                   IdTurno = x.IdTurno,
+                   NombreCaja = x.Caja.NombreCaja,
+                   Posicion = x.Posicion
+               })
+               .FirstOrDefault();
+
+                return Ok(turnoanterior);
+            }
 
 			UltimaPosicion = turnoanterior.Posicion;
 
