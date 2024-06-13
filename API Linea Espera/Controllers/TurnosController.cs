@@ -297,6 +297,7 @@ namespace API_Linea_Espera.Controllers
                {
                    IdTurno = x.IdTurno,
                    NombreCaja = x.Caja.NombreCaja,
+                   EstadoTurno = x.Estado.Estado,
                    Posicion = x.Posicion
                })
                .LastOrDefault();
@@ -333,6 +334,7 @@ namespace API_Linea_Espera.Controllers
                {
                    IdTurno = x.IdTurno,
                    NombreCaja = x.Caja.NombreCaja,
+                   EstadoTurno = x.Estado.Estado,
                    Posicion = x.Posicion
                })
                .FirstOrDefault();
