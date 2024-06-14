@@ -1,4 +1,7 @@
-﻿using AdminApp.Models.ViewModels;
+﻿using AdminApp.Models.DTOs;
+using AdminApp.Models.ViewModels;
+using Humanizer;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
 using System.Net.Http.Json;
@@ -8,6 +11,7 @@ namespace AdminApp.Services
     public class Service1
     {
         HttpClient client;
+        public static string? Token { get; set; }
 
         public Service1()
         {
@@ -16,6 +20,29 @@ namespace AdminApp.Services
                 BaseAddress = new Uri("https://localhost:44385/api/")
                 //BaseAddress = new Uri("https://apilineaesperaeq2.websitos256.com/api/")
             };
+        }
+
+        ///<summary>
+        ///LOG IN
+        /// </summary>
+        /// 
+        public async Task<string> LogIn(LogInViewModel vm)
+        {
+            var response = await client.PostAsJsonAsync("Login", vm);
+
+            try
+            {
+                var res = await response.Content.ReadAsStringAsync();
+                //var r = JsonConvert.DeserializeObject<ResponseDTO>(res);
+
+                Token = res;
+                return res;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         /// <summary>

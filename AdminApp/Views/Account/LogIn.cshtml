@@ -1,0 +1,26 @@
+﻿@model AdminApp.Models.ViewModels.LogInViewModel
+
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Banco Login</title>
+    <link rel="stylesheet" href="/css/Style.css" />
+</head>
+<body>
+    <div class="login-container">
+        <h2>Banco Login</h2>
+        <form action="/Account/LogIn" method="post" enctype="multipart/form-data">
+            <label for="username-link">Usuario</label>
+            <input name="NombreUsuario" value="@Model.NombreUsuario" id="username-link" class="input-link" placeholder="Ingrese su usuario" />
+
+            <label for="password-link">Contraseña</label>
+            <input name="Contraseña" value="@Model.Contraseña" type="password" id="password-link" class="input-link" placeholder="Ingrese su contraseña" />
+
+            <label class="Error">Error</label>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+</body>
+</html>

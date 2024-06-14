@@ -43,9 +43,14 @@ app.UseEndpoints(endpoints =>
         name: "areas",
         pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
-    _ = endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+    //_ = endpoints.MapControllerRoute(
+    //    name: "default",
+    //    pattern: "{controller=Home}/{action=Index}/{id?}");    ///RUTA A LA PANTALLA QUE MUESTRA LA FILA.
+
+ 
+    _ =   endpoints.MapControllerRoute(
+          name: "default",
+          pattern: "{controller=Account}/{action=Login}/{id?}");
 });
 
 app.Run();

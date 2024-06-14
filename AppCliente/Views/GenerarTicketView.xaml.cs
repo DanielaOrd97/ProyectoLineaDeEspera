@@ -9,6 +9,9 @@ public partial class GenerarTicketView : ContentPage
     HubConnection hub;
     TurnoDTO dto = new();
 
+    //public static Label NumTurnoLabel;
+    //public static Label PruebaLabel;
+
     public GenerarTicketView()
 	{
 		InitializeComponent();
@@ -16,6 +19,7 @@ public partial class GenerarTicketView : ContentPage
         Task.Run(() => Iniciar());
     }
 
+   
     private async Task Iniciar()
     {
         hub = new HubConnectionBuilder()
@@ -25,15 +29,24 @@ public partial class GenerarTicketView : ContentPage
 
         await hub.StartAsync();
 
-        MainThread.BeginInvokeOnMainThread(() =>
+       // MainThread.BeginInvokeOnMainThread(() =>
+       //{
+           hub.On<TurnoDTO>("TurnoNuevo", x =>
+           {
+               MainThread.BeginInvokeOnMainThread(() =>
+               {
+                   NumTurno.Text = x.IdTurno.ToString();
+                   prueba.Text = x.EstadoTurno;
+               });
+           });
+       //});
+
+        hub.On<TurnoDTO>("LlamadoCliente", x =>
         {
-            hub.On<TurnoDTO>("TurnoNuevo", x =>
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    NumTurno.Text = x.IdTurno.ToString();
-                    prueba.Text = x.EstadoTurno;
-                });
+                NumTurno.Text = x.IdTurno.ToString();
+                prueba.Text = x.EstadoTurno;
             });
         });
 
@@ -47,4 +60,14 @@ public partial class GenerarTicketView : ContentPage
         await hub.InvokeAsync("AddTurno", 1);
     }
 
+    private void abandonar_Clicked(object sender, EventArgs e)
+    {
+
+    }
+
+    //public static void UpdateUI(TurnoDTO turno)
+    //{
+    //    NumTurnoLabel.Text = turno.IdTurno.ToString();
+    //    PruebaLabel.Text = turno.EstadoTurno;
+    //}
 }

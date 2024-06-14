@@ -3,6 +3,8 @@ using API_Linea_Espera.Models.DTOs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -36,8 +38,10 @@ namespace API_Linea_Espera.Controllers
                 ModelState.AddModelError("", "Proporcione la contraseña para iniciar sesión");
                 return BadRequest(ModelState);
             }
+
+            var pass = ConvertPasswordToSHA512(usuarioDTO.Contraseña);
             var usuario = RepositoryUsuarios.GetAllWithInclude()
-                .First(x => (x.NombreUsuario == usuarioDTO.NombreUsuario) && (x.Contraseña ==usuarioDTO.Contraseña));
+                .First(x => (x.NombreUsuario == usuarioDTO.NombreUsuario) && (x.Contraseña == pass));
 
             if (usuario == null)
             {
@@ -51,8 +55,21 @@ namespace API_Linea_Espera.Controllers
                 return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString()));
                 
             }
-                
+        }
 
+
+        ///<summary>
+        ///METODO PARA COMPARAR CONTRA ENCRIPTADA.
+        /// </summary>
+        /// 
+        public static string ConvertPasswordToSHA512(string password)
+        {
+            using (var sha512 = SHA512.Create())
+            {
+                var arreglo = Encoding.UTF8.GetBytes(password);
+                var hash = sha512.ComputeHash(arreglo);
+                return Convert.ToHexString(hash).ToLower();
+            }
         }
     }
 }

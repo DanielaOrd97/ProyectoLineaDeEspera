@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppCliente.Views.GenerarTicketView">
+             x:Class="AppCliente.Views.GenerarTicketView"
+             >
     <VerticalStackLayout>
         <Label>Caja:</Label>
         <Picker x:Name="combo">
@@ -11,6 +12,7 @@
             </Picker.Items>
         </Picker>
         <Button Text="Generar Turno" x:Name="generar" Clicked="generar_Clicked"></Button>
+        <Button Text="Abandonar fila" x:Name="abandonar" Clicked="abandonar_Clicked"></Button>
         <Label x:Name="NumTurno"></Label>
         <Label x:Name="prueba"></Label>
     </VerticalStackLayout>

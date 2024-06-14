@@ -3,6 +3,8 @@ using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -288,7 +290,7 @@ namespace API_Linea_Espera.Controllers
 				{
 					Id = 0,
 					NombreUsuario = dto.NombreUsuario,
-					Contraseña = dto.Contraseña,
+					Contraseña = ConvertPasswordToSHA512(dto.Contraseña),
 					Nombre = dto.Nombre,
 					IdRol = dto.IdRol,
                     IdCaja = dto.IdCaja
@@ -328,9 +330,22 @@ namespace API_Linea_Espera.Controllers
 					return Ok();
 				}
             }
-			return NotFound();
+			return BadRequest();
 		}
 
+        ///<summary>
+        ///ENCRIPTAR CONTRA DE USUARIO AL AGREGAR NUEVO.
+        /// </summary>
+        /// 
+        private static string ConvertPasswordToSHA512(string password)
+        {
+            using (var sha512 = SHA512.Create())
+            {
+                var arreglo = Encoding.UTF8.GetBytes(password);
+                var hash = sha512.ComputeHash(arreglo);
+                return Convert.ToHexString(hash).ToLower();
+            }
+        }
 
         ///<summary>
         ///ELIMINAR UN USUARIO EN GENERAL.

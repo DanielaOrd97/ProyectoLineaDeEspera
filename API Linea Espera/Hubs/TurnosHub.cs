@@ -64,16 +64,17 @@ namespace API_Linea_Espera.Hubs
                 var turno = Repository.GetAllTurnosWithInclude()
                     .Where(x => x.IdTurno == idTurno).FirstOrDefault();
 
-                Turnos entity = new()
+                //Turnos entity = new()
+                //{
+                //    IdTurno = turno.IdTurno,
+                //    CajaId = turno.CajaId,
+                //    EstadoId = 1,    ///En default esta en espera.
+                //};
+                if(turno != null)
                 {
-                    IdTurno = turno.IdTurno,
-                    CajaId = turno.CajaId,
-                    EstadoId = 1,    ///En default esta en espera.
-                };
-
-                Repository.Delete(entity);
-
-                await Clients.All.SendAsync("AbandonarTurno", idTurno);
+                    Repository.Delete(turno);
+                }
+                await Clients.All.SendAsync("AbandonarTurno");
             }
         }
 

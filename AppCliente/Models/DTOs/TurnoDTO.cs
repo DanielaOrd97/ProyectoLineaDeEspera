@@ -14,6 +14,5 @@ namespace AppCliente.Models.DTOs
         public string? EstadoTurno { get; set; }
         public int Posicion { get; set; }
 
-
     }
 }
