@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppClientes.MainPage"
+             BackgroundColor="#F3F4F6"
+             >
+    <VerticalStackLayout VerticalOptions="Center" 
+                         HorizontalOptions="Center"
+                         Spacing="20">
+        <Label
+            Text="Banco Tec"
+            FontSize="36"
+            FontAttributes="Bold"
+            TextColor="#B22222"
+            HorizontalOptions="Center"
+            Margin="0,20,0,10"/>
+        
+        <Picker x:Name="ServicePicker" Title="Selecciona un Servicio" SelectedIndexChanged="ServicePicker_SelectedIndexChanged">
+            <!--<Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Caja 1</x:String>
+                    <x:String>Caja 2</x:String>
+                    <x:String>Caja 3</x:String>
+                </x:Array>
+            </Picker.ItemsSource>-->
+        </Picker>
+        <Frame CornerRadius="10" BackgroundColor="White" Padding="20" HorizontalOptions="Center" BorderColor="#B22222" HasShadow="True">
+            
+        <Label x:Name="NumberLabel"
+               Text="1"
+               FontSize="48"
+               TextColor="#B22222"
+               FontAttributes="Bold"
+               VerticalOptions="Center"
+               HorizontalOptions="Center"/>
+        </Frame>
+        <Label 
+            x:Name="TurnStateLabel"
+            Text="En Espera"
+            FontSize="24"
+            TextColor="#B22222"
+            HorizontalOptions="Center" />
+        
+        <Button Text="Generar"
+                    Clicked="Button_Clicked" 
+                    BackgroundColor="#B22222"
+                TextColor="White"
+                FontSize="18"
+                CornerRadius="10"
+                Padding="10"
+                WidthRequest="250"
+                    HorizontalOptions="Center"/>
+        <Button 
+            Text="Cargar Servicios"
+            Clicked="Button_Clicked_1"
+            BackgroundColor="#B22222"
+            TextColor="White"
+            FontSize="18"
+            CornerRadius="10"
+            Padding="10"
+            WidthRequest="250"
+            HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>
