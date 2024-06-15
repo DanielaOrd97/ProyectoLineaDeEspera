@@ -43,13 +43,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         {
             if (Caja != null)
             {
-                await hub.InvokeAsync("AddTurno", Caja.Id);
-
-                hub.On<TurnoDTO>("TurnoNuevo", x =>
-                {
-                    Turno = x;
-                });
-            }
+                await hub.InvokeAsync("AddTurno", Caja.Id);            }
         }
 
 
@@ -94,6 +88,10 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
             await hub.StartAsync();
 
+            hub.On<TurnoDTO>("TurnoNuevo", x =>
+            {
+                Turno = x;
+            });
 
             hub.On<TurnoDTO>("LlamadoCliente", x =>
             {
