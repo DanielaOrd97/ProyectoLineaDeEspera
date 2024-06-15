@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API Linea Espera", "API Lin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminApp", "..\AdminApp\AdminApp.csproj", "{C17D6695-8A32-4886-BC96-798B5FEB6470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppClientes", "..\AppClientes\AppClientes.csproj", "{94C2F1BD-484A-4918-9B7B-51AE4C804DBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppClientes", "..\AppClientes\AppClientes.csproj", "{94C2F1BD-484A-4918-9B7B-51AE4C804DBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "APPCLIENTEPRUEBA1", "..\APPCLIENTEPRUEBA1\APPCLIENTEPRUEBA1.csproj", "{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,12 @@ Global
 		{94C2F1BD-484A-4918-9B7B-51AE4C804DBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94C2F1BD-484A-4918-9B7B-51AE4C804DBE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{94C2F1BD-484A-4918-9B7B-51AE4C804DBE}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBC904F9-31E9-4B40-A9CA-76F2AFA98F92}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

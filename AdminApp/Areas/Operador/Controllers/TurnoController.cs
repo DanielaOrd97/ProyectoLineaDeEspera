@@ -11,6 +11,7 @@ namespace AdminApp.Areas.Operador.Controllers
     {
         Service1 Service;
         HubConnection hub;
+        public static int IdCaja { get; set; }
 
         public TurnoController()
         {
@@ -22,6 +23,7 @@ namespace AdminApp.Areas.Operador.Controllers
         public async Task<IActionResult> Index(int idcaja)
        {
             //COLOCAR EL ID DE ACUERDO A LA CAJA
+            IdCaja = idcaja;
             var turno = Service.GetTurnoActual(idcaja);
             TurnoViewModel1 vm = new();
             
@@ -46,7 +48,7 @@ namespace AdminApp.Areas.Operador.Controllers
         [HttpGet]
         public async Task<IActionResult> AvanzarTurno()
         {
-            var turnoSig = Service.Avanzar(1);
+            var turnoSig = Service.Avanzar(IdCaja);
 
             TurnoViewModel1 vm = new();
             vm = await turnoSig;

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AppClienteSoloPruebas.Views.VistaPrueba">
+    <VerticalStackLayout>
+        <Label>Escoger caja:</Label>
+        <Picker Margin="0,0,0,20"></Picker>
+        <Button Text="GENERAR TICKET" Margin="0,0,0,20"
+                Clicked="Button_Clicked" 
+                ></Button>
+        <Button Text="ABANDONAR FILA"></Button>
+        <Label Margin="0,20,0,0" x:Name="NumTicket"></Label>
+        <Label x:Name="EstadoTurno"></Label>
+    </VerticalStackLayout>
+</ContentPage>

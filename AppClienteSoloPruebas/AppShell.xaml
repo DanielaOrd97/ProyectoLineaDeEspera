@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="AppClienteSoloPruebas.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:AppClienteSoloPruebas"
+    xmlns:views="clr-namespace:AppClienteSoloPruebas.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="AppClienteSoloPruebas">
+
+    <ShellContent
+        ContentTemplate="{DataTemplate views:VistaPrueba}"
+        Route="MainPage" />
+
+</Shell>

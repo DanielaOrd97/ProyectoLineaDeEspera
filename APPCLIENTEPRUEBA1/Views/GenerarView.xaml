@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="APPCLIENTEPRUEBA1.Views.GenerarView"
+             xmlns:vm="clr-namespace:APPCLIENTEPRUEBA1.Models.ViewModels"
+             >
+
+    <ContentPage.BindingContext>
+        <vm:TicketViewModel></vm:TicketViewModel>
+    </ContentPage.BindingContext>
+    
+    <VerticalStackLayout>
+        <Label>Generar Ticket</Label>
+        <Label>Cajas:</Label>
+        <Picker ItemsSource="{Binding ListaCajas}" ItemDisplayBinding="{Binding NombreCaja}"></Picker>
+        <Button Text="GENERAR TURNO"></Button>
+        <Button Text="ABANDONAR FILA"></Button>
+    </VerticalStackLayout>
+</ContentPage>
