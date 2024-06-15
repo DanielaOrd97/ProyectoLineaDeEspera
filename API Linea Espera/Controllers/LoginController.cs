@@ -52,7 +52,14 @@ namespace API_Linea_Espera.Controllers
                 var rol = RepositoryRoles.GetAll().First(x => x.IdRol == usuario.IdRol);
 
                 TokenGeneratorJwt jwtToken = new();
-                return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString()));
+
+                if (rol.NombreRol == "Operador")
+                {
+                    return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString()));
+                }
+
+
+                return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null));
                 
             }
         }

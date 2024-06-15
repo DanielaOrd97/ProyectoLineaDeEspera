@@ -19,16 +19,17 @@ namespace AdminApp.Areas.Operador.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Index()
-        {
+        public async Task<IActionResult> Index(int idcaja)
+       {
             //COLOCAR EL ID DE ACUERDO A LA CAJA
-            var turno = Service.GetTurnoActual(1);
+            var turno = Service.GetTurnoActual(idcaja);
             TurnoViewModel1 vm = new();
             
             
             vm = await turno;
 
             return View(vm);
+
         }
 
         //[HttpGet]

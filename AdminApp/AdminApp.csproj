@@ -19,11 +19,8 @@
     <Folder Include="Areas\Administrador\Data\" />
     <Folder Include="Areas\Administrador\Models\ViewModels\" />
     <Folder Include="Areas\Administrador\Services\" />
-    <Folder Include="Areas\Cliente\Controllers\" />
-    <Folder Include="Areas\Cliente\Data\" />
-    <Folder Include="Areas\Cliente\Models\ViewModels\" />
-    <Folder Include="Areas\Cliente\Services\" />
-    <Folder Include="Areas\Cliente\Views\Home\" />
+    <Folder Include="Areas\Clientes\Data\" />
+    <Folder Include="Areas\Clientes\Models\" />
     <Folder Include="Areas\Operador\Data\" />
     <Folder Include="Areas\Operador\Models\" />
   </ItemGroup>

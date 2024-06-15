@@ -47,10 +47,11 @@ app.UseEndpoints(endpoints =>
     //    name: "default",
     //    pattern: "{controller=Home}/{action=Index}/{id?}");    ///RUTA A LA PANTALLA QUE MUESTRA LA FILA.
 
- 
-    _ =   endpoints.MapControllerRoute(
+
+    _ = endpoints.MapControllerRoute(
           name: "default",
           pattern: "{controller=Account}/{action=Login}/{id?}");
+
 });
 
 app.Run();

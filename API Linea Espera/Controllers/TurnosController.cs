@@ -11,10 +11,12 @@ namespace API_Linea_Espera.Controllers
     public class TurnosController : ControllerBase
     {
         public IRepository<Turnos> Repository { get; }
+        public IRepository<Cajas> RepCajas { get; }
         public static int UltimaPosicion { get; set; } 
-        public TurnosController(IRepository<Turnos> repository)
+        public TurnosController(IRepository<Turnos> repository, IRepository<Cajas> repcajas)
         {
             this.Repository = repository;
+            this.RepCajas = repcajas;
             UltimaPosicion = UltimaPosicion;
         }
 
@@ -265,9 +267,27 @@ namespace API_Linea_Espera.Controllers
                 })
                 .FirstOrDefault();
 
-            UltimaPosicion = turnoactual.Posicion;
+            if(turnoactual == null) {
+                var caja = RepCajas.Get(id);
 
-            return Ok(turnoactual);
+                if(caja != null)
+                {
+                    TurnoDTO t = new()
+                    {
+                        NombreCaja = caja.NombreCaja
+                    };
+
+
+                    return Ok(t);
+                }
+                return null;
+            }
+            else
+            {
+                UltimaPosicion = turnoactual.Posicion;
+
+                return Ok(turnoactual);
+            }
         }
 
         ///<summary>

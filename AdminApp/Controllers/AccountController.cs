@@ -37,7 +37,7 @@ namespace AdminApp.Controllers
             var jwtToken = handler.ReadToken(r) as JwtSecurityToken;
 
             //SACAR DE LAS CLAIMS EL ROL Y DE AHI DIRIGIR AL AREA CORRESPONDIENTE.
-
+            var Id = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "CajaIdentifier")?.Value;
             var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
 
             if(roleClaim == "Administrador")
@@ -46,7 +46,9 @@ namespace AdminApp.Controllers
             }
             else if(roleClaim == "Operador")
             {
-                return RedirectToAction("Index", "Turno", new { area = "Operador" });
+                int idcaja = int.Parse(Id);
+
+                return RedirectToAction("Index", "Turno", new { area = "Operador", idcaja});
             }
 
             return View(vm);

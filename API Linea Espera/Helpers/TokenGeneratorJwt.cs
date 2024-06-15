@@ -9,8 +9,8 @@ namespace API_Linea_Espera.Helpers
 {
     public class TokenGeneratorJwt
     {
-
-        public string GetToken(string nombre, string rol, string id)
+        public const string CajaIdentifier = "CajaIdentifier";
+        public string GetToken(string nombre, string rol, string id, string? idcaja)
         {
             List<Claim> claims = new();
 
@@ -21,6 +21,7 @@ namespace API_Linea_Espera.Helpers
             else if(rol=="Operador")
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Operador"));
+                claims.Add(new Claim(CajaIdentifier, idcaja));   //OBTENER ID CAJA PARA ACCEDER A METODOS.
             }
             else
             {
@@ -29,7 +30,6 @@ namespace API_Linea_Espera.Helpers
             claims.Add(new Claim(ClaimTypes.Name, nombre));
             claims.Add(new Claim(ClaimTypes.Role, rol));
             claims.Add(new Claim(ClaimTypes.NameIdentifier, id));
-
 
             JwtSecurityTokenHandler handler = new();
 
