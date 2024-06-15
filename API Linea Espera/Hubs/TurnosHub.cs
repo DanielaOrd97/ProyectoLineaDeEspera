@@ -101,7 +101,7 @@ namespace API_Linea_Espera.Hubs
                             IdTurno = turno.IdTurno,
                             NombreCaja = turno.Caja.NombreCaja,
                             EstadoTurno = turno.Estado.Estado
-                        });
+                        }).FirstOrDefault();
 
                     await Clients.All.SendAsync("LlamadoCliente", turnoactualizado);
                 }

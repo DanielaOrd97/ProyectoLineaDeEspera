@@ -12,8 +12,12 @@
     <VerticalStackLayout>
         <Label>Generar Ticket</Label>
         <Label>Cajas:</Label>
-        <Picker ItemsSource="{Binding ListaCajas}" ItemDisplayBinding="{Binding NombreCaja}"></Picker>
-        <Button Text="GENERAR TURNO"></Button>
+        <Picker ItemsSource="{Binding ListaCajas}" x:Name="idCAJA" ItemDisplayBinding="{Binding NombreCaja}" SelectedItem="{Binding Caja,Mode=TwoWay}"></Picker>
+        <Button Text="GENERAR TURNO" Margin="0,20,0,20" Command="{Binding GenerarCommand}"></Button>
         <Button Text="ABANDONAR FILA"></Button>
+
+        <Label Text="{Binding Turno.IdTurno}"></Label>
+        <Label Text="{Binding Turno.EstadoTurno}"></Label>
+
     </VerticalStackLayout>
 </ContentPage>
