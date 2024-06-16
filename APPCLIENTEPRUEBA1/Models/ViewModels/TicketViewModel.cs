@@ -116,6 +116,14 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                 Mensaje = x;
                 Turno = null;
             });
+            hub.On<TurnoDTO>("AtenderCliente", x =>
+            {
+                Turno = x;
+            });
+            hub.On<TurnoDTO>("Terminar", x =>
+            {
+                Turno = x;
+            });
         }
     }
 }
