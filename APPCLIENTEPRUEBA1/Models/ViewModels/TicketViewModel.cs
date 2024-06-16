@@ -30,25 +30,38 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         [ObservableProperty]
         private TurnoDTO? turno;
-        public int IdTurno { get; set; }
-        public string EstadoTurno { get; set; }
 
-        //[ObservableProperty]
-        //private TurnoDTO? turno;
+        [ObservableProperty]
+        private string? mensaje;
 
+        [ObservableProperty]
+        private bool activo;
 
+        
 
         [RelayCommand]
         public async Task Generar()
         {
             if (Caja != null)
             {
-                await hub.InvokeAsync("AddTurno", Caja.Id);            }
+                await hub.InvokeAsync("AddTurno", Caja.Id);    
+                Activo = false;
+            }
+        }
+
+        [RelayCommand]
+        public async Task Abandonar()
+        {
+            if(Turno != null)
+            {
+                await hub.InvokeAsync("DeleteTurno", Turno.IdTurno);
+            }
         }
 
 
         public TicketViewModel()
         {
+            Activo = true;
             CargarCajas();
             //EVENTO
             service.DatosActualizados += Service_DatosActualizados;
@@ -98,58 +111,11 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                 Turno = x;
             });
 
-
-
-            //    }
-
-            //public partial class GenerarTicketView : ContentPage
-            //{
-            //    HubConnection hub;
-            //    TurnoDTO dto = new();
-
-            //    public GenerarTicketView()
-            //    {
-            //        InitializeComponent();
-
-            //        Task.Run(() => Iniciar());
-            //    }
-
-
-            //    private async Task Iniciar()
-            //    {
-            //        hub = new HubConnectionBuilder()
-            //            .WithUrl("https://localhost:44385/turnos")
-            //            .WithAutomaticReconnect()
-            //            .Build();
-
-            //        await hub.StartAsync();
-
-
-            //        hub.On<TurnoDTO>("TurnoNuevo", x =>
-            //        {
-            //            MainThread.BeginInvokeOnMainThread(() =>
-            //            {
-            //                NumTurno.Text = x.IdTurno.ToString();
-            //                prueba.Text = x.EstadoTurno;
-            //            });
-            //        });
-
-
-
-            //    }
-
-
-
-            //    private async void generar_Clicked(object sender, EventArgs e)
-            //    {
-            //        //dto.IdCaja = 1;
-            //        await hub.InvokeAsync("AddTurno", 1);
-            //    }
-
-            //}
-
-
-
+            hub.On<string>("AbandonarTurno", x =>
+            {
+                Mensaje = x;
+                Turno = null;
+            });
         }
     }
 }

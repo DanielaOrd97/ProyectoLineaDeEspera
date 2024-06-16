@@ -72,6 +72,7 @@
             });
 
             connection.on("LlamadoCliente", (TurnoViewModel) => {
+                console.log(TurnoViewModel);
                 console.log("Si funciona el evento");
                 //console.log(TurnoViewModel[0].idTurno);
                 Prueba(TurnoViewModel);
@@ -96,37 +97,51 @@
                 
             })
 
+            // function Prueba(TurnoViewModel) {
+            //     const filas = tabla.getElementsByTagName("tr");
+
+            //     for (let i = 0; i < filas.length; i++) {
+            //         const e = filas[i].getElementsByTagName("td");
+            //         for (let j = 0; j < e.length; j++) {
+            //             if (e[j].textContent == TurnoViewModel[0].idTurno) {
+            //                 e[2].innerText = TurnoViewModel[0].estadoTurno;
+
+            //                 if (e[2].innerText == "Adelante") {
+            //                     filas[i].style.backgroundColor = "#799351";
+            //                 } else if (e[2].innerText == "En proceso") {
+            //                     filas[i].style.backgroundColor = "#FF7F3E";
+            //                 } else if (e[2].innerText == "Terminado") {
+            //                     ter = filas[i];
+            //                     ter.style.backgroundColor = "#5C88C4";
+            //                 }
+            //                 break;
+            //             }
+            //         }
+            //     }
+            // }
+
             function Prueba(TurnoViewModel) {
-                //console.log(TurnoViewModel);
+                console.log(TurnoViewModel);
+
                 const filas = tabla.getElementsByTagName("tr");
 
                 for (let i = 0; i < filas.length; i++) {
                     const e = filas[i].getElementsByTagName("td");
                     for (let j = 0; j < e.length; j++) {
-                        //console.log(e[j]);
                         if (e[j].textContent == TurnoViewModel[0].idTurno) {
 
-                            //filas[i].style.backgroundColor = "Green";
-                            //filas[i].style.color = "White";
                             e[2].innerText = TurnoViewModel[0].estadoTurno;
 
                             if (e[2].innerText == "Adelante") {
                                 filas[i].style.backgroundColor = "#799351";
-                                //filas[i].style.color = "White";
-                                //e[2].style.backgroundColor = "#799351";
                             }
                             else if (e[2].innerText == "En proceso") {
                                 filas[i].style.backgroundColor = "#FF7F3E";
-                                //filas[i].style.color = "White";
-                                //e[2].style.backgroundColor = "#FF7F3E";
                             }
                             else if (e[2].innerText == "Terminado") {
-                               //filas[i].style.backgroundColor = "#5C88C4";
                                 ter = filas[i];
                                 ter.style.backgroundColor = "#5C88C4";
                             }
-
-                            //e[2].style.backgroundColor = "Green";
                             break;
                         }
                     }

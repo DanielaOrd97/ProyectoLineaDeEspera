@@ -64,17 +64,11 @@ namespace API_Linea_Espera.Hubs
                 var turno = Repository.GetAllTurnosWithInclude()
                     .Where(x => x.IdTurno == idTurno).FirstOrDefault();
 
-                //Turnos entity = new()
-                //{
-                //    IdTurno = turno.IdTurno,
-                //    CajaId = turno.CajaId,
-                //    EstadoId = 1,    ///En default esta en espera.
-                //};
                 if(turno != null)
                 {
                     Repository.Delete(turno);
                 }
-                await Clients.All.SendAsync("AbandonarTurno");
+                await Clients.All.SendAsync("AbandonarTurno","Usted ha abandonado la fila.");
             }
         }
 
@@ -127,7 +121,7 @@ namespace API_Linea_Espera.Hubs
                             IdTurno = turno.IdTurno,
                             NombreCaja = turno.Caja.NombreCaja,
                             EstadoTurno = turno.Estado.Estado
-                        });
+                        }).FirstOrDefault();
 
                     await Clients.All.SendAsync("AtenderCliente", turnoactualizado);
                 }
@@ -153,7 +147,7 @@ namespace API_Linea_Espera.Hubs
                             IdTurno = turno.IdTurno,
                             NombreCaja = turno.Caja.NombreCaja,
                             EstadoTurno = turno.Estado.Estado
-                        });
+                        }).FirstOrDefault();
 
                     await Clients.All.SendAsync("Terminar", turnoactualizado);
                 }

@@ -13,11 +13,26 @@
         <Label>Generar Ticket</Label>
         <Label>Cajas:</Label>
         <Picker ItemsSource="{Binding ListaCajas}" x:Name="idCAJA" ItemDisplayBinding="{Binding NombreCaja}" SelectedItem="{Binding Caja,Mode=TwoWay}"></Picker>
-        <Button Text="GENERAR TURNO" Margin="0,20,0,20" Command="{Binding GenerarCommand}"></Button>
-        <Button Text="ABANDONAR FILA"></Button>
+        <Button Text="GENERAR TURNO" Margin="0,20,0,20" Command="{Binding GenerarCommand}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="true">
+                            <Setter Property="IsEnabled" Value="True"></Setter>
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="false">
+                            <Setter Property="IsEnabled" Value="False"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Text="ABANDONAR FILA" Command="{Binding AbandonarCommand}"></Button>
 
         <Label Text="{Binding Turno.IdTurno}"></Label>
         <Label Text="{Binding Turno.EstadoTurno}"></Label>
+
+        <Label Text="{Binding Mensaje}"></Label>
 
     </VerticalStackLayout>
 </ContentPage>
