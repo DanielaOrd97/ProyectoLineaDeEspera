@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
+using FluentValidation.Results;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -13,9 +14,12 @@ namespace API_Linea_Espera.Controllers
     public class UsuariosController : ControllerBase
     {
         public IRepository<Usuarios> Repository { get; }
-        public UsuariosController(IRepository<Usuarios> repository)
+        readonly API_Linea_Espera.Models.Validators.UsuarioValidator usuarioValidator;
+        public UsuariosController(IRepository<Usuarios> repository,
+            Models.Validators.UsuarioValidator usuarioValidator)
         {
             this.Repository = repository;
+            this.usuarioValidator = usuarioValidator;
         }
 
         private UsuarioDTO MapToDto(Usuarios usuarios)
@@ -120,6 +124,15 @@ namespace API_Linea_Espera.Controllers
         [HttpPost("AgregarOperador")]
         public IActionResult PostOperador(UsuarioDTO dto)
         {
+            var validationResult=usuarioValidator.Validate(dto);
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors) {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                } 
+                
+                return BadRequest();
+            }
             if (dto != null)
             {
                 dto.IdRol = 2; //Asignar rol operador.
@@ -140,6 +153,15 @@ namespace API_Linea_Espera.Controllers
         [HttpPut("EditarOperador")]
         public IActionResult PutOperador(UsuarioDTO dto)
         {
+            var validationResult=usuarioValidator.Validate(dto);
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
             if (dto != null)
             {
                 var operador = Repository.GetAllWithInclude()

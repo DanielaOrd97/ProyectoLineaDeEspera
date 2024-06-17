@@ -2,6 +2,7 @@ using API_Linea_Espera.Hubs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +17,12 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddSignalR();
 
-
+# region Validators
+builder.Services.AddTransient<API_Linea_Espera.Models.Validators.CajaValidator>();
+builder.Services.AddTransient<API_Linea_Espera.Models.Validators.RolValidator>();
+builder.Services.AddTransient<API_Linea_Espera.Models.Validators.TurnoValidator>();
+builder.Services.AddTransient<API_Linea_Espera.Models.Validators.UsuarioValidator>();
+#endregion
 
 var connectionString = builder.Configuration.GetConnectionString("BancoConnectionString");
 
