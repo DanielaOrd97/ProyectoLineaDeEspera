@@ -31,6 +31,9 @@ namespace AdminApp.Controllers
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel vm)
         {
+            if (!ModelState.IsValid) { 
+            return View(vm);
+            }
            var r = await service.LogIn(vm);
 
             var handler = new JwtSecurityTokenHandler();

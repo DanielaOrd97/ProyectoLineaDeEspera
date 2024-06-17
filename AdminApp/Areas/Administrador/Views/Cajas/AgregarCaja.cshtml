@@ -21,6 +21,7 @@
                     <div class="Contenedor">
                         <label for="nombre">Nombre:</label>
                         <input type="text" id="nombre" name="NombreCaja" value="@Model.NombreCaja" required />
+                        @Html.ValidationMessageFor(model => model.NombreCaja, "", new { @class = "text-danger" })
                     </div>
                     <div class="Contenedor">
                         <label for="nombre">Estado:</label>
@@ -28,6 +29,7 @@
                             <option value="1">Activa</option>
                             <option value="0">No activa</option>
                         </select>
+                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

@@ -18,6 +18,12 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+#region Validators
+builder.Services.AddTransient<AdminApp.Models.Validators.LogInValidator>();
+builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.CajaAdminValidator>();
+builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.UsuariosAdminValidator>();
+
+#endregion
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

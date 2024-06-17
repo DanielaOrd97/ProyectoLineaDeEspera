@@ -86,7 +86,11 @@ namespace AdminApp.Areas.Administrador.Controllers
 		public async Task<IActionResult> AgregarUsuario(AgregarUsuarioViewModel1 vm)
 		{
 			//Agregar validaciones correctamente.
-
+			if (!ModelState.IsValid)
+			{
+				//si la validacion falla, volvemos a la  vista con los errores de validacion
+				return View(vm);
+			}
 			if (vm != null)
 			{
 				if(vm.IdCaja == 0)
@@ -123,6 +127,10 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> EditarUsuario(AgregarUsuarioViewModel1 vm)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(vm) ;
+			}
 			if (vm != null)
 			{
 				var usuario = await Service.GetUsuario((int)vm.Id);
