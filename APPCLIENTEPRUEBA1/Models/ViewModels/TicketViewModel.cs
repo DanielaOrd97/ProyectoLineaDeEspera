@@ -111,10 +111,11 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                 Turno = x;
             });
 
-            hub.On<string>("AbandonarTurno", x =>
+            hub.On<TurnoDTO>("AbandonarTurno", x =>
             {
-                Mensaje = x;
+                //Turno = x;
                 Turno = null;
+                Mensaje = "Usted ha abandonado la fila.";
             });
             hub.On<TurnoDTO>("AtenderCliente", x =>
             {
@@ -124,7 +125,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             {
                 Turno = x;
             });
-        }
+        } 
     }
 }
 

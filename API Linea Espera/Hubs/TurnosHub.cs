@@ -56,19 +56,33 @@ namespace API_Linea_Espera.Hubs
         /// ABANDONAR TURNO.
         /// </summary>
         /// <returns></returns>
-        public async Task DeleteTurno(int idTurno)
+        public async Task DeleteTurno(int id)
         {
-            if(idTurno != 0)
+            if(id != 0)
             {
                 //selecciono de la cola solo mi turno.
                 var turno = Repository.GetAllTurnosWithInclude()
-                    .Where(x => x.IdTurno == idTurno).FirstOrDefault();
+                    .Where(x => x.IdTurno == id)
+                    .FirstOrDefault();
 
-                if(turno != null)
+                
+
+                if (turno != null)
                 {
                     Repository.Delete(turno);
                 }
-                await Clients.All.SendAsync("AbandonarTurno","Usted ha abandonado la fila.");
+
+                TurnoDTO t = new()
+                {
+                    IdTurno = turno.IdTurno,
+                    NombreCaja = turno.Caja.NombreCaja,
+                    EstadoTurno = turno.Estado.Estado,
+                    Posicion = turno.Posicion
+                };
+
+                await Clients.All.SendAsync("AbandonarTurno", t);
+
+                //await Clients.All.SendAsync("AbandonarTurno","Usted ha abandonado la fila.");
             }
         }
 

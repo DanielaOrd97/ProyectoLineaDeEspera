@@ -30,140 +30,6 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
 
-  @*   <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            ActualizarColores();
-            const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:44385/turnos", {
-                    skipNegotiation: true,
-                    transport: signalR.HttpTransportType.WebSockets,
-                })
-                .withAutomaticReconnect()
-                .build();
-
-            async function start() {
-                try {
-                    await connection.start();
-                    console.log("SignalR Connected.");
-                    ActualizarColores();
-                } catch (err) {
-                    console.log(err);
-                    setTimeout(start, 5000);
-                }
-            }
-
-            var tabla = document.querySelector("#bodyTabla");
-
-            connection.on("TurnoNuevo", (TurnoViewModel) => {
-                console.log(TurnoViewModel);
-                var tr = document.createElement("tr");
-                var td1 = document.createElement("td");
-                var td2 = document.createElement("td");
-                var td3 = document.createElement("td");
-                console.log(TurnoViewModel.nombreCaja);
-                td1.textContent = TurnoViewModel.nombreCaja;
-                td2.textContent = TurnoViewModel.idTurno;
-                td3.textContent = TurnoViewModel.estadoTurno;
-                tr.append(td1);
-                tr.append(td2);
-                tr.append(td3);
-                tabla.append(tr);
-                ActualizarColores();
-            });
-
-            connection.on("LlamadoCliente", (TurnoViewModel) => {
-                console.log("Si funciona el evento");
-                //console.log(TurnoViewModel[0].idTurno);
-                Prueba(TurnoViewModel);
-            });
-
-            connection.on("AtenderCliente", (TurnoViewModel) => {
-                Prueba(TurnoViewModel);
-            })
-
-            var ter;
-
-            connection.on("Terminar", (TurnoViewModel) => {
-                Prueba(TurnoViewModel);
-
-                console.log(ter);
-
-                setTimeout(function () {
-                    if (ter) {
-                        ter.style.display = "none";
-                    }
-                }, 2000);
-
-            })
-
-            function Prueba(TurnoViewModel) {
-                //console.log(TurnoViewModel);
-                const filas = tabla.getElementsByTagName("tr");
-
-                for (let i = 0; i < filas.length; i++) {
-                    const e = filas[i].getElementsByTagName("td");
-                    for (let j = 0; j < e.length; j++) {
-                        //console.log(e[j]);
-                        if (e[j].textContent == TurnoViewModel[0].idTurno) {
-
-                            //filas[i].style.backgroundColor = "Green";
-                            //filas[i].style.color = "White";
-                            e[2].innerText = TurnoViewModel[0].estadoTurno;
-
-                            if (e[2].innerText == "Adelante") {
-                                filas[i].style.backgroundColor = "#799351";
-                                //filas[i].style.color = "White";
-                                //e[2].style.backgroundColor = "#799351";
-                            }
-                            else if (e[2].innerText == "En proceso") {
-                                filas[i].style.backgroundColor = "#FF7F3E";
-                                //filas[i].style.color = "White";
-                                //e[2].style.backgroundColor = "#FF7F3E";
-                            }
-                            else if (e[2].innerText == "Terminado") {
-                                //filas[i].style.backgroundColor = "#5C88C4";
-                                ter = filas[i];
-                                ter.style.backgroundColor = "#5C88C4";
-                            }
-
-                            //e[2].style.backgroundColor = "Green";
-                            break;
-                        }
-                    }
-                }
-            }
-
-            function ActualizarColores() {
-                var tabla = document.querySelector("#bodyTabla");
-                const filas = tabla.getElementsByTagName("tr");
-                for (let i = 0; i < filas.length; i++) {
-                    const celdas = filas[i].getElementsByTagName("td");
-                    if (celdas[2] && celdas[2].innerText == "En espera") {
-                        //celdas[2].style.backgroundColor = "#FFEEA9";
-                        filas[i].style.backgroundColor = "#FFEEA9";
-                    }
-                    else if (celdas[2] && celdas[2].innerText == "Adelante") {
-                        //celdas[2].style.backgroundColor = "#81A263";
-                        filas[i].style.backgroundColor = "#81A263";
-                    }
-                    else if (celdas[2] && celdas[2].innerText == "En proceso") {
-                        //celdas[2].style.backgroundColor = "#FF7F3E";
-                        filas[i].style.backgroundColor = "#FF7F3E";
-                    }
-                    else if (celdas[2] && celdas[2].innerText == "Terminado") {
-                        //celdas[2].style.backgroundColor = "#FF7F3E";
-                        filas[i].style.backgroundColor = "#5C88C4";
-                        filas[i].style.display = "none";
-                    }
-
-                }
-            }
-
-            start();
-        });
-    </script> *@
-
-
     <script>
         document.addEventListener('DOMContentLoaded', (event) => {
             ActualizarColores();
@@ -216,6 +82,21 @@
             connection.on("AtenderCliente", (TurnoViewModel) => {
                 console.log(TurnoViewModel);
                 Prueba(TurnoViewModel);
+            });
+
+            connection.on("AbandonarTurno", (TurnoViewModel) => {
+
+                const filas = tabla.getElementsByTagName("tr");
+                for (let i = 0; i < filas.length; i++) {
+                    const e = filas[i].getElementsByTagName("td");
+                    for (let j = 0; j < e.length; j++){
+                        if (e[j].textContent == TurnoViewModel.idTurno) {
+                            //filas[i].style.visibility = "none";
+                            filas[i].remove();
+                            break;
+                        }
+                    }
+                }
             });
 
             var ter;
