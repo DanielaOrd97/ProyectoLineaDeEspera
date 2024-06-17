@@ -1,8 +1,10 @@
 ﻿using API_Linea_Espera.Models.DTOs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -12,12 +14,16 @@ namespace API_Linea_Espera.Controllers
     {
         public IRepository<Turnos> Repository { get; }
         public IRepository<Cajas> RepCajas { get; }
+        readonly Models.Validators.TurnoValidator turnoValidator;
         public static int UltimaPosicion { get; set; } 
-        public TurnosController(IRepository<Turnos> repository, IRepository<Cajas> repcajas)
+        public TurnosController(IRepository<Turnos> repository,
+            IRepository<Cajas> repcajas, 
+            Models.Validators.TurnoValidator turnoValidator)
         {
             this.Repository = repository;
             this.RepCajas = repcajas;
             UltimaPosicion = UltimaPosicion;
+            this.turnoValidator = turnoValidator;
         }
 
         ///<summary>
@@ -121,6 +127,15 @@ namespace API_Linea_Espera.Controllers
         [HttpPost]
         public IActionResult PostTurno(TurnoDTO dto)
         {
+            var validationResult=turnoValidator.Validate(dto);
+            if (!validationResult.IsValid)
+            {
+                foreach(var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
             if(dto != null)
             {
                 Turnos entity = new()

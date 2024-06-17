@@ -3,8 +3,10 @@ using API_Linea_Espera.Models.DTOs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
+using FluentValidation.Results;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -15,18 +17,31 @@ namespace API_Linea_Espera.Controllers
         public IRepository<Usuarios> RepositoryUsuarios { get; }
         public IRepository<Cajas> RepositoryCajas { get; }
         public IRepository<Roles> RepositoryRoles { get; }
+        readonly Models.Validators.UsuarioValidator usuarioValidator;
         public LoginController(IRepository<Usuarios> repositoryUsuarios, 
-            IRepository<Cajas> repositoryCajas, IRepository<Roles> repositoryRoles)
+            IRepository<Cajas> repositoryCajas,
+            IRepository<Roles> repositoryRoles, Models.Validators.UsuarioValidator usuarioValidator)
         {
             this.RepositoryUsuarios = repositoryUsuarios;
             this.RepositoryCajas = repositoryCajas;
             this.RepositoryRoles = repositoryRoles;
+            this.usuarioValidator = usuarioValidator;
         }
 
 
         [HttpPost]
         public IActionResult Post(UsuarioDTO usuarioDTO)
         {
+            var validationResult=usuarioValidator.Validate(usuarioDTO);
+            //ValidationResult validationResult = usuarioValidator.Validate(usuarioDTO);
+            if (!validationResult.IsValid)
+            {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            }
             if (string.IsNullOrWhiteSpace(usuarioDTO.NombreUsuario))
             {
                 ModelState.AddModelError("", "Proporcione el nombre de usuario para iniciar sesión");

@@ -3,6 +3,7 @@ using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -11,9 +12,13 @@ namespace API_Linea_Espera.Controllers
     public class CajasController : ControllerBase
     {
         public IRepository<Cajas> Repository { get; }
-        public CajasController(IRepository<Cajas> repository)
+        readonly API_Linea_Espera.Models.Validators.CajaValidator cajasValidator;
+        public CajasController(IRepository<Cajas> repository, 
+            API_Linea_Espera.Models.Validators.CajaValidator cajasValidator)
         {
             this.Repository = repository;
+           this.cajasValidator = cajasValidator;
+            
         }
 
         ///<summary>
@@ -66,8 +71,16 @@ namespace API_Linea_Espera.Controllers
         [HttpPost]
         public IActionResult PostCaja(CajaDTO dto)
         {
-            if (dto != null)
+            var validationResult=cajasValidator.Validate(dto);
+            if (!validationResult.IsValid)
             {
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+
+            }
                 Cajas entity = new()
                 {
                     IdCaja = 0,
@@ -77,8 +90,6 @@ namespace API_Linea_Espera.Controllers
 
                 Repository.Insert(entity);
                 return Ok();
-            }
-            return BadRequest();
         }
 
         ///<summary>
@@ -88,8 +99,16 @@ namespace API_Linea_Espera.Controllers
         [HttpPut]
         public IActionResult PutCaja(CajaDTO dto)
         {
-            if (dto != null)
-            {
+            var validationResult=cajasValidator.Validate(dto);
+            if (!validationResult.IsValid) { 
+                foreach (var error in validationResult.Errors)
+                {
+                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+                }
+                return BadRequest(ModelState);
+            
+            }
+            
                 var caja = Repository.Get(dto.Id);
 
                 if (caja != null)
@@ -100,8 +119,6 @@ namespace API_Linea_Espera.Controllers
                     Repository.Update(caja);
                     return Ok();
                 }
-
-            }
             return NotFound();
         }
 

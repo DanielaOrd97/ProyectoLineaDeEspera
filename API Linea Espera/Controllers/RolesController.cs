@@ -11,10 +11,13 @@ namespace API_Linea_Espera.Controllers
 	public class RolesController : ControllerBase
 	{
 		public IRepository<Roles> Repository { get; }
-
-		public RolesController(IRepository<Roles> repository)
+		readonly API_Linea_Espera.Models.Validators.RolValidator rolValidator;
+		public RolesController(IRepository<Roles> repository,
+			API_Linea_Espera.Models.Validators.RolValidator rolValidator
+			)
         {
 			this.Repository = repository;
+			this.rolValidator = rolValidator;
 		}
 
 		[HttpGet]
