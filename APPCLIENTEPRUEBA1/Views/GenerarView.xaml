@@ -29,10 +29,24 @@
         </Button>
         <Button Text="ABANDONAR FILA" Command="{Binding AbandonarCommand}"></Button>
 
-        <Label Text="{Binding Turno.IdTurno}"></Label>
-        <Label Text="{Binding Turno.EstadoTurno}"></Label>
+        <Label Text="{Binding Turnocopy.IdTurno}"></Label>
+        <Label Text="{Binding Turnocopy.EstadoTurno}"></Label>
 
         <Label Text="{Binding Mensaje}"></Label>
+
+        <ListView ItemsSource="{Binding ListaTurnos}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding IdTurno}"></Label>
+                            <Label Text="{Binding NombreCaja}"></Label>
+                            <Label Text="{Binding EstadoTurno}"></Label>
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
 
     </VerticalStackLayout>
 </ContentPage>

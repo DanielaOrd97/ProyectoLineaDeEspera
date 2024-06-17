@@ -32,27 +32,28 @@ namespace API_Linea_Espera.Controllers
         [HttpPost]
         public IActionResult Post(UsuarioDTO usuarioDTO)
         {
-            var validationResult=usuarioValidator.Validate(usuarioDTO);
+            
+            //var validationResult=usuarioValidator.Validate(usuarioDTO);
             //ValidationResult validationResult = usuarioValidator.Validate(usuarioDTO);
-            if (!validationResult.IsValid)
-            {
-                foreach (var error in validationResult.Errors)
-                {
-                    ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-                }
-                return BadRequest(ModelState);
-            }
-            if (string.IsNullOrWhiteSpace(usuarioDTO.NombreUsuario))
-            {
-                ModelState.AddModelError("", "Proporcione el nombre de usuario para iniciar sesión");
-                return BadRequest(ModelState);
+           // if (!validationResult.IsValid)
+           // {
+           //     foreach (var error in validationResult.Errors)
+           //     {
+           //         ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
+           //     }
+           //     return BadRequest(ModelState);
+           // }
+            //if (string.IsNullOrWhiteSpace(usuarioDTO.NombreUsuario))
+            //{
+            //    ModelState.AddModelError("", "Proporcione el nombre de usuario para iniciar sesión");
+            //    return BadRequest(ModelState);
 
-            }
-            if (string.IsNullOrWhiteSpace(usuarioDTO.Contraseña))
-            {
-                ModelState.AddModelError("", "Proporcione la contraseña para iniciar sesión");
-                return BadRequest(ModelState);
-            }
+            //}
+            //if (string.IsNullOrWhiteSpace(usuarioDTO.Contraseña))
+            //{
+            //    ModelState.AddModelError("", "Proporcione la contraseña para iniciar sesión");
+            //    return BadRequest(ModelState);
+            //}
 
             var pass = ConvertPasswordToSHA512(usuarioDTO.Contraseña);
             var usuario = RepositoryUsuarios.GetAllWithInclude()

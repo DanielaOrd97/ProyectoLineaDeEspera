@@ -2,6 +2,7 @@
 using APPCLIENTEPRUEBA1.Models.Entities;
 using APPCLIENTEPRUEBA1.Repositories;
 using APPCLIENTEPRUEBA1.Services;
+//using AVFoundation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -18,8 +19,10 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
     public partial class TicketViewModel : ObservableObject
     {
         CajasRepository CajasRepository = new();
+        TurnosRepository TurnosRepository = new();
 
         public ObservableCollection<Caja> ListaCajas { get; set; } = new();
+        public ObservableCollection<Turno> ListaTurnos { get; set; } = new();   
 
         Service service = new();
         HubConnection hub;
@@ -30,6 +33,9 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         [ObservableProperty]
         private TurnoDTO? turno;
+
+        [ObservableProperty]
+        private TurnoDTO? turnocopy;
 
         [ObservableProperty]
         private string? mensaje;
@@ -63,6 +69,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         {
             Activo = true;
             CargarCajas();
+            CargarTurnos();
             //EVENTO
             service.DatosActualizados += Service_DatosActualizados;
             Task.Run(() => Iniciar());
@@ -77,11 +84,6 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         async void CargarCajas()
         {
-            if (ListaCajas.Count == 0)
-            {
-                await service.GetCajas();
-            }
-
             ListaCajas.Clear();
 
             foreach (var caja in CajasRepository.GetAll())
@@ -90,7 +92,30 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             }
         }
 
-        
+        async void CargarTurnos()
+        {
+            await service.GetTurnos();
+
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                ListaTurnos.Clear();
+
+                foreach (var turno in TurnosRepository.GetAll())
+                {
+                    if (turno.EstadoTurno != "Terminado")
+                    {
+                        ListaTurnos.Add(turno);
+                    }
+                }
+            });
+
+        }
+
+        async void Recargar(TurnoDTO turno)
+        {
+
+        }
+
 
         private async Task Iniciar()
         {
@@ -103,12 +128,16 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
             hub.On<TurnoDTO>("TurnoNuevo", x =>
             {
-                Turno = x;
+                //Turno = x;
+                Turnocopy = x;
+                CargarTurnos();
             });
 
             hub.On<TurnoDTO>("LlamadoCliente", x =>
             {
-                Turno = x;
+                //Turno = x;
+                Turnocopy = x;
+                CargarTurnos();
             });
 
             hub.On<TurnoDTO>("AbandonarTurno", x =>
@@ -119,11 +148,15 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             });
             hub.On<TurnoDTO>("AtenderCliente", x =>
             {
-                Turno = x;
+                //Turno = x;
+                Turnocopy = x;
+                CargarTurnos();
             });
             hub.On<TurnoDTO>("Terminar", x =>
             {
-                Turno = x;
+                //Turno = x;
+                Turnocopy = x;
+                CargarTurnos();
             });
         } 
     }
