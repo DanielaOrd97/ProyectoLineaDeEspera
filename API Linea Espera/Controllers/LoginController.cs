@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
 using FluentValidation.Results;
+using API_Linea_Espera.Models.Validators;
 
 namespace API_Linea_Espera.Controllers
 {
@@ -17,66 +18,59 @@ namespace API_Linea_Espera.Controllers
         public IRepository<Usuarios> RepositoryUsuarios { get; }
         public IRepository<Cajas> RepositoryCajas { get; }
         public IRepository<Roles> RepositoryRoles { get; }
-        readonly Models.Validators.UsuarioValidator usuarioValidator;
-        public LoginController(IRepository<Usuarios> repositoryUsuarios, 
-            IRepository<Cajas> repositoryCajas,
-            IRepository<Roles> repositoryRoles, Models.Validators.UsuarioValidator usuarioValidator)
+        public TokenGeneratorJwt JwtTokenGenerator { get; }
+        readonly UsuarioValidator usuarioValidator;
+
+        public LoginController(
+        IRepository<Usuarios> repositoryUsuarios,
+        IRepository<Cajas> repositoryCajas,
+        IRepository<Roles> repositoryRoles,
+        UsuarioValidator usuarioValidator,
+        TokenGeneratorJwt jwtTokenGenerator)
         {
             this.RepositoryUsuarios = repositoryUsuarios;
             this.RepositoryCajas = repositoryCajas;
             this.RepositoryRoles = repositoryRoles;
             this.usuarioValidator = usuarioValidator;
+            this.JwtTokenGenerator = jwtTokenGenerator;
         }
 
 
         [HttpPost]
-        public IActionResult Post(UsuarioDTO usuarioDTO)
+        public IActionResult Post([FromBody] UsuarioDTO usuarioDTO)
         {
-            
-            //var validationResult=usuarioValidator.Validate(usuarioDTO);
-            //ValidationResult validationResult = usuarioValidator.Validate(usuarioDTO);
-           // if (!validationResult.IsValid)
-           // {
-           //     foreach (var error in validationResult.Errors)
-           //     {
-           //         ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-           //     }
-           //     return BadRequest(ModelState);
-           // }
-            //if (string.IsNullOrWhiteSpace(usuarioDTO.NombreUsuario))
-            //{
-            //    ModelState.AddModelError("", "Proporcione el nombre de usuario para iniciar sesión");
-            //    return BadRequest(ModelState);
-
-            //}
-            //if (string.IsNullOrWhiteSpace(usuarioDTO.Contraseña))
-            //{
-            //    ModelState.AddModelError("", "Proporcione la contraseña para iniciar sesión");
-            //    return BadRequest(ModelState);
-            //}
-
-            var pass = ConvertPasswordToSHA512(usuarioDTO.Contraseña);
-            var usuario = RepositoryUsuarios.GetAllWithInclude()
-                .First(x => (x.NombreUsuario == usuarioDTO.NombreUsuario) && (x.Contraseña == pass));
-
-            if (usuario == null)
+            var validationResult = usuarioValidator.Validate(usuarioDTO);
+            if (!validationResult.IsValid)
             {
-                return NotFound();
+                return BadRequest(validationResult.Errors);
             }
-            else
+
+            try
             {
-                var rol = RepositoryRoles.GetAll().First(x => x.IdRol == usuario.IdRol);
+                var pass = ConvertPasswordToSHA512(usuarioDTO.Contraseña);
+                var usuario = RepositoryUsuarios.GetAllWithInclude()
+                    .FirstOrDefault(x => x.NombreUsuario == usuarioDTO.NombreUsuario && x.Contraseña == pass);
 
-                TokenGeneratorJwt jwtToken = new();
-
-                if (rol.NombreRol == "Operador")
+                if (usuario == null)
                 {
-                    return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString()));
+                    return NotFound("Usuario o contraseña incorrectos.");
                 }
 
+                var rol = RepositoryRoles.GetAll().FirstOrDefault(x => x.IdRol == usuario.IdRol);
+                if (rol == null)
+                {
+                    return NotFound("Rol del usuario no encontrado.");
+                }
 
-                return Ok(jwtToken.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null));
-                
+                string token = rol.NombreRol == "Operador"
+                    ? JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString())
+                    : JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null);
+
+                return Ok(new { token });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Ocurrió un error al procesar la solicitud.");
             }
         }
 

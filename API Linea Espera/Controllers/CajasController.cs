@@ -1,6 +1,7 @@
 ﻿using API_Linea_Espera.Models.DTOs;
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ namespace API_Linea_Espera.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy ="Administrador")]
     public class CajasController : ControllerBase
     {
         public IRepository<Cajas> Repository { get; }
