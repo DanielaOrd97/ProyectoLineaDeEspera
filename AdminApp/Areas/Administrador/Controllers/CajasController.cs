@@ -36,6 +36,10 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AgregarCaja(CajaViewModel1 vm)
 		{
+			if (!ModelState.IsValid)
+			{
+				return View(vm);
+			}
 			if(vm != null)
 			{
 				await Service.AddCaja(vm);
@@ -62,6 +66,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> EditarCaja(CajaViewModel1 vm)
 		{
+			if(!ModelState.IsValid){ return View(vm); }
 			if(vm != null)
 			{
 				var caja = await Service.GetCaja(vm.Id);

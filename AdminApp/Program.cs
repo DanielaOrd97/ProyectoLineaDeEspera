@@ -20,6 +20,9 @@ if (!app.Environment.IsDevelopment())
 }
 #region Validators
 builder.Services.AddTransient<AdminApp.Models.Validators.LogInValidator>();
+builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.CajaAdminValidator>();
+builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.UsuariosAdminValidator>();
+
 #endregion
 
 app.UseHttpsRedirection();
