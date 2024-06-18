@@ -10,7 +10,7 @@ namespace API_Linea_Espera.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy ="Administrador")]
+    [Authorize(Policy = "Administrador")]
     public class CajasController : ControllerBase
     {
         public IRepository<Cajas> Repository { get; }

@@ -37,8 +37,9 @@ namespace AdminApp.Controllers
             var resultado = validator.Validate(vm);
 
             if (!ModelState.IsValid) { 
-                vm.Error = string.Join("\n", resultado.Errors.Select(x => x.ErrorMessage));
-                return View(vm);
+                //vm.Error = string.Join("\n", resultado.Errors.Select(x => x.ErrorMessage));
+                vm.Error = string.Join(Environment.NewLine, resultado.Errors.Select(x => x.ErrorMessage));
+				return View(vm);
             }
            var r = await service.LogIn(vm);
 

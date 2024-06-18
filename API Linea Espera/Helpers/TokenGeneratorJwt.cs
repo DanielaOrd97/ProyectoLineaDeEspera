@@ -14,7 +14,7 @@ namespace API_Linea_Espera.Helpers
         {
             List<Claim> claims = new();
 
-            if (nombre=="Administrador")
+            if (rol=="Administrador")
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Administrador"));
             }

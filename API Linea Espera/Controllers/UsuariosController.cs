@@ -6,11 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Cryptography;
 using System.Text;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 
 namespace API_Linea_Espera.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "Administrador")]
     public class UsuariosController : ControllerBase
     {
         public IRepository<Usuarios> Repository { get; }

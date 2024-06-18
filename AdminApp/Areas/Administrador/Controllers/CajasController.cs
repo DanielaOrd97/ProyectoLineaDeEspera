@@ -42,8 +42,8 @@ namespace AdminApp.Areas.Administrador.Controllers
 			var resultado = validator.Validate(vm);
 			if (!ModelState.IsValid)
 			{
-				vm.Error = string.Join("\n", resultado.Errors.Select(x => x.ErrorMessage));
-                return View(vm);
+				vm.Error = string.Join(Environment.NewLine, resultado.Errors.Select(x => x.ErrorMessage));
+				return View(vm);
 			}
 			if(vm != null)
 			{

@@ -86,12 +86,17 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         async void CargarCajas()
         {
-            ListaCajas.Clear();
+            await service.GetCajas();
 
-            foreach (var caja in CajasRepository.GetAll())
+            MainThread.BeginInvokeOnMainThread(() =>
             {
-                ListaCajas.Add(caja);
-            }
+                ListaCajas.Clear();
+
+                foreach (var caja in CajasRepository.GetAll())
+                {
+                    ListaCajas.Add(caja);
+                }
+            });
         }
 
         async void CargarTurnos()

@@ -17,41 +17,43 @@
 				<div class="form-group">
 					<div class="half-width">
 						<label for="nombre">Nombre de usuario:</label>
-						<input type="text" id="nombre" name="NombreUsuario" value="@Model.NombreUsuario" required />
-						@Html.ValidationMessageFor(model => model.NombreUsuario, "", new { @class = "text-danger" })
+						<input type="text" id="nombre" name="NombreUsuario" value="@Model.NombreUsuario" />
+						@* @Html.ValidationMessageFor(model => model.NombreUsuario, "", new { @class = "text-danger" }) *@
 					</div>
 					<div class="half-width">
 						<label for="apellidos">Contraseña:</label>
-						<input type="text" id="apellidos" name="Contraseña" value="@Model.Contraseña" required />
-						@Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" })
+						<input type="text" id="apellidos" name="Contraseña" value="@Model.Contraseña" />
+						@* @Html.ValidationMessageFor(model => model.Contraseña, "", new { @class = "text-danger" }) *@
 					</div>
 					<div class="half-width">
 						<label for="apellidos">Nombre:</label>
-						<input type="text" id="apellidos" name="Nombre" value="@Model.Nombre" required />
-						@Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+						<input type="text" id="apellidos" name="Nombre" value="@Model.Nombre" />
+					@* 	@Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" }) *@
 					</div>
 					<div class="half-width">
 						<label for="IdRol">Rol:</label>
 						<select id="IdRol" value="@Model.IdRol" name="IdRol">
-							@foreach (var item in Model.ListaRoles)
-							{
-								<option value="@item.Id">@item.NombreRol</option>
-							}
+						
+								@foreach (var item in Model.ListaRoles)
+								{
+									<option value="@item.Id">@item.NombreRol</option>
+								}
 						</select>
-						@Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" })
+						@* @Html.ValidationMessageFor(model => model.IdRol, "", new { @class = "text-danger" }) *@
 					</div>
 					<div class="half-width">
 						<label for="IdCaja">Caja:</label>
 						<select id="IdCaja" value="@Model.IdCaja" name="IdCaja">
-							@foreach (var item in Model.ListaCajas)
-							{
-								<option value="@item.Id">@item.NombreCaja</option>
-							}
+								@foreach (var item in Model.ListaCajas)
+								{
+									<option value="@item.Id">@item.NombreCaja</option>
+								}
 							<option value="0">Ninguna</option>
 							</select>
-						@Html.ValidationMessageFor(model => model.IdCaja, "", new { @class = "text-danger" })
+						@* @Html.ValidationMessageFor(model => model.IdCaja, "", new { @class = "text-danger" }) *@
 					</div>
 				</div>
+				<label style="color: red">@Model.Error</label>
 			</div>
 			<!-- Botones -->
 			<div class="buttons">

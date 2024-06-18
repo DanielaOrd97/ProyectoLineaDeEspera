@@ -1,4 +1,5 @@
-﻿using AdminApp.Models.ViewModels;
+﻿using AdminApp.Areas.Administrador.Models.Validators;
+using AdminApp.Models.ViewModels;
 using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -82,13 +83,20 @@ namespace AdminApp.Areas.Administrador.Controllers
 			return View(vm);
 		}
 
+		UsuariosAdminValidator validator = new();
+
 		[HttpPost]
 		public async Task<IActionResult> AgregarUsuario(AgregarUsuarioViewModel1 vm)
 		{
+			var result = validator.Validate(vm);	
 			//Agregar validaciones correctamente.
 			if (!ModelState.IsValid)
 			{
+				vm.Error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
+
 				//si la validacion falla, volvemos a la  vista con los errores de validacion
+				vm.ListaRoles = await Service.GetAllRoles();
+				vm.ListaCajas = await Service.GetCajas();
 				return View(vm);
 			}
 			if (vm != null)
@@ -127,9 +135,14 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> EditarUsuario(AgregarUsuarioViewModel1 vm)
 		{
+			var result = validator.Validate(vm);
+
 			if (!ModelState.IsValid)
 			{
-				return View(vm) ;
+				vm.Error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
+				vm.ListaRoles = await Service.GetAllRoles();
+				vm.ListaCajas = await Service.GetCajas();
+				return View(vm);
 			}
 			if (vm != null)
 			{

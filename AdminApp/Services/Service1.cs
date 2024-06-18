@@ -4,7 +4,10 @@ using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NuGet.Packaging.Signing;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace AdminApp.Services
 {
@@ -51,6 +54,8 @@ namespace AdminApp.Services
         public async Task<List<UsuarioViewModel1>> GetAllUsuarios()
         {
             List<UsuarioViewModel1> usuarioslist = new();
+
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Usuarios");
 
@@ -148,7 +153,9 @@ namespace AdminApp.Services
         {
             List<RolViewModel1> listRoles = new();
 
-            var response = await client.GetAsync($"Roles");
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.GetAsync($"Roles");
 
             if (response.IsSuccessStatusCode)
             {
@@ -169,7 +176,9 @@ namespace AdminApp.Services
 
         public async Task AddUsuario(AgregarUsuarioViewModel1 dto)
         {
-            var response = await client.PostAsJsonAsync($"Usuarios/AgregarUsuario", dto);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.PostAsJsonAsync($"Usuarios/AgregarUsuario", dto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -179,6 +188,8 @@ namespace AdminApp.Services
 
         public async Task UpdateUsuario(AgregarUsuarioViewModel1 dto)
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
             var response = await client.PutAsJsonAsync($"Usuarios/{dto.Id}", dto);
 
             if (response.IsSuccessStatusCode)
@@ -199,16 +210,23 @@ namespace AdminApp.Services
 
         public async Task<AgregarUsuarioViewModel1> GetUsuario(int id)
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
             var response = await client.GetAsync($"Usuarios/{id}");
 
             if (response.IsSuccessStatusCode)
             {
                 var jsonresponse = await response.Content.ReadAsStringAsync();
                 var user = JsonConvert.DeserializeObject<AgregarUsuarioViewModel1>(jsonresponse);
+
+                    
+
                 return user;
             }
             return null;
         }
+
+
 
         public async Task<UsuarioViewModel1> GetUsuario1(int id)
         {
@@ -230,6 +248,8 @@ namespace AdminApp.Services
 
         public async Task<List<CajaViewModel1>> GetCajas()
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
             var response = await client.GetAsync($"Cajas");
 
             if (response.IsSuccessStatusCode)
@@ -244,7 +264,10 @@ namespace AdminApp.Services
 
         public async Task<CajaViewModel1> GetCaja(int id)
         {
-            var response = await client.GetAsync($"Cajas/{id}");
+
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.GetAsync($"Cajas/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -257,7 +280,9 @@ namespace AdminApp.Services
 
         public async Task AddCaja(CajaViewModel1 dto)
         {
-            var response = await client.PostAsJsonAsync($"Cajas", dto);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.PostAsJsonAsync($"Cajas", dto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -267,7 +292,9 @@ namespace AdminApp.Services
 
         public async Task UpdateCaja(CajaViewModel1 dto)
         {
-            var response = await client.PutAsJsonAsync($"Cajas", dto);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.PutAsJsonAsync($"Cajas", dto);
 
             if (response.IsSuccessStatusCode)
             {
@@ -403,6 +430,8 @@ namespace AdminApp.Services
         ///
         public async Task<int> GetCajasActivas()
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
             var response = await client.GetAsync($"Cajas/CajasActivas");
 
             if (response.IsSuccessStatusCode)
@@ -415,6 +444,8 @@ namespace AdminApp.Services
 
         public async Task<int> GetCajasInactivas()
         {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
             var response = await client.GetAsync($"Cajas/CajasInactivas");
 
             if (response.IsSuccessStatusCode)
