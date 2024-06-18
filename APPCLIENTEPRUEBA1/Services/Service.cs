@@ -28,7 +28,7 @@ namespace APPCLIENTEPRUEBA1.Services
         {
             bool aviso = false;
 
-            var response = await cliente.GetFromJsonAsync<List<CajaDTO>>($"Cajas");
+            var response = await cliente.GetFromJsonAsync<List<CajaDTO>>($"Cajas/Cliente");
 
             if(response != null)
             {
@@ -74,73 +74,73 @@ namespace APPCLIENTEPRUEBA1.Services
         }
 
 
-        public async Task GetTurnos()
-        {
-            bool aviso = false;
+        //public async Task GetTurnos()
+        //{
+        //    bool aviso = false;
 
-            var response = await cliente.GetFromJsonAsync<List<TurnoDTO>>($"Turnos");
+        //    var response = await cliente.GetFromJsonAsync<List<TurnoDTO>>($"Turnos");
 
-            if(response != null)
-            {
+        //    if(response != null)
+        //    {
 
-                var turnosExistentes = repositoryturnos.GetAll();
+        //        var turnosExistentes = repositoryturnos.GetAll();
 
-                if(turnosExistentes != response)
-                {
-                    foreach (var turnoExistente in turnosExistentes)
-                    {
-                        repositoryturnos.Delete(turnoExistente);
-                    }
-                }
+        //        if(turnosExistentes != response)
+        //        {
+        //            foreach (var turnoExistente in turnosExistentes)
+        //            {
+        //                repositoryturnos.Delete(turnoExistente);
+        //            }
+        //        }
 
-                foreach (TurnoDTO turno in response)
-                {
-                    var entidad = repositoryturnos.Get(turno.IdTurno ?? 0);
+        //        foreach (TurnoDTO turno in response)
+        //        {
+        //            var entidad = repositoryturnos.Get(turno.IdTurno ?? 0);
 
-                    if (entidad == null)   //QUE NO ESTE COOMO TERMINADO
-                    {
-                        entidad = new()
-                        {
-                            IdTurno = turno.IdTurno ?? 0,
-                            NombreCaja = turno.NombreCaja,
-                            EstadoTurno = turno.EstadoTurno,
-                            Posicion = turno.Posicion
-                        };
+        //            if (entidad == null)   //QUE NO ESTE COOMO TERMINADO
+        //            {
+        //                entidad = new()
+        //                {
+        //                    IdTurno = turno.IdTurno ?? 0,
+        //                    NombreCaja = turno.NombreCaja,
+        //                    EstadoTurno = turno.EstadoTurno,
+        //                    Posicion = turno.Posicion
+        //                };
 
-                        repositoryturnos.Insert(entidad);
-                        aviso = true;
-                    }
-                    else
-                    {
-                        if(entidad != null)
-                        {
-                            if(turno.EstadoTurno == "Terminado")
-                            {
-                                repositoryturnos.Delete(entidad);
-                                aviso = true;
-                            }
-                            else
-                            {
-                                if(turno.EstadoTurno != entidad.EstadoTurno)
-                                {
-                                    repositoryturnos.Update(entidad);
-                                    aviso = true;
-                                }
-                            }
-                        }
-                    }
-                }
+        //                repositoryturnos.Insert(entidad);
+        //                aviso = true;
+        //            }
+        //            else
+        //            {
+        //                if(entidad != null)
+        //                {
+        //                    if(turno.EstadoTurno == "Terminado")
+        //                    {
+        //                        repositoryturnos.Delete(entidad);
+        //                        aviso = true;
+        //                    }
+        //                    else
+        //                    {
+        //                        if(turno.EstadoTurno != entidad.EstadoTurno)
+        //                        {
+        //                            repositoryturnos.Update(entidad);
+        //                            aviso = true;
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
 
-                if (aviso)
-                {
+        //        if (aviso)
+        //        {
 
-                    _ = MainThread.InvokeOnMainThreadAsync(() =>
-                    {
-                        DatosActualizados?.Invoke();
-                    });
-                }
-            }
-        }
+        //            _ = MainThread.InvokeOnMainThreadAsync(() =>
+        //            {
+        //                DatosActualizados?.Invoke();
+        //            });
+        //        }
+        //    }
+        //}
 
     }
 }

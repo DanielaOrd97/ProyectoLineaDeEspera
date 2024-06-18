@@ -24,7 +24,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         HubConnection hub;
 
         public ObservableCollection<Caja> ListaCajas { get; set; } = new();
-        public ObservableCollection<Turno> ListaTurnos { get; set; } = new();   
+        //public ObservableCollection<Turno> ListaTurnos { get; set; } = new();   
 
         Service service = new();
 
@@ -44,6 +44,8 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         [ObservableProperty]
         private bool activo;
 
+        [ObservableProperty]
+        private string? aviso;
         
 
         [RelayCommand]
@@ -71,7 +73,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             Turnocopy = new();
             Activo = true;
             CargarCajas();
-            CargarTurnos();
+           // CargarTurnos();
             //EVENTO
             service.DatosActualizados += Service_DatosActualizados;
             Task.Run(() => Iniciar());
@@ -99,24 +101,24 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             });
         }
 
-        async void CargarTurnos()
-        {
-            await service.GetTurnos();
+        //async void CargarTurnos()
+        //{
+        //    await service.GetTurnos();
 
-            MainThread.BeginInvokeOnMainThread(() =>
-            {
-                ListaTurnos.Clear();
+        //    MainThread.BeginInvokeOnMainThread(() =>
+        //    {
+        //        ListaTurnos.Clear();
 
-                foreach (var turno in TurnosRepository.GetAll())
-                {
-                    if (turno.EstadoTurno != "Terminado")
-                    {
-                        ListaTurnos.Add(turno);
-                    }
-                }
-            });
+        //        foreach (var turno in TurnosRepository.GetAll())
+        //        {
+        //            if (turno.EstadoTurno != "Terminado")
+        //            {
+        //                ListaTurnos.Add(turno);
+        //            }
+        //        }
+        //    });
 
-        }
+        //}
 
         private async Task Iniciar()
         {
@@ -131,14 +133,14 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             {
                 //Turno = x;
                 Turnocopy = x;
-                CargarTurnos();
+                //CargarTurnos();
             });
 
             hub.On<TurnoDTO>("LlamadoCliente", x =>
             {
                 //Turno = x;
                 Turnocopy = x;
-                CargarTurnos();
+                //CargarTurnos();
             });
 
             hub.On<TurnoDTO>("AbandonarTurno", x =>
@@ -151,13 +153,14 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             {
                 //Turno = x;
                 Turnocopy = x;
-                CargarTurnos();
+                //CargarTurnos();
             });
             hub.On<TurnoDTO>("Terminar", x =>
             {
                 //Turno = x;
                 Turnocopy = x;
-                CargarTurnos();
+                Activo = true;
+                //CargarTurnos();
             });
         } 
     }

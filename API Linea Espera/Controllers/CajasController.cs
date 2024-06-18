@@ -10,7 +10,7 @@ namespace API_Linea_Espera.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "Administrador")]
+   // [Authorize(Policy = "Administrador")]
     public class CajasController : ControllerBase
     {
         public IRepository<Cajas> Repository { get; }
@@ -23,10 +23,11 @@ namespace API_Linea_Espera.Controllers
             
         }
 
-        ///<summary>
-        ///VER TODAS LAS CAJAS
-        ///</summary>
-        [HttpGet]
+		///<summary>
+		///VER TODAS LAS CAJAS
+		///</summary>
+		[Authorize(Policy = "Administrador")]
+		[HttpGet]
         public IActionResult GetAllCajas()
         {
             var cajas = Repository.GetAll()
@@ -41,11 +42,28 @@ namespace API_Linea_Espera.Controllers
             return Ok(cajas);
         }
 
-        ///<summary>
-        ///VER CAJA.
-        /// </summary>
-        /// 
-        [HttpGet("{id}")]
+
+		[HttpGet("Cliente")]
+		public IActionResult GetAllCajas1()
+		{
+			var cajas = Repository.GetAll()
+				.Select(x => new CajaDTO
+				{
+					Id = x.IdCaja,
+					NombreCaja = x.NombreCaja,
+					Estado = x.Estado,
+					EstadoTurno = x.Estado == 0 ? "Inactiva" : "Activa"
+				}); ;
+
+			return Ok(cajas);
+		}
+
+		///<summary>
+		///VER CAJA.
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpGet("{id}")]
         public IActionResult GetCaja(int id)
         {
             var caja = Repository.GetAll()
@@ -66,11 +84,12 @@ namespace API_Linea_Espera.Controllers
             return Ok(c);
         }
 
-        ///<summary>
-        ///AGREGAR CAJA
-        /// </summary>
-        /// 
-        [HttpPost]
+		///<summary>
+		///AGREGAR CAJA
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpPost]
         public IActionResult PostCaja(CajaDTO dto)
         {
             var validationResult=cajasValidator.Validate(dto);
@@ -94,11 +113,12 @@ namespace API_Linea_Espera.Controllers
                 return Ok();
         }
 
-        ///<summary>
-        ///EDITAR CAJA
-        /// </summary>
-        /// 
-        [HttpPut]
+		///<summary>
+		///EDITAR CAJA
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpPut]
         public IActionResult PutCaja(CajaDTO dto)
         {
             var validationResult=cajasValidator.Validate(dto);
@@ -125,11 +145,12 @@ namespace API_Linea_Espera.Controllers
         }
 
 
-        ///<summary>
-        ///ELIMINAR CAJA
-        /// </summary>
-        /// 
-        [HttpDelete("{id}")]
+		///<summary>
+		///ELIMINAR CAJA
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpDelete("{id}")]
         public IActionResult DeleteCaja(int id)
         {
             var caja = Repository.Get(id);
@@ -143,11 +164,12 @@ namespace API_Linea_Espera.Controllers
             return NotFound();
         }
 
-        ///<summary>
-        ///VER TOTAL DE CAJAS ACTIVAS
-        /// </summary>
-        /// 
-        [HttpGet("CajasActivas")]
+		///<summary>
+		///VER TOTAL DE CAJAS ACTIVAS
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpGet("CajasActivas")]
         public IActionResult VerTotalCajasActivas()
         {
             var activas = Repository.GetAll()
@@ -156,11 +178,12 @@ namespace API_Linea_Espera.Controllers
             return Ok(activas);
         }
 
-        ///<summary>
-        ///VER TOTAL DE CAJAS INACTIVAS
-        /// </summary>
-        /// 
-        [HttpGet("CajasInactivas")]
+		///<summary>
+		///VER TOTAL DE CAJAS INACTIVAS
+		/// </summary>
+		/// 
+		[Authorize(Policy = "Administrador")]
+		[HttpGet("CajasInactivas")]
         public IActionResult VerTotalCajasInactivas()
         {
             var inactivas = Repository.GetAll()

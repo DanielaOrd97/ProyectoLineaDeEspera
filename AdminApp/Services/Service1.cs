@@ -132,7 +132,9 @@ namespace AdminApp.Services
         /// 
         public async Task<List<List<TurnoViewModel1>>> GetTurnosPorCaja()
         {
-            List<List<TurnoViewModel1>> turnoslist = new();
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			List<List<TurnoViewModel1>> turnoslist = new();
             var response = await client.GetAsync($"Turnos/TurnosPorCaja");
 
             if (response.IsSuccessStatusCode)
@@ -343,7 +345,9 @@ namespace AdminApp.Services
         /// 
         public async Task<TurnoViewModel1> GetTurnoActual(int idcaja)
         {
-            var response = await client.GetAsync($"Turnos/TurnoActual/{idcaja}");
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.GetAsync($"Turnos/TurnoActual/{idcaja}");
 
             if (response.IsSuccessStatusCode)
             {

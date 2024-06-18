@@ -77,12 +77,34 @@
         </Button>
         <Button Text="ABANDONAR FILA" Command="{Binding AbandonarCommand}"></Button>
 
-        <Label Text="{Binding Turnocopy.IdTurno}"></Label>
-        <Label Text="{Binding Turnocopy.EstadoTurno}"></Label>
+        <Border StrokeThickness="4"
+        StrokeShape="RoundRectangle 10,10,10,10"
+        Background="#AA240B"
+        Padding="10"
+        HorizontalOptions="Center">
+            <Label Text="{Binding Turnocopy.IdTurno}"
+        HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   FontSize="25"
+        ></Label>
+        </Border>
+        
+        <!--<Label Text="{Binding Turnocopy.IdTurno}"
+               HorizontalOptions="CenterAndExpand"
+               BackgroundColor="Yellow"
+               ></Label>-->
+        <Label Text="{Binding Turnocopy.EstadoTurno}"
+                HorizontalOptions="CenterAndExpand"
+               FontAttributes="Bold"
+                FontSize="25"
+               Margin="0,10,0,0"
+               >
+        </Label>
 
         <Label Text="{Binding Mensaje}"></Label>
 
-        <ListView ItemsSource="{Binding ListaTurnos}">
+        <!--<ListView ItemsSource="{Binding ListaTurnos}">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -94,7 +116,7 @@
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
-        </ListView>
+        </ListView>-->
 
     </VerticalStackLayout>
 </ContentPage>

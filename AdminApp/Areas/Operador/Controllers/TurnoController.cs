@@ -59,7 +59,7 @@ namespace AdminApp.Areas.Operador.Controllers
         [HttpGet]
 		public async Task<IActionResult> AtrasarTurno()
         {
-            var turnoAnterior = Service.Atrasar(1);
+            var turnoAnterior = Service.Atrasar(IdCaja);
 
             TurnoViewModel1 vm = new();
             vm = await turnoAnterior;
