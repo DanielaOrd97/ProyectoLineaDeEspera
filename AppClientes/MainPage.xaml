@@ -3,62 +3,94 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AppClientes.MainPage"
              BackgroundColor="#F3F4F6"
+             Title="Generar Ticket"
              >
-    <VerticalStackLayout VerticalOptions="Center" 
-                         HorizontalOptions="Center"
-                         Spacing="20">
-        <Label
-            Text="Banco Tec"
-            FontSize="36"
-            FontAttributes="Bold"
-            TextColor="#B22222"
-            HorizontalOptions="Center"
-            Margin="0,20,0,10"/>
-        
-        <Picker x:Name="ServicePicker" Title="Selecciona un Servicio" SelectedIndexChanged="ServicePicker_SelectedIndexChanged">
-            <!--<Picker.ItemsSource>
-                <x:Array Type="{x:Type x:String}">
-                    <x:String>Caja 1</x:String>
-                    <x:String>Caja 2</x:String>
-                    <x:String>Caja 3</x:String>
-                </x:Array>
-            </Picker.ItemsSource>-->
-        </Picker>
-        <Frame CornerRadius="10" BackgroundColor="White" Padding="20" HorizontalOptions="Center" BorderColor="#B22222" HasShadow="True">
-            
-        <Label x:Name="NumberLabel"
-               Text="1"
-               FontSize="48"
-               TextColor="#B22222"
-               FontAttributes="Bold"
-               VerticalOptions="Center"
-               HorizontalOptions="Center"/>
-        </Frame>
-        <Label 
-            x:Name="TurnStateLabel"
-            Text="En Espera"
-            FontSize="24"
-            TextColor="#B22222"
-            HorizontalOptions="Center" />
-        
-        <Button Text="Generar"
-                    Clicked="Button_Clicked" 
-                    BackgroundColor="#B22222"
-                TextColor="White"
-                FontSize="18"
-                CornerRadius="10"
-                Padding="10"
-                WidthRequest="250"
-                    HorizontalOptions="Center"/>
-        <Button 
-            Text="Cargar Servicios"
-            Clicked="Button_Clicked_1"
-            BackgroundColor="#B22222"
-            TextColor="White"
-            FontSize="18"
-            CornerRadius="10"
-            Padding="10"
-            WidthRequest="250"
-            HorizontalOptions="Center" />
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextColor" Value="#333333" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextColor" Value="White" />
+            <Setter Property="BackgroundColor" Value="#D32F2F" />
+            <Setter Property="CornerRadius" Value="5" />
+            <Setter Property="HeightRequest" Value="50" />
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal" />
+                        <VisualState x:Name="PointerOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#B71C1C" />
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#BDBDBD" />
+                                <Setter Property="TextColor" Value="#757575" />
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <Style TargetType="Picker">
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="TextColor" Value="#333333" />
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="SeparatorColor" Value="#D32F2F" />
+            <Setter Property="RowHeight" Value="60" />
+        </Style>
+        <Style x:Key="SectionTitleStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="FontAttributes" Value="Bold" />
+            <Setter Property="TextColor" Value="#D32F2F" />
+            <Setter Property="HorizontalOptions" Value="Center" />
+            <Setter Property="Margin" Value="0,20,0,10" />
+        </Style>
+    </ContentPage.Resources>
+
+    <VerticalStackLayout Spacing="20" Padding="30" BackgroundColor="White">
+        <Label Text="Generar Ticket" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#D32F2F"/>
+        <Label Text="Cajas:" Style="{StaticResource SectionTitleStyle}" />
+        <Picker ItemsSource="{Binding ListaCajas}" x:Name="idCAJA" ItemDisplayBinding="{Binding NombreCaja}" SelectedItem="{Binding Caja,Mode=TwoWay}" />
+
+        <Button Text="GENERAR TURNO" Command="{Binding GenerarCommand}">
+            <Button.Style>
+                <Style TargetType="Button">
+                    <Style.Triggers>
+                        <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="true">
+                            <Setter Property="IsEnabled" Value="True" />
+                        </DataTrigger>
+                        <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="false">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Button.Style>
+        </Button>
+        <Button Text="ABANDONAR FILA" Command="{Binding AbandonarCommand}" />
+
+        <Label Text="{Binding Turnocopy.IdTurno}" />
+        <Label Text="{Binding Turnocopy.EstadoTurno}" />
+
+        <Label Text="{Binding Mensaje}" />
+
+        <ListView ItemsSource="{Binding ListaTurnos}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <HorizontalStackLayout>
+                            <Label Text="{Binding IdTurno}" WidthRequest="50" />
+                            <Label Text="{Binding NombreCaja}" WidthRequest="150" />
+                            <Label Text="{Binding EstadoTurno}" WidthRequest="100" />
+                        </HorizontalStackLayout>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
     </VerticalStackLayout>
 </ContentPage>

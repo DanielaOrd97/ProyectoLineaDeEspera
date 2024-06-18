@@ -4,14 +4,60 @@
              x:Class="APPCLIENTEPRUEBA1.Views.GenerarView"
              xmlns:vm="clr-namespace:APPCLIENTEPRUEBA1.Models.ViewModels"
              >
+    <ContentPage.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="#333333"/>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="White"/>
+            <Setter Property="BackgroundColor" Value="#D32F2F"/>
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="VisualStateManager.VisualStateGroups">
+                <VisualStateGroupList>
+                    <VisualStateGroup x:Name="CommonStates">
+                        <VisualState x:Name="Normal"/>
+                        <VisualState x:Name="PointOver">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#B71C1C"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                        <VisualState x:Name="Disabled">
+                            <VisualState.Setters>
+                                <Setter Property="BackgroundColor" Value="#BDBDBD"/>
+                                <Setter Property="TextColor" Value="#757575"/>
+                            </VisualState.Setters>
+                        </VisualState>
+                    </VisualStateGroup>
+                </VisualStateGroupList>
+            </Setter>
+        </Style>
+        <Style TargetType="Picker">
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="TextColor" Value="#333333"/>
+        </Style>
+        <Style TargetType="ListView">
+            <Setter Property="SeparatorColor" Value="#D32F2F"/>
+            <Setter Property="RowHeight" Value="60"/>
 
+        </Style>
+        <Style x:Key="SectionTitleStyle" TargetType="Label">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontAttributes" Value="Bold"/>
+            <Setter Property="TextColor" Value="#D32F2F"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,10"/>
+        </Style>
+    </ContentPage.Resources>
     <ContentPage.BindingContext>
         <vm:TicketViewModel></vm:TicketViewModel>
     </ContentPage.BindingContext>
-    
-    <VerticalStackLayout>
-        <Label>Generar Ticket</Label>
-        <Label>Cajas:</Label>
+
+    <VerticalStackLayout  Spacing="20" Padding="30" BackgroundColor="White">
+        <Label Text="Generar Ticket" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#D32F2F"/>
+        <Label Text="Cajas:" Style="{StaticResource SectionTitleStyle}"></Label>
         <Picker ItemsSource="{Binding ListaCajas}" x:Name="idCAJA" ItemDisplayBinding="{Binding NombreCaja}" SelectedItem="{Binding Caja,Mode=TwoWay}"></Picker>
         <Button Text="GENERAR TURNO" Margin="0,20,0,20" Command="{Binding GenerarCommand}">
             <Button.Style>
@@ -19,9 +65,11 @@
                     <Style.Triggers>
                         <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="true">
                             <Setter Property="IsEnabled" Value="True"></Setter>
+                            <Setter Property="BackgroundColor" Value="#D32F2F"/>
                         </DataTrigger>
                         <DataTrigger TargetType="Button" Binding="{Binding Activo}" Value="false">
                             <Setter Property="IsEnabled" Value="False"></Setter>
+                            <Setter Property="Background" Value="#BDBDBD"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -39,9 +87,9 @@
                 <DataTemplate>
                     <ViewCell>
                         <HorizontalStackLayout>
-                            <Label Text="{Binding IdTurno}"></Label>
-                            <Label Text="{Binding NombreCaja}"></Label>
-                            <Label Text="{Binding EstadoTurno}"></Label>
+                            <Label Text="{Binding IdTurno}" WidthRequest="50"></Label>
+                            <Label Text="{Binding NombreCaja}" WidthRequest="150"></Label>
+                            <Label Text="{Binding EstadoTurno}" WidthRequest="100"></Label>
                         </HorizontalStackLayout>
                     </ViewCell>
                 </DataTemplate>
