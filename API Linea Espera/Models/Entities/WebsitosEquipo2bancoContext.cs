@@ -5,13 +5,13 @@ using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace API_Linea_Espera.Models.Entities;
 
-public partial class SistemaDeEspera1Context : DbContext
+public partial class WebsitosEquipo2bancoContext : DbContext
 {
-    public SistemaDeEspera1Context()
+    public WebsitosEquipo2bancoContext()
     {
     }
 
-    public SistemaDeEspera1Context(DbContextOptions<SistemaDeEspera1Context> options)
+    public WebsitosEquipo2bancoContext(DbContextOptions<WebsitosEquipo2bancoContext> options)
         : base(options)
     {
     }
@@ -28,13 +28,13 @@ public partial class SistemaDeEspera1Context : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=SistemaDeEspera1", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.28-mysql"));
+//        => optionsBuilder.UseMySql("server=65.181.111.21;user=websitos_Banco2;database=websitos_equipo2banco;password=7S%90rfg6", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.11.7-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation("utf8mb3_general_ci")
+            .HasCharSet("utf8mb3");
 
         modelBuilder.Entity<Cajas>(entity =>
         {
@@ -42,6 +42,8 @@ public partial class SistemaDeEspera1Context : DbContext
 
             entity.ToTable("cajas");
 
+            entity.Property(e => e.IdCaja).HasColumnType("int(11)");
+            entity.Property(e => e.Estado).HasColumnType("tinyint(4)");
             entity.Property(e => e.NombreCaja).HasMaxLength(50);
         });
 
@@ -51,6 +53,7 @@ public partial class SistemaDeEspera1Context : DbContext
 
             entity.ToTable("estadosturno");
 
+            entity.Property(e => e.IdEstado).HasColumnType("int(11)");
             entity.Property(e => e.Estado).HasMaxLength(25);
         });
 
@@ -60,6 +63,7 @@ public partial class SistemaDeEspera1Context : DbContext
 
             entity.ToTable("roles");
 
+            entity.Property(e => e.IdRol).HasColumnType("int(11)");
             entity.Property(e => e.NombreRol).HasMaxLength(50);
         });
 
@@ -74,6 +78,12 @@ public partial class SistemaDeEspera1Context : DbContext
             entity.HasIndex(e => e.EstadoId, "EstadoId");
 
             entity.HasIndex(e => e.UsuarioId, "UsuarioId");
+
+            entity.Property(e => e.IdTurno).HasColumnType("int(11)");
+            entity.Property(e => e.CajaId).HasColumnType("int(11)");
+            entity.Property(e => e.EstadoId).HasColumnType("int(11)");
+            entity.Property(e => e.Posicion).HasColumnType("int(11)");
+            entity.Property(e => e.UsuarioId).HasColumnType("int(11)");
 
             entity.HasOne(d => d.Caja).WithMany(p => p.Turnos)
                 .HasForeignKey(d => d.CajaId)
@@ -101,8 +111,11 @@ public partial class SistemaDeEspera1Context : DbContext
 
             entity.HasIndex(e => e.IdRol, "IdRol");
 
+            entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Contraseña).HasMaxLength(255);
             entity.Property(e => e.FechaDeRegistro).HasColumnType("datetime");
+            entity.Property(e => e.IdCaja).HasColumnType("int(11)");
+            entity.Property(e => e.IdRol).HasColumnType("int(11)");
             entity.Property(e => e.Nombre).HasMaxLength(50);
             entity.Property(e => e.NombreUsuario).HasMaxLength(50);
 

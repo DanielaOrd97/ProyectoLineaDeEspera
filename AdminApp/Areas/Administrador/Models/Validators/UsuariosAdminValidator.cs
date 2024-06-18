@@ -18,8 +18,8 @@ namespace AdminApp.Areas.Administrador.Models.Validators
 			RuleFor(x => x.Nombre)
 				.NotEmpty().WithMessage("El nombre es obligatorio")
 				.MaximumLength(100).WithMessage("el nombre no puede exceder los 100 caracteres");
-			RuleFor(x => x.IdRol).NotEmpty()
-				.WithMessage("El rol es obligatorio");
+			//RuleFor(x => x.IdRol).NotEmpty()
+			//	.WithMessage("El rol es obligatorio");
 
 			//	.GreaterThan(0).WithMessage("Seleccione una caja valida");
 			//RuleFor(x => x.IdCaja).GreaterThanOrEqualTo(0).WithMessage("Seleccione una caja valida");

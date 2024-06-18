@@ -101,6 +101,8 @@ namespace AdminApp.Areas.Administrador.Controllers
 			}
 			if (vm != null)
 			{
+				validator = new();
+
 				if(vm.IdCaja == 0)
 				{
 					vm.IdCaja = null;
@@ -135,9 +137,10 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> EditarUsuario(AgregarUsuarioViewModel1 vm)
 		{
+
 			var result = validator.Validate(vm);
 
-			if (!ModelState.IsValid)
+			if (!ModelState.IsValid && result.Errors.Count != 0)
 			{
 				vm.Error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
 				vm.ListaRoles = await Service.GetAllRoles();

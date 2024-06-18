@@ -12,6 +12,6 @@ namespace AdminApp.Models.ViewModels
         public int? IdCaja { get; set; }
         public IEnumerable<RolViewModel1>? ListaRoles { get; set; }
         public IEnumerable<CajaViewModel1>? ListaCajas { get; set; }
-        public string? Error { get; set; } = "";
+        public string? Error { get; set; }
     }
 }

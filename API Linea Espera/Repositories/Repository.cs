@@ -5,9 +5,9 @@ namespace API_Linea_Espera.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        public SistemaDeEspera1Context Context { get; set; }
+        public WebsitosEquipo2bancoContext Context { get; set; }
 
-        public Repository(SistemaDeEspera1Context context)
+        public Repository(WebsitosEquipo2bancoContext context)
         {
             this.Context = context;
         }
