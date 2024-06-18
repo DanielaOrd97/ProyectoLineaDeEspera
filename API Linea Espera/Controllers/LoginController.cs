@@ -42,7 +42,7 @@ namespace API_Linea_Espera.Controllers
             var validationResult = usuarioValidator.Validate(usuarioDTO);
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
             }
 
             try
@@ -66,7 +66,8 @@ namespace API_Linea_Espera.Controllers
                     ? JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString())
                     : JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null);
 
-                return Ok(new { token });
+                //return Ok(new { token });
+                return Ok(token);
             }
             catch (Exception ex)
             {

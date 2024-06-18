@@ -18,14 +18,15 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 {
     public partial class TicketViewModel : ObservableObject
     {
+        //private static readonly string ClientId = Guid.NewGuid().ToString();
         CajasRepository CajasRepository = new();
         TurnosRepository TurnosRepository = new();
+        HubConnection hub;
 
         public ObservableCollection<Caja> ListaCajas { get; set; } = new();
         public ObservableCollection<Turno> ListaTurnos { get; set; } = new();   
 
         Service service = new();
-        HubConnection hub;
 
 
         [ObservableProperty]
@@ -58,15 +59,16 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         [RelayCommand]
         public async Task Abandonar()
         {
-            if(Turno != null)
+            if(Turnocopy != null)
             {
-                await hub.InvokeAsync("DeleteTurno", Turno.IdTurno);
+                await hub.InvokeAsync("DeleteTurno", Turnocopy.IdTurno);
             }
         }
 
 
         public TicketViewModel()
         {
+            Turnocopy = new();
             Activo = true;
             CargarCajas();
             CargarTurnos();
@@ -111,12 +113,6 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         }
 
-        async void Recargar(TurnoDTO turno)
-        {
-
-        }
-
-
         private async Task Iniciar()
         {
             hub = new HubConnectionBuilder()
@@ -143,7 +139,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             hub.On<TurnoDTO>("AbandonarTurno", x =>
             {
                 //Turno = x;
-                Turno = null;
+                Turnocopy = null;
                 Mensaje = "Usted ha abandonado la fila.";
             });
             hub.On<TurnoDTO>("AtenderCliente", x =>

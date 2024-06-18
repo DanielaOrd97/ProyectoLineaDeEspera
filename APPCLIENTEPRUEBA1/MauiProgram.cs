@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using APPCLIENTEPRUEBA1.Models.ViewModels;
+using Microsoft.Extensions.Logging;
 
 namespace APPCLIENTEPRUEBA1
 {
@@ -7,6 +8,7 @@ namespace APPCLIENTEPRUEBA1
         public static MauiApp CreateMauiApp()
         {
             var builder = MauiApp.CreateBuilder();
+
             builder
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
@@ -18,6 +20,8 @@ namespace APPCLIENTEPRUEBA1
 #if DEBUG
     		builder.Logging.AddDebug();
 #endif
+
+            //builder.Services.AddTransient<TicketViewModel>();
 
             return builder.Build();
         }

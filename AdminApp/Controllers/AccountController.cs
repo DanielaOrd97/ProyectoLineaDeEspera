@@ -1,4 +1,5 @@
-﻿using AdminApp.Models.ViewModels;
+﻿using AdminApp.Models.Validators;
+using AdminApp.Models.ViewModels;
 using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json.Linq;
@@ -28,11 +29,16 @@ namespace AdminApp.Controllers
             return View(vm);    
         }
 
+        LogInValidator validator = new();
+
         [HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel vm)
         {
+            var resultado = validator.Validate(vm);
+
             if (!ModelState.IsValid) { 
-            return View(vm);
+                vm.Error = string.Join("\n", resultado.Errors.Select(x => x.ErrorMessage));
+                return View(vm);
             }
            var r = await service.LogIn(vm);
 

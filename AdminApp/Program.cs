@@ -19,9 +19,9 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 #region Validators
-builder.Services.AddTransient<AdminApp.Models.Validators.LogInValidator>();
-builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.CajaAdminValidator>();
-builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.UsuariosAdminValidator>();
+//builder.Services.AddTransient<AdminApp.Models.Validators.LogInValidator>();
+//builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.CajaAdminValidator>();
+//builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.UsuariosAdminValidator>();
 
 #endregion
 

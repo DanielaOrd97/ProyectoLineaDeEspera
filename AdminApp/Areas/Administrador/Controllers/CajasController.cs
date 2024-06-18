@@ -1,4 +1,5 @@
-﻿using AdminApp.Models.ViewModels;
+﻿using AdminApp.Areas.Administrador.Models.Validators;
+using AdminApp.Models.ViewModels;
 using AdminApp.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,12 +34,16 @@ namespace AdminApp.Areas.Administrador.Controllers
 			return View(vm);
 		}
 
+		CajaAdminValidator validator = new();
+
 		[HttpPost]
 		public async Task<IActionResult> AgregarCaja(CajaViewModel1 vm)
 		{
+			var resultado = validator.Validate(vm);
 			if (!ModelState.IsValid)
 			{
-				return View(vm);
+				vm.Error = string.Join("\n", resultado.Errors.Select(x => x.ErrorMessage));
+                return View(vm);
 			}
 			if(vm != null)
 			{

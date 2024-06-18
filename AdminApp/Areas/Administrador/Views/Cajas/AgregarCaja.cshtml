@@ -29,8 +29,9 @@
                             <option value="1">Activa</option>
                             <option value="0">No activa</option>
                         </select>
-                        @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" })
+                        @* @Html.ValidationMessageFor(model => model.Estado, "", new { @class = "text-danger" }) *@
                     </div>
+                    <label>@Model.Error</label>
                 </div>
             </div>
 
