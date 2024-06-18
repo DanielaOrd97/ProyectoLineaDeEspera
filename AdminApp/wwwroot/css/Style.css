@@ -82,6 +82,7 @@ label.Error{
     color: #ffffff;
     text-align: center;
     font-weight: bold;
+    font-size:25px;
   }
 
   .navbar a {
@@ -111,6 +112,8 @@ label.Error{
     margin-left: 250px;
     padding: 20px;
     width: calc(100% - 250px);
+    position:relative;
+    z-index:1;
   }
 
 /**NAVBAR HORIZONTAL*/
