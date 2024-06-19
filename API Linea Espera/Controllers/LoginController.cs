@@ -39,6 +39,7 @@ namespace API_Linea_Espera.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] UsuarioDTO usuarioDTO)
         {
+            
             var validationResult = usuarioValidator.Validate(usuarioDTO);
             if (!validationResult.IsValid)
             {

@@ -28,7 +28,7 @@ public partial class WebsitosEquipo2bancoContext : DbContext
 
 //    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySql("server=65.181.111.21;user=websitos_Banco2;database=websitos_equipo2banco;password=7S%90rfg6", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.11.7-mariadb"));
+//        => optionsBuilder.UseMySql("server=65.181.111.21;user=websitos_Banco2;password=7S%90rfg6;database=websitos_equipo2banco", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.11.7-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

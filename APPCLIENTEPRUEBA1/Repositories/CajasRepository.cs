@@ -41,5 +41,10 @@ namespace APPCLIENTEPRUEBA1.Repositories
             context.Update(L);
         }
 
-    }
+		public void Delete(Caja L)
+		{
+			context.Delete(L);
+		}
+
+	}
 }

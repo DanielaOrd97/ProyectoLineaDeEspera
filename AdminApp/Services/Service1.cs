@@ -232,7 +232,9 @@ namespace AdminApp.Services
 
         public async Task<UsuarioViewModel1> GetUsuario1(int id)
         {
-            var response = await client.GetAsync($"Usuarios/{id}");
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
+
+			var response = await client.GetAsync($"Usuarios/{id}");
 
             if (response.IsSuccessStatusCode)
             {
