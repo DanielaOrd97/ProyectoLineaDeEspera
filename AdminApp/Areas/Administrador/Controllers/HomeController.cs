@@ -32,5 +32,10 @@ namespace AdminApp.Areas.Administrador.Controllers
 
             return View(vm);
         }
+
+        public IActionResult Logout()
+        {
+			return RedirectToAction("LogIn", "Account", new { area = "" });
+		}
     }
 }

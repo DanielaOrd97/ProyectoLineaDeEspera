@@ -3,6 +3,7 @@ using AdminApp.Models.ViewModels;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using NuGet.Common;
 using NuGet.Packaging.Signing;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http.Headers;
@@ -18,6 +19,7 @@ namespace AdminApp.Services
         //IHttpContextAccessor HttpContextAccessor;
         public static string? TokenAdmin { get; set; }
         public static  string? TokenOperador { get; set; }
+        public static string? Token { get; set; }
 
         public Service1()
         {
@@ -51,19 +53,20 @@ namespace AdminApp.Services
 
 				var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
 
-                if(roleClaim == "Administrador")
-                {
-                    TokenAdmin = res;
-                    return TokenAdmin;
-                }
-                else
-                {
-                    TokenOperador = res;
-                    return TokenOperador;
-                }
 
-				//Token = res;
-                //return res;
+                //if (roleClaim == "Administrador")
+                //            {
+                //                TokenAdmin = res;
+                //                return TokenAdmin;
+                //            }
+                //            else
+                //            {
+                //                TokenOperador = res;
+                //                return TokenOperador;
+                //            }
+
+                Token = res;
+                return res;
             }
             catch (Exception)
             {
@@ -81,7 +84,7 @@ namespace AdminApp.Services
 
             List<UsuarioViewModel1> usuarioslist = new();
 
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Usuarios");
 
@@ -181,7 +184,7 @@ namespace AdminApp.Services
         {
             List<RolViewModel1> listRoles = new();
 
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.GetAsync($"Roles");
 
@@ -204,7 +207,7 @@ namespace AdminApp.Services
 
         public async Task AddUsuario(AgregarUsuarioViewModel1 dto)
         {
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.PostAsJsonAsync($"Usuarios/AgregarUsuario", dto);
 
@@ -216,7 +219,7 @@ namespace AdminApp.Services
 
         public async Task UpdateUsuario(AgregarUsuarioViewModel1 dto)
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.PutAsJsonAsync($"Usuarios/{dto.Id}", dto);
 
@@ -229,7 +232,7 @@ namespace AdminApp.Services
         public async Task DeleteUsuario(int id)
         {
 
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.DeleteAsync($"Usuarios/{id}");
 
@@ -243,7 +246,7 @@ namespace AdminApp.Services
         {
 			//var token1 = Session.GetString("Token");
 
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Usuarios/{id}");
 
@@ -263,7 +266,7 @@ namespace AdminApp.Services
 
         public async Task<UsuarioViewModel1> GetUsuario1(int id)
         {
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.GetAsync($"Usuarios/{id}");
 
@@ -283,7 +286,7 @@ namespace AdminApp.Services
 
         public async Task<List<CajaViewModel1>> GetCajas()
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Cajas");
 
@@ -300,7 +303,7 @@ namespace AdminApp.Services
         public async Task<CajaViewModel1> GetCaja(int id)
         {
 
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.GetAsync($"Cajas/{id}");
 
@@ -315,7 +318,7 @@ namespace AdminApp.Services
 
         public async Task AddCaja(CajaViewModel1 dto)
         {
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.PostAsJsonAsync($"Cajas", dto);
 
@@ -327,7 +330,7 @@ namespace AdminApp.Services
 
         public async Task UpdateCaja(CajaViewModel1 dto)
         {
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			//client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.PutAsJsonAsync($"Cajas", dto);
 
@@ -340,7 +343,7 @@ namespace AdminApp.Services
         public async Task DeleteCaja(int id)
         {
 
-			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.DeleteAsync($"Cajas/{id}");
 
@@ -383,6 +386,10 @@ namespace AdminApp.Services
         {
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenOperador);
 
+			//SACAR ID DE CAJA DEL TOKEN
+			///var handler = new JwtSecurityTokenHandler();
+			//var jwtToken = handler.ReadToken(TokenOperador) as JwtSecurityToken;
+
 			var response = await client.GetAsync($"Turnos/TurnoActual/{idcaja}");
 
             if (response.IsSuccessStatusCode)
@@ -396,7 +403,11 @@ namespace AdminApp.Services
 
         public async Task<TurnoViewModel1> Avanzar(int id) //MODIFICAR PARA ID CLAIMS
         {
-            var response = await client.GetAsync($"Turnos/Avanzar/{id}");
+            //var T1 = Session.GetString("Token");
+
+			//client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", T1);
+
+			var response = await client.GetAsync($"Turnos/Avanzar/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -470,7 +481,7 @@ namespace AdminApp.Services
         ///
         public async Task<int> GetCajasActivas()
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Cajas/CajasActivas");
 
@@ -484,7 +495,7 @@ namespace AdminApp.Services
 
         public async Task<int> GetCajasInactivas()
         {
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", TokenAdmin);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
             var response = await client.GetAsync($"Cajas/CajasInactivas");
 

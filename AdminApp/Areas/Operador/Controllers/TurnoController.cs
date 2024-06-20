@@ -26,11 +26,21 @@ namespace AdminApp.Areas.Operador.Controllers
        {
             //COLOCAR EL ID DE ACUERDO A LA CAJA
             IdCaja = idcaja;
+
+            var c = await Service.GetCaja(idcaja);
+            CajaViewModel1 vmC = new();
+            vmC = c;
+            vmC.Estado = 1;
+            await Service.UpdateCaja(vmC);
+
             var turno = Service.GetTurnoActual(idcaja);
             TurnoViewModel1 vm = new();
             
             
             vm = await turno;
+
+
+
 
             return View(vm);
 
@@ -50,7 +60,11 @@ namespace AdminApp.Areas.Operador.Controllers
         [HttpGet]
         public async Task<IActionResult> AvanzarTurno()
         {
-            var turnoSig = Service.Avanzar(IdCaja);
+			//var cajaIdString = HttpContext.Session.GetString("CajaId");
+
+            //var turnoSig = Service.Avanzar(int.Parse(cajaIdString));
+
+			var turnoSig = Service.Avanzar(IdCaja);
 
             TurnoViewModel1 vm = new();
             vm = await turnoSig;
@@ -117,5 +131,20 @@ namespace AdminApp.Areas.Operador.Controllers
             return View("Index", vm);
         }
 
-    }
+		public async Task<IActionResult> Logout()
+		{
+			//await Task.Run(() => Iniciar());
+			//await hub.InvokeAsync("CancelarTurnos", IdCaja);
+
+			var c = await Service.GetCaja(IdCaja);
+
+            CajaViewModel1 vm = new();
+
+            vm = c;
+            vm.Estado = 0;
+            await Service.UpdateCaja(vm);
+
+			return RedirectToAction("LogIn", "Account", new { area = "" });
+		}
+	}
 }

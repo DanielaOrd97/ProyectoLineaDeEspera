@@ -49,11 +49,13 @@ namespace AdminApp.Controllers
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadToken(r) as JwtSecurityToken;
 
-            //SACAR DE LAS CLAIMS EL ROL Y DE AHI DIRIGIR AL AREA CORRESPONDIENTE.
             var Id = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "CajaIdentifier")?.Value;
             var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
 
-            if(roleClaim == "Administrador")
+            //HttpContext.Session.SetString("Token", r);
+			//HttpContext.Session.SetString("CajaId", Id);
+
+			if (roleClaim == "Administrador")
             {
                 return RedirectToAction("Index", "Home", new { area = "Administrador" });
             }

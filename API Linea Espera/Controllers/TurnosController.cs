@@ -2,6 +2,7 @@
 using API_Linea_Espera.Models.Entities;
 using API_Linea_Espera.Repositories;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
@@ -305,11 +306,12 @@ namespace API_Linea_Espera.Controllers
             }
         }
 
-        ///<summary>
-        ///AVANZAR TURNO.
-        /// </summary>
-        /// 
-        [HttpGet("Avanzar/{id}")]
+		///<summary>
+		///AVANZAR TURNO.
+		/// </summary>
+		/// 
+		//[Authorize(Policy = "Operador")]
+		[HttpGet("Avanzar/{id}")]
         public IActionResult AdelantarTurno(int id)
         {
             //Ver solo turnos de la caja que tiene el id del parametro.

@@ -62,7 +62,7 @@ namespace API_Linea_Espera.Controllers
 		///VER CAJA.
 		/// </summary>
 		/// 
-		[Authorize(Policy = "Administrador")]
+		//[Authorize(Policy = "Administrador")]
 		[HttpGet("{id}")]
         public IActionResult GetCaja(int id)
         {
@@ -117,7 +117,7 @@ namespace API_Linea_Espera.Controllers
 		///EDITAR CAJA
 		/// </summary>
 		/// 
-		[Authorize(Policy = "Administrador")]
+		//[Authorize(Policy = "Administrador")]
 		[HttpPut]
         public IActionResult PutCaja(CajaDTO dto)
         {
