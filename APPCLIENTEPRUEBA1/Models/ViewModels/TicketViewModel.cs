@@ -131,8 +131,8 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
             hub.On<TurnoDTO>("TurnoNuevo", x =>
             {
-                //Turno = x;
-                Turnocopy = x;
+				//Turno = x;
+				Turnocopy = x;
                 //CargarTurnos();
             });
 

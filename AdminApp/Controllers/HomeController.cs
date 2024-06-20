@@ -9,13 +9,16 @@ namespace AdminApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        Service1 Service;
-        public List<TurnoViewModel1> listaTurnos { get; set; } = new();
+		public Service1 Service { get; }
 
-        public HomeController(ILogger<HomeController> logger)
+		//Service1 Service;
+		public List<TurnoViewModel1> listaTurnos { get; set; } = new();
+
+        public HomeController(ILogger<HomeController> logger, Service1 service)
         {
             _logger = logger;
-            Service = new Service1();
+            //Service = new Service1();
+            this.Service = service;
         }
 
         //public IActionResult Index()

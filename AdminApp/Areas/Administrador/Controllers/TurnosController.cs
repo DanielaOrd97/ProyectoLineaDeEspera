@@ -7,12 +7,14 @@ namespace AdminApp.Areas.Administrador.Controllers
     [Area("Administrador")]
 	public class TurnosController : Controller
 	{
-		Service1 service;
+		//Service1 service;
 		public List<List<TurnoViewModel1>> listaTurnos { get; set; } = new();
+		public Service1 service { get; }
 
-        public TurnosController()
+		public TurnosController(Service1 service)
         {
-            service = new Service1();
+           // service = new Service1();
+           this.service = service;
         }
 
         public async Task<IActionResult> Index()

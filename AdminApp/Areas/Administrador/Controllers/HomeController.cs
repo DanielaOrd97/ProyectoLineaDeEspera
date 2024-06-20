@@ -7,13 +7,17 @@ namespace AdminApp.Areas.Administrador.Controllers
     [Area("Administrador")]
     public class HomeController : Controller
     {
-        Service1 service;
+        //Service1 service;
 
-        public HomeController()
+        public HomeController(Service1 service)
         {
-            service = new Service1();
+            // service = new Service1();
+            this.service = service;
         }
-        public async Task<IActionResult> Index()
+
+		public Service1 service { get; }
+
+		public async Task<IActionResult> Index()
         {
             var cajasActivas = await service.GetCajasActivas();
             var cajasInactivas = await service.GetCajasInactivas();

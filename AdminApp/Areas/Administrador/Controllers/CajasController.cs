@@ -8,12 +8,14 @@ namespace AdminApp.Areas.Administrador.Controllers
     [Area("Administrador")]
 	public class CajasController : Controller
 	{
-		Service1 Service;
+		//Service1 Service;
 		public List<CajaViewModel1> ListaCajas { get; set; } = new();
+		public Service1 Service { get; }
 
-        public CajasController()
+		public CajasController(Service1 service)
         {
-            Service = new Service1();
+            //Service = new Service1();
+			this.Service = service;
         }
         public async Task<IActionResult> Index()
 		{

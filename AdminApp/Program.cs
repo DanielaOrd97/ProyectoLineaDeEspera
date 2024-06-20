@@ -1,4 +1,5 @@
 using AdminApp.Models.ViewModels;
+using AdminApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddMvc();
 builder.Services.AddScoped<TurnoViewModel1>();
+builder.Services.AddTransient<Service1>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -22,8 +26,9 @@ if (!app.Environment.IsDevelopment())
 //builder.Services.AddTransient<AdminApp.Models.Validators.LogInValidator>();
 //builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.CajaAdminValidator>();
 //builder.Services.AddTransient<AdminApp.Areas.Administrador.Models.Validators.UsuariosAdminValidator>();
-
 #endregion
+
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

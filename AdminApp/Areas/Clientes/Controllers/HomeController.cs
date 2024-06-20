@@ -10,14 +10,16 @@ namespace AdminApp.Areas.Clientes.Controllers
     [Area("Clientes")]
     public class HomeController : Controller
     {
-        Service1 Service;
+        //Service1 Service;
         HubConnection hub;
         public List<TurnoViewModel1> listaTurnos { get; set; } = new();
+		public Service1 Service { get; }
 
-        public HomeController()
+		public HomeController(Service1 service)
         {
-            Service = new Service1();
+            //Service = new Service1();
             //Task.Run(() => Iniciar());
+            this.Service = service;
         }
 
         //private async Task Iniciar()

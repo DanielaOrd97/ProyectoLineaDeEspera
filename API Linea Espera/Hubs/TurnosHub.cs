@@ -36,20 +36,30 @@ namespace API_Linea_Espera.Hubs
                 UltimaPosicion = entity.Posicion;
                 Repository.Insert(entity);
 
-                var todo = Repository.GetAllTurnosWithInclude()
-                .Select(x => new TurnoDTO
+                TurnoDTO turnoGenerado = new()
                 {
-                    IdTurno = x.IdTurno,
-                    NombreCaja = x.Caja.NombreCaja,
-                    EstadoTurno = x.Estado.Estado,
-                    Posicion = x.Posicion
-                })
-                 .LastOrDefault(x => x.IdTurno == entity.IdTurno);
+                    IdTurno = entity.IdTurno,
+                    NombreCaja = entity.Caja.NombreCaja,
+                    EstadoTurno = entity.Estado.Estado,
+                    Posicion = entity.Posicion
+                };
 
-                
+				await Clients.All.SendAsync("TurnoNuevo", turnoGenerado);
 
-                await Clients.All.SendAsync("TurnoNuevo", todo);
-            }
+				//var todo = Repository.GetAllTurnosWithInclude()
+				//.Select(x => new TurnoDTO
+				//{
+				//    IdTurno = x.IdTurno,
+				//    NombreCaja = x.Caja.NombreCaja,
+				//    EstadoTurno = x.Estado.Estado,
+				//    Posicion = x.Posicion
+				//})
+				// .LastOrDefault(x => x.IdTurno == entity.IdTurno);
+
+
+
+				//await Clients.All.SendAsync("TurnoNuevo", todo);
+			}
         }
 
         /// <summary>

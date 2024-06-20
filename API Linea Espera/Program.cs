@@ -17,6 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
 builder.Services.AddSignalR();
 
 # region Validators
@@ -31,7 +32,7 @@ var connectionString = builder.Configuration.GetConnectionString("BancoConnectio
 builder.Services.AddDbContext<WebsitosEquipo2bancoContext>(x => x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 //builder.Services.AddDbContext<SistemaDeEspera1Context>(x => x.UseMySql("server=localhost;user=root;password=root;database=SistemaDeEspera1", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.28-mysql")));
 
-builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>

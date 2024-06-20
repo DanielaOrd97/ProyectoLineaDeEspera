@@ -8,11 +8,14 @@ namespace AdminApp.Areas.Administrador.Controllers
     [Area("Administrador")]
 	public class UsuariosController : Controller
 	{
-		Service1 Service;
+		//Service1 Service;
 		public List<UsuarioViewModel1> listaUsuarios { get; set; } = new();
-        public UsuariosController()
+		public Service1 Service { get; }
+
+		public UsuariosController(Service1 service)
         {
-			Service = new Service1();
+			//Service = new Service1();
+			this.Service = service;
 		}
 
 		[HttpGet]

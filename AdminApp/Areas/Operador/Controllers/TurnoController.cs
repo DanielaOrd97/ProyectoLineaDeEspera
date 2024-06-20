@@ -9,13 +9,15 @@ namespace AdminApp.Areas.Operador.Controllers
     [Area("Operador")]
     public class TurnoController : Controller
     {
-        Service1 Service;
+        //Service1 Service;
         HubConnection hub;
         public static int IdCaja { get; set; }
+		public Service1 Service { get; }
 
-        public TurnoController()
+		public TurnoController(Service1 service)
         {
-            Service = new();
+            //Service = new();
+            this.Service = service;
         }
 
 

@@ -10,11 +10,12 @@ namespace AdminApp.Controllers
 {
     public class AccountController : Controller
     {
-        Service1 service;
+        //Service1 service;
 
-        public AccountController()
+        public AccountController(Service1 service)
         {
-            service = new Service1();
+            this.service = service;
+           // service = new Service1();
         }
         public IActionResult Index()
         {
@@ -30,8 +31,9 @@ namespace AdminApp.Controllers
         }
 
         LogInValidator validator = new();
+		private readonly Service1 service;
 
-        [HttpPost]
+		[HttpPost]
         public async Task<IActionResult> LogIn(LogInViewModel vm)
         {
             var resultado = validator.Validate(vm);
@@ -42,6 +44,7 @@ namespace AdminApp.Controllers
 				return View(vm);
             }
            var r = await service.LogIn(vm);
+
 
             var handler = new JwtSecurityTokenHandler();
             var jwtToken = handler.ReadToken(r) as JwtSecurityToken;
