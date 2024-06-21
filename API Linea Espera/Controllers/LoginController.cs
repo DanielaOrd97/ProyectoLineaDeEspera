@@ -25,13 +25,11 @@ namespace API_Linea_Espera.Controllers
         IRepository<Usuarios> repositoryUsuarios,
         IRepository<Cajas> repositoryCajas,
         IRepository<Roles> repositoryRoles,
-        UsuarioValidator usuarioValidator,
         TokenGeneratorJwt jwtTokenGenerator)
         {
             this.RepositoryUsuarios = repositoryUsuarios;
             this.RepositoryCajas = repositoryCajas;
             this.RepositoryRoles = repositoryRoles;
-            this.usuarioValidator = usuarioValidator;
             this.JwtTokenGenerator = jwtTokenGenerator;
         }
 
@@ -39,40 +37,86 @@ namespace API_Linea_Espera.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] UsuarioDTO usuarioDTO)
         {
-            var validationResult = usuarioValidator.Validate(usuarioDTO);
-            if (!validationResult.IsValid)
-            {
-                return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
-            }
+            UsuarioValidator validator = new();
 
-            try
-            {
-                var pass = ConvertPasswordToSHA512(usuarioDTO.Contraseña);
-                var usuario = RepositoryUsuarios.GetAllWithInclude()
-                    .FirstOrDefault(x => x.NombreUsuario == usuarioDTO.NombreUsuario && x.Contraseña == pass);
+            var resultados = validator.Validate(usuarioDTO);
 
-                if (usuario == null)
+            if (resultados.IsValid)
+            {
+                var usuario = Authenticate(usuarioDTO);
+
+                if (usuario != null)
                 {
-                    return NotFound("Usuario o contraseña incorrectos.");
+                    var rol = RepositoryRoles.GetAll().FirstOrDefault(x => x.IdRol == usuario.IdRol);
+                    if (rol == null)
+                    {
+                        return NotFound("Rol del usuario no encontrado.");
+                    }
+
+                    string token = rol.NombreRol == "Operador"
+                        ? JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString())
+                        : JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null);
+
+                    return Ok(token);
                 }
 
-                var rol = RepositoryRoles.GetAll().FirstOrDefault(x => x.IdRol == usuario.IdRol);
-                if (rol == null)
-                {
-                    return NotFound("Rol del usuario no encontrado.");
-                }
-
-                string token = rol.NombreRol == "Operador"
-                    ? JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString())
-                    : JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null);
-
-                //return Ok(new { token });
-                return Ok(token);
+                //return Unauthorized("Acceso denegado.");
+                return null;
             }
-            catch (Exception ex)
+
+            return BadRequest(resultados.Errors.Select(x => x.ErrorMessage));
+
+            //var validationResult = usuarioValidator.Validate(usuarioDTO);
+            //if (!validationResult.IsValid)
+            //{
+            //    return BadRequest(validationResult.Errors.Select(x => x.ErrorMessage));
+            //}
+
+            //try
+            //{
+
+            //    var usuario = Authenticate(usuarioDTO);
+
+            //    if (usuario == null)
+            //    {
+            //        return NotFound("Usuario o contraseña incorrectos.");
+            //    }
+
+            //    var rol = RepositoryRoles.GetAll().FirstOrDefault(x => x.IdRol == usuario.IdRol);
+            //    if (rol == null)
+            //    {
+            //        return NotFound("Rol del usuario no encontrado.");
+            //    }
+
+            //    string token = rol.NombreRol == "Operador"
+            //        ? JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), usuario.IdCaja.ToString())
+            //        : JwtTokenGenerator.GetToken(usuario.Nombre, rol.NombreRol, usuario.Id.ToString(), null);
+
+            //    //return Ok(new { token });
+            //    return Ok(token);
+            //}
+            //catch (Exception ex)
+            //{
+            //    return StatusCode(500, "Ocurrió un error al procesar la solicitud.");
+            //}
+        }
+
+        ///<summary>
+        ///AUTENTICAR.
+        /// </summary>
+        /// 
+        private Usuarios Authenticate(UsuarioDTO dto)
+        {
+            var pass = ConvertPasswordToSHA512(dto.Contraseña);
+            var usuario = RepositoryUsuarios.GetAll()
+                .Where(x => x.NombreUsuario.ToLower() == dto.NombreUsuario.ToLower() && x.Contraseña == pass).FirstOrDefault();
+
+            if(usuario != null)
             {
-                return StatusCode(500, "Ocurrió un error al procesar la solicitud.");
+                return usuario;
             }
+
+            return null;
         }
 
 

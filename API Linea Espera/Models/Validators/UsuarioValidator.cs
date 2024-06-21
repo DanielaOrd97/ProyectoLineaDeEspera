@@ -1,4 +1,5 @@
 ﻿using API_Linea_Espera.Models.DTOs;
+using API_Linea_Espera.Models.Entities;
 using FluentValidation;
 using Microsoft.Extensions.Hosting;
 using System.Drawing;

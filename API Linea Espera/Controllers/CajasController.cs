@@ -58,6 +58,22 @@ namespace API_Linea_Espera.Controllers
 			return Ok(cajas);
 		}
 
+        [HttpGet("Cliente/Activas")]
+        public IActionResult GetAllCajasActivas()
+        {
+            var cajas = Repository.GetAll()
+                .Where(x => x.Estado == 1)
+                .Select(x => new CajaDTO
+                {
+                    Id = x.IdCaja,
+                    NombreCaja = x.NombreCaja,
+                    Estado = x.Estado,
+                    EstadoTurno = x.Estado == 0 ? "Inactiva" : "Activa"
+                });
+
+            return Ok(cajas);
+		}
+
 		///<summary>
 		///VER CAJA.
 		/// </summary>

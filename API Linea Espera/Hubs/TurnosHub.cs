@@ -178,7 +178,7 @@ namespace API_Linea_Espera.Hubs
             }
         }
 
-
+        public string NombreCaja { get; set; }
         public async Task CancelarTurnos(int idcaja)
         {
             if (idcaja != 0)
@@ -186,15 +186,19 @@ namespace API_Linea_Espera.Hubs
                 //SOLO MARCAR COMO ELIMINADOS LOS TURNOS QUE NO HAN SIDO TERMINADOS.
                 var turnos = Repository.GetAllTurnosWithInclude()
                     .Where(x => x.Caja.IdCaja == idcaja && x.Estado.IdEstado != 4).ToList();
+                
 
                 foreach (var turno in turnos)
                 {
-
+                    NombreCaja = turno.Caja.NombreCaja;
                     Repository.Delete(turno);
                 }
 
-                await Clients.All.SendAsync("CerrarServicio", "La caja elegida ha sido cerrada, favor de elegir otro servicio."); ;
-            }
+                await Clients.All.SendAsync("Cerrar", NombreCaja);
+                await Clients.All.SendAsync("CerrarServicio");
+
+				//await Clients.All.SendAsync("CerrarServicio", "La caja elegida ha sido cerrada, favor de elegir otro servicio."); ;
+			}
         }
     }
 }

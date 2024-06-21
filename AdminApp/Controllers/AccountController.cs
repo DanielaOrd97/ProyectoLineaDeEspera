@@ -45,28 +45,35 @@ namespace AdminApp.Controllers
             }
            var r = await service.LogIn(vm);
 
-
-            var handler = new JwtSecurityTokenHandler();
-            var jwtToken = handler.ReadToken(r) as JwtSecurityToken;
-
-            var Id = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "CajaIdentifier")?.Value;
-            var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
-
-            //HttpContext.Session.SetString("Token", r);
-			//HttpContext.Session.SetString("CajaId", Id);
-
-			if (roleClaim == "Administrador")
+            if (string.IsNullOrEmpty(r))
             {
-                return RedirectToAction("Index", "Home", new { area = "Administrador" });
-            }
-            else if(roleClaim == "Operador")
-            {
-                int idcaja = int.Parse(Id);
-
-                return RedirectToAction("Index", "Turno", new { area = "Operador", idcaja});
+                vm.Error = "Usuario o contraseña incorrectos.";
+                return View(vm);
             }
 
-            return View(vm);
+
+                var handler = new JwtSecurityTokenHandler();
+                var jwtToken = handler.ReadToken(r) as JwtSecurityToken;
+
+                var Id = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "CajaIdentifier")?.Value;
+                var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
+
+                //HttpContext.Session.SetString("Token", r);
+                //HttpContext.Session.SetString("CajaId", Id);
+
+                if (roleClaim == "Administrador")
+                {
+                    return RedirectToAction("Index", "Home", new { area = "Administrador" });
+                }
+                else if (roleClaim == "Operador")
+                {
+                    int idcaja = int.Parse(Id);
+
+                    return RedirectToAction("Index", "Turno", new { area = "Operador", idcaja });
+                }
+
+                return View(vm);
+
         }
     }
 }

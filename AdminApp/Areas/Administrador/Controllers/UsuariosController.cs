@@ -1,6 +1,7 @@
 ﻿using AdminApp.Areas.Administrador.Models.Validators;
 using AdminApp.Models.ViewModels;
 using AdminApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Administrador.Controllers
@@ -21,16 +22,38 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Index()
 		{
-			var result = await Service.GetAllUsuarios();
-
-			foreach (var item in result)
+			try
 			{
-				listaUsuarios.Add(item);
-			}
+                var result = await Service.GetAllUsuarios();
 
-			return View("Index", listaUsuarios);
+				if(result != null)
+				{
+					foreach (var item in result)
+					{
+						listaUsuarios.Add(item);
+					}
+
+                    return View("Index", listaUsuarios);
+                }
+            }
+            catch (UnauthorizedAccessException ex)
+			{
+				//LogInViewModel vm = new();
+				//vm.Error = ex.Message;
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+			return View();
+
+			//var result = await Service.GetAllUsuarios();
+
+			//foreach (var item in result)
+			//{
+			//	listaUsuarios.Add(item);
+			//}
+
+			//return View("Index", listaUsuarios);
 		}
-
+		
 		[HttpGet]
 		public async Task<IActionResult> Administradores()
 		{

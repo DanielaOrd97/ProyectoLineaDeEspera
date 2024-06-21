@@ -1,5 +1,6 @@
 using AdminApp.Models.ViewModels;
 using AdminApp.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,11 +20,21 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<TurnoViewModel1>();
 builder.Services.AddTransient<Service1>();
 
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+    x =>
+    {
+        x.AccessDeniedPath = "/Account/Denied";
+        x.LoginPath = "/Account/Login";
+        //x.LogoutPath = "/Account/Logout";
+        x.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+        x.Cookie.Name = "ghcookie";
+    });
 
 var app = builder.Build();
 

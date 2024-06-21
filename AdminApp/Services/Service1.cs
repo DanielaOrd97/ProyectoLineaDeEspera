@@ -26,9 +26,9 @@ namespace AdminApp.Services
             //HttpContextAccessor = httpContextAccessor;
             client = new()
             {
-				BaseAddress = new Uri("https://localhost:44385/api/")
-				//BaseAddress = new Uri("http://apibancogrupo2.websitos256.com/api/")
-			};
+				//BaseAddress = new Uri("https://localhost:44385/api/")
+                BaseAddress = new Uri("https://bancotec.websitos256.com/api/")
+            };
         }
 
 		//private ISession Session => HttpContextAccessor.HttpContext.Session;
@@ -39,34 +39,38 @@ namespace AdminApp.Services
 		/// 
 		public async Task<string> LogIn(LogInViewModel vm)
         {
-
-            var response = await client.PostAsJsonAsync("Login", vm);
-
             try
             {
-                var res = await response.Content.ReadAsStringAsync();
-				// Session.SetString("Token", res);
-				//var r = JsonConvert.DeserializeObject<ResponseDTO>(res);
+                var response = await client.PostAsJsonAsync("Login", vm);
 
-				var handler = new JwtSecurityTokenHandler();
-				var jwtToken = handler.ReadToken(res) as JwtSecurityToken;
+                if (response.IsSuccessStatusCode)
+                {
+                    var res = await response.Content.ReadAsStringAsync();
+                    // Session.SetString("Token", res);
+                    //var r = JsonConvert.DeserializeObject<ResponseDTO>(res);
 
-				var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadToken(res) as JwtSecurityToken;
+
+                    var roleClaim = jwtToken?.Claims.FirstOrDefault(claim => claim.Type == "role")?.Value;
 
 
-                //if (roleClaim == "Administrador")
-                //            {
-                //                TokenAdmin = res;
-                //                return TokenAdmin;
-                //            }
-                //            else
-                //            {
-                //                TokenOperador = res;
-                //                return TokenOperador;
-                //            }
+                    //if (roleClaim == "Administrador")
+                    //            {
+                    //                TokenAdmin = res;
+                    //                return TokenAdmin;
+                    //            }
+                    //            else
+                    //            {
+                    //                TokenOperador = res;
+                    //                return TokenOperador;
+                    //            }
 
-                Token = res;
-                return res;
+                    Token = res;
+                    return res;
+                }
+
+                return null;
             }
             catch (Exception)
             {
@@ -95,8 +99,10 @@ namespace AdminApp.Services
                 usuarioslist = JsonConvert.DeserializeObject<List<UsuarioViewModel1>>(jsonResponse);
                 return usuarioslist;
             }
-
-            return null;
+            else
+            {
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
+            }
         }
 
         ///<summary>
@@ -296,8 +302,11 @@ namespace AdminApp.Services
                 var lista = JsonConvert.DeserializeObject<List<CajaViewModel1>>(jsonresponse);
                 return lista;
             }
+            else
+            {
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
+            }
 
-            return null;
         }
 
         public async Task<CajaViewModel1> GetCaja(int id)
@@ -322,9 +331,9 @@ namespace AdminApp.Services
 
 			var response = await client.PostAsJsonAsync($"Cajas", dto);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 

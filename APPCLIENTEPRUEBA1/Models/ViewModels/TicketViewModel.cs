@@ -46,9 +46,11 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 
         [ObservableProperty]
         private string? aviso;
-        
 
-        [RelayCommand]
+		[ObservableProperty]
+		private bool indicador;
+
+		[RelayCommand]
         public async Task Generar()
         {
             if (Caja != null)
@@ -72,6 +74,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         {
             Turnocopy = new();
             Activo = true;
+            Indicador = false;
             CargarCajas();
            // CargarTurnos();
             //EVENTO
@@ -148,6 +151,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                 //Turno = x;
                 Turnocopy = null;
                 Mensaje = "Usted ha abandonado la fila.";
+                Activo = true;
             });
             hub.On<TurnoDTO>("AtenderCliente", x =>
             {
@@ -160,7 +164,37 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                 //Turno = x;
                 Turnocopy = x;
                 Activo = true;
+                CargarCajas();
                 //CargarTurnos();
+            });
+            hub.On<string>("CerrarServicio", x =>
+            {
+               //CargarCajas();
+
+                foreach (var item in ListaCajas)
+                {
+                    if(Turnocopy.NombreCaja == item.NombreCaja)
+                    {
+                        Indicador = true;
+                    }
+                }
+
+                if(Indicador == false)
+                {
+					CargarCajas();
+					Turnocopy = null;
+                    //Mensaje = x;
+                    Mensaje = "La caja elegida ha sido cerrada. Por favor, genere su ticket nuevamente.";
+                    Activo = true;
+                }
+
+                //MainThread.BeginInvokeOnMainThread(() =>
+               // {
+                    //CargarCajas();
+               // });
+
+				
+
             });
         } 
     }

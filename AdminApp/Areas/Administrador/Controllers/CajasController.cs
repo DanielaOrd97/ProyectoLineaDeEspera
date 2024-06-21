@@ -1,6 +1,7 @@
 ﻿using AdminApp.Areas.Administrador.Models.Validators;
 using AdminApp.Models.ViewModels;
 using AdminApp.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Administrador.Controllers
@@ -19,21 +20,41 @@ namespace AdminApp.Areas.Administrador.Controllers
         }
         public async Task<IActionResult> Index()
 		{
-			var cajas = await Service.GetCajas();
+			try
+			{
+                var cajas = await Service.GetCajas();
 
-            foreach (var item in cajas)
-            {
-				ListaCajas.Add(item);
+				if (cajas != null)
+				{
+                    foreach (var item in cajas)
+					{
+						ListaCajas.Add(item);
+					}
+
+                    return View(ListaCajas);
+                }
             }
+			catch (UnauthorizedAccessException ex)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+			return View();
 
-            return View(ListaCajas);
+			//var cajas = await Service.GetCajas();
+
+   //         foreach (var item in cajas)
+   //         {
+			//	ListaCajas.Add(item);
+   //         }
+
+   //         return View(ListaCajas);
 		}
 
-		[HttpGet]
+        [HttpGet]
 		public IActionResult AgregarCaja()
 		{
-			CajaViewModel1 vm = new();
-			return View(vm);
+           CajaViewModel1 vm = new();
+            return View(vm);
 		}
 
 		CajaAdminValidator validator = new();

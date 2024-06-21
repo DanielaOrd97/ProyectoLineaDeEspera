@@ -1,5 +1,6 @@
 ﻿using AdminApp.Models.ViewModels;
 using AdminApp.Services;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AdminApp.Areas.Administrador.Controllers
@@ -35,6 +36,7 @@ namespace AdminApp.Areas.Administrador.Controllers
 
         public IActionResult Logout()
         {
+            HttpContext.SignOutAsync();
 			return RedirectToAction("LogIn", "Account", new { area = "" });
 		}
     }

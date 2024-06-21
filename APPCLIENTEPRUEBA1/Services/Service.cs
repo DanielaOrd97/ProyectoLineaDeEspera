@@ -18,7 +18,8 @@ namespace APPCLIENTEPRUEBA1.Services
 		{
 			cliente = new()
 			{
-				BaseAddress = new Uri("https://localhost:44385/api/")
+				//BaseAddress = new Uri("https://localhost:44385/api/")
+				BaseAddress = new Uri("https://bancotec.websitos256.com/api/")
 			};
 		}
 
@@ -28,18 +29,18 @@ namespace APPCLIENTEPRUEBA1.Services
 		{
 			bool aviso = false;
 
-			var response = await cliente.GetFromJsonAsync<List<CajaDTO>>($"Cajas/Cliente");
+			var response = await cliente.GetFromJsonAsync<List<CajaDTO>>($"Cajas/Cliente/Activas");
 			var existentes = repository.GetAll().ToList();
 
 			if (response != null)
 			{
-				if (response.Count != existentes.Count)
-				{
+				//if (response.Count != existentes.Count)
+				//{
 					foreach (var item in existentes)
 					{
 						repository.Delete(item);
 					}
-				}
+				//}
 
 				foreach (var caja in response)
 				{
