@@ -131,10 +131,11 @@ namespace AdminApp.Areas.Operador.Controllers
             return View("Index", vm);
         }
 
+		[HttpGet]
 		public async Task<IActionResult> Logout()
 		{
-			//await Task.Run(() => Iniciar());
-			//await hub.InvokeAsync("CancelarTurnos", IdCaja);
+			await Task.Run(() => Iniciar());
+			await hub.InvokeAsync("CancelarTurnos", IdCaja);
 
 			var c = await Service.GetCaja(IdCaja);
 

@@ -179,23 +179,22 @@ namespace API_Linea_Espera.Hubs
         }
 
 
-   //     public async Task CancelarTurnos(int idcaja)
-   //     {
-   //         if(idcaja != 0)
-   //         {
-   //             //SOLO MARCAR COMO ELIMINADOS LOS TURNOS QUE NO HAN SIDO TERMINADOS.
-   //             var turnos = Repository.GetAllTurnosWithInclude()
-   //                 .Where(x => x.Caja.IdCaja == idcaja && x.Estado.IdEstado != 4);
+        public async Task CancelarTurnos(int idcaja)
+        {
+            if (idcaja != 0)
+            {
+                //SOLO MARCAR COMO ELIMINADOS LOS TURNOS QUE NO HAN SIDO TERMINADOS.
+                var turnos = Repository.GetAllTurnosWithInclude()
+                    .Where(x => x.Caja.IdCaja == idcaja && x.Estado.IdEstado != 4).ToList();
 
-   //             foreach (var turno in turnos)
-   //             {
-   //                 var t = Repository.Get(turno.IdTurno);
+                foreach (var turno in turnos)
+                {
 
-   //                 Repository.Delete(t);
-   //             }
+                    Repository.Delete(turno);
+                }
 
-   //             await Clients.All.SendAsync("CerrarServicio", "La caja elegida ha sido cerrada, favor de elegir otro servicio."); ;
-			//}
-   //     }
+                await Clients.All.SendAsync("CerrarServicio", "La caja elegida ha sido cerrada, favor de elegir otro servicio."); ;
+            }
+        }
     }
 }
