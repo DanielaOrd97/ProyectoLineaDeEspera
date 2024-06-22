@@ -40,8 +40,6 @@ namespace AdminApp.Areas.Operador.Controllers
             vm = await turno;
 
 
-
-
             return View(vm);
 
         }
@@ -56,6 +54,24 @@ namespace AdminApp.Areas.Operador.Controllers
 
         //    return View("Index", vm);
         //}
+
+        [HttpGet]
+        public async Task<IActionResult> CancelarTurno(int id)
+        {
+            if (id != 0)
+            {
+                await Task.Run(() => Iniciar());
+                await hub.InvokeAsync("DeleteTurno", id);
+                var turnoSig = Service.Avanzar(IdCaja);
+
+                TurnoViewModel1 vm = new();
+                vm = await turnoSig;
+
+                return View("Index", vm);
+            }
+            return View();
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> AvanzarTurno()

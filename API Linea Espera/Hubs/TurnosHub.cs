@@ -31,6 +31,7 @@ namespace API_Linea_Espera.Hubs
                     CajaId = id,
                     EstadoId = 1,    ///En default esta en espera.
                     Posicion = ultimo += 1
+                    //TiempoInicio = DateTime.UtcNow
                 };
 
                 UltimaPosicion = entity.Posicion;
@@ -145,6 +146,7 @@ namespace API_Linea_Espera.Hubs
                             IdTurno = turno.IdTurno,
                             NombreCaja = turno.Caja.NombreCaja,
                             EstadoTurno = turno.Estado.Estado
+                            //TiempoFin = DateTime.UtcNow
                         }).FirstOrDefault();
 
                     await Clients.All.SendAsync("AtenderCliente", turnoactualizado);
