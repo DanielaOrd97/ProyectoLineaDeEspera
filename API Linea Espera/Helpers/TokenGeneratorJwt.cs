@@ -36,7 +36,7 @@ namespace API_Linea_Espera.Helpers
             var token = new SecurityTokenDescriptor()
             {
                 Subject = new ClaimsIdentity(claims),
-                Issuer = "lienaespera.net",
+                Issuer = "https://bancotec.websitos256.com",
                 Audience = "AppLineaEspera",
                 IssuedAt = DateTime.Now,
                 Expires = DateTime.Now.AddDays(1),
@@ -47,6 +47,7 @@ namespace API_Linea_Espera.Helpers
             };
 
             return handler.CreateEncodedJwt(token);
+
         }
     }
 }
