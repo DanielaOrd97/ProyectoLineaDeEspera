@@ -65,8 +65,10 @@ builder.Services.AddSingleton<TokenGeneratorJwt>();
 
 var app = builder.Build();
 
+
 app.UseCors(x =>
 {
+    x.WithOrigins("https://bancotec.websitos256.com");
     x.AllowAnyHeader();
     x.AllowAnyMethod();
     x.AllowAnyOrigin();

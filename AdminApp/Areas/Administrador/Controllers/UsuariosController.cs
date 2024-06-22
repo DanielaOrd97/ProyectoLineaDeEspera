@@ -102,11 +102,20 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpGet]
 		public async Task<IActionResult> AgregarUsuario()
 		{
-			AgregarUsuarioViewModel1 vm = new();
-			vm.ListaRoles = await Service.GetAllRoles();
-			vm.ListaCajas = await Service.GetCajas();
+			try
+			{
+                AgregarUsuarioViewModel1 vm = new();
+                vm.ListaRoles = await Service.GetAllRoles();
+                vm.ListaCajas = await Service.GetCajas();
 
-			return View(vm);
+                return View(vm);
+            }
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
+			
 		}
 
 		UsuariosAdminValidator validator = new();
@@ -114,50 +123,68 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AgregarUsuario(AgregarUsuarioViewModel1 vm)
 		{
-			var result = validator.Validate(vm);	
-			//Agregar validaciones correctamente.
-			if (!ModelState.IsValid)
+			try
 			{
-				vm.Error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
+                var result = validator.Validate(vm);
+                //Agregar validaciones correctamente.
+                if (!ModelState.IsValid)
+                {
+                    vm.Error = string.Join(Environment.NewLine, result.Errors.Select(x => x.ErrorMessage));
 
-				//si la validacion falla, volvemos a la  vista con los errores de validacion
-				vm.ListaRoles = await Service.GetAllRoles();
-				vm.ListaCajas = await Service.GetCajas();
-				return View(vm);
-			}
-			if (vm != null)
-			{
-				validator = new();
+                    //si la validacion falla, volvemos a la  vista con los errores de validacion
+                    vm.ListaRoles = await Service.GetAllRoles();
+                    vm.ListaCajas = await Service.GetCajas();
+                    return View(vm);
+                }
+                if (vm != null)
+                {
+                    validator = new();
 
-				if(vm.IdCaja == 0)
-				{
-					vm.IdCaja = null;
-				}
+                    if (vm.IdCaja == 0)
+                    {
+                        vm.IdCaja = null;
+                    }
 
-				await Service.AddUsuario(vm);
+                    await Service.AddUsuario(vm);
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
         }
 
 		[HttpGet]
 		public async Task<IActionResult> EditarUsuario(int id)
 		{
-			var usuario = await Service.GetUsuario(id);
+			try
+			{
+                var usuario = await Service.GetUsuario(id);
 
-			//VALIDAR QUE NO ESTE VACIO
-			if (usuario == null)
+                //VALIDAR QUE NO ESTE VACIO
+                if (usuario == null)
+                {
+					//return null;
+					return RedirectToAction("Index");
+                }
+                else
+                {
+                    AgregarUsuarioViewModel1 vm = new();
+                    vm = usuario;
+                    vm.ListaRoles = await Service.GetAllRoles();
+                    vm.ListaCajas = await Service.GetCajas();
+                    return View(vm);
+                }
+            }
+			catch (Exception)
 			{
-				return null;
-				//Index();
-			}
-			else
-			{
-				AgregarUsuarioViewModel1 vm = new();
-				vm = usuario;
-				vm.ListaRoles = await Service.GetAllRoles();
-				vm.ListaCajas = await Service.GetCajas();
-				return View(vm);
-			}
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
+
+			
         }
 
 		[HttpPost]
@@ -203,32 +230,48 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpGet]
 		public async Task<IActionResult> EliminarUsuario(int id)
 		{
-			var usuario = await Service.GetUsuario1(id);
-
-			if (usuario == null)
+			try
 			{
-				return RedirectToAction("Index");
-			}
-			UsuarioViewModel1 vm = new();
-			vm = usuario;
+                var usuario = await Service.GetUsuario1(id);
 
+                if (usuario == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                UsuarioViewModel1 vm = new();
+                vm = usuario;
+
+
+                return View(vm);
+            }
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
 			
-			return View(vm);
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> EliminarUsuario(UsuarioViewModel1 vm)
 		{
-			if(vm != null)
+			try
 			{
-				var usuario = await Service.GetUsuario1((int)vm.Id);
 
-				if(usuario != null)
-				{
-				  await	Service.DeleteUsuario((int)usuario.Id);
-				}
-			}
-            return RedirectToAction("Index");
+                if (vm != null)
+                {
+                    var usuario = await Service.GetUsuario1((int)vm.Id);
+
+                    if (usuario != null)
+                    {
+                        await Service.DeleteUsuario((int)usuario.Id);
+                    }
+                }
+                return RedirectToAction("Index");
+            }
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
         }
 	}
 

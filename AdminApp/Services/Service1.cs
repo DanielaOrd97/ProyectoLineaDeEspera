@@ -217,9 +217,9 @@ namespace AdminApp.Services
 
 			var response = await client.PostAsJsonAsync($"Usuarios/AgregarUsuario", dto);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 
@@ -229,9 +229,9 @@ namespace AdminApp.Services
 
             var response = await client.PutAsJsonAsync($"Usuarios/{dto.Id}", dto);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 
@@ -242,9 +242,9 @@ namespace AdminApp.Services
 
 			var response = await client.DeleteAsync($"Usuarios/{id}");
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 
@@ -311,7 +311,6 @@ namespace AdminApp.Services
 
         public async Task<CajaViewModel1> GetCaja(int id)
         {
-
 			client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", Token);
 
 			var response = await client.GetAsync($"Cajas/{id}");
@@ -343,9 +342,9 @@ namespace AdminApp.Services
 
 			var response = await client.PutAsJsonAsync($"Cajas", dto);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 
@@ -356,9 +355,9 @@ namespace AdminApp.Services
 
 			var response = await client.DeleteAsync($"Cajas/{id}");
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode)
             {
-
+                throw new UnauthorizedAccessException("Usuario no autorizado.");
             }
         }
 

@@ -53,8 +53,16 @@ namespace AdminApp.Areas.Administrador.Controllers
         [HttpGet]
 		public IActionResult AgregarCaja()
 		{
-           CajaViewModel1 vm = new();
-            return View(vm);
+			try
+			{
+                CajaViewModel1 vm = new();
+                return View(vm);
+            }
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
 		}
 
 		CajaAdminValidator validator = new();
@@ -62,54 +70,80 @@ namespace AdminApp.Areas.Administrador.Controllers
 		[HttpPost]
 		public async Task<IActionResult> AgregarCaja(CajaViewModel1 vm)
 		{
-			var resultado = validator.Validate(vm);
-			if (!ModelState.IsValid)
+			try
 			{
-				vm.Error = string.Join(Environment.NewLine, resultado.Errors.Select(x => x.ErrorMessage));
-				return View(vm);
-			}
-			if(vm != null)
+
+                var resultado = validator.Validate(vm);
+                if (!ModelState.IsValid)
+                {
+                    vm.Error = string.Join(Environment.NewLine, resultado.Errors.Select(x => x.ErrorMessage));
+                    return View(vm);
+                }
+                if (vm != null)
+                {
+                    await Service.AddCaja(vm);
+                    return RedirectToAction("Index");
+                }
+                return View(vm);
+            }
+			catch (Exception)
 			{
-				await Service.AddCaja(vm);
-				return RedirectToAction("Index");
-			}
-            return View(vm);
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
         }
 
         [HttpGet]
         public async Task<IActionResult> EditarCaja(int id)
 		{
-			var caja = await Service.GetCaja(id);
-
-			if (caja != null)
+			try
 			{
-				CajaViewModel1 vm = new();
-				vm = caja;
-				return View(vm);
-			}
+                var caja = await Service.GetCaja(id);
 
-			return null;
+                if (caja != null)
+                {
+                    CajaViewModel1 vm = new();
+                    vm = caja;
+                    return View(vm);
+                }
+
+                return RedirectToAction("Index");
+            }
+			catch (Exception)
+			{
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+			
 		}
 
 		[HttpPost]
 		public async Task<IActionResult> EditarCaja(CajaViewModel1 vm)
 		{
-			if(!ModelState.IsValid){ return View(vm); }
-			if(vm != null)
-			{
-				var caja = await Service.GetCaja(vm.Id);
 
-				if(caja != null)
-				{
-					caja.NombreCaja = vm.NombreCaja;
-					caja.Estado = vm.Estado;
+            try
+            {
+                if (!ModelState.IsValid) { return View(vm); }
+                if (vm != null)
+                {
+                    var caja = await Service.GetCaja(vm.Id);
 
-					await Service.UpdateCaja(caja);
-                    return RedirectToAction("Index");
+                    if (caja != null)
+                    {
+                        caja.NombreCaja = vm.NombreCaja;
+                        caja.Estado = vm.Estado;
 
+                        await Service.UpdateCaja(caja);
+                        return RedirectToAction("Index");
+
+                    }
                 }
+                return View(vm);
             }
-			return View(vm);
+            catch (Exception)
+            {
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
 		}
 
 		/// <summary>
@@ -119,32 +153,50 @@ namespace AdminApp.Areas.Administrador.Controllers
         [HttpGet]
         public async Task<IActionResult> EliminarCaja(int id)
         {
-            var caja = await Service.GetCaja(id);
-
-            if (caja == null)
+            try
             {
-                return RedirectToAction("Index");
-            }
-            CajaViewModel1 vm = new();
-            vm = caja;
+                var caja = await Service.GetCaja(id);
 
-            return View(vm);
+                if (caja == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                CajaViewModel1 vm = new();
+                vm = caja;
+
+                return View(vm);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
         }
 
         [HttpPost]
         public async Task<IActionResult> EliminarCaja(CajaViewModel1 vm)
         {
-            if (vm != null)
+            try
             {
-                var caja = await Service.GetCaja(vm.Id);
-
-                if (caja != null)
+                if (vm != null)
                 {
-                    await Service.DeleteCaja(caja.Id);
-                    return RedirectToAction("Index");
+                    var caja = await Service.GetCaja(vm.Id);
+
+                    if (caja != null)
+                    {
+                        await Service.DeleteCaja(caja.Id);
+                        return RedirectToAction("Index");
+                    }
                 }
+                return View(vm);
             }
-			return View(vm);
+            catch (Exception)
+            {
+                return RedirectToAction("LogIn", "Account", new { area = "" });
+            }
+
+
+           
         }
     }
 }
