@@ -45,6 +45,9 @@ namespace API_Linea_Espera.Hubs
                     Posicion = entity.Posicion
                 };
 
+                await Groups.AddToGroupAsync(Context.ConnectionId, turnoGenerado.IdTurno.ToString());
+                await Clients.Group(turnoGenerado.IdTurno.ToString()).SendAsync("TicketCreado", turnoGenerado);
+
 				await Clients.All.SendAsync("TurnoNuevo", turnoGenerado);
 
 				//var todo = Repository.GetAllTurnosWithInclude()

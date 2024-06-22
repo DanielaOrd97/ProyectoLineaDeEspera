@@ -50,15 +50,16 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
 		[ObservableProperty]
 		private bool indicador;
 
-		[RelayCommand]
+        [RelayCommand]
         public async Task Generar()
         {
             if (Caja != null)
             {
-                await hub.InvokeAsync("AddTurno", Caja.Id);    
+                await hub.InvokeAsync("AddTurno", Caja.Id);
                 Activo = false;
             }
         }
+
 
         [RelayCommand]
         public async Task Abandonar()
@@ -126,18 +127,23 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         private async Task Iniciar()
         {
             hub = new HubConnectionBuilder()
-                .WithUrl("https://bancotec.websitos256.com/turnos")
+                //.WithUrl("https://bancotec.websitos256.com/turnos")
+                .WithUrl("https://localhost:44385/turnos")
                 .WithAutomaticReconnect()
                 .Build();
 
             await hub.StartAsync();
 
-            hub.On<TurnoDTO>("TurnoNuevo", x =>
+            //        hub.On<TurnoDTO>("TurnoNuevo", x =>
+            //        {
+            //Turnocopy = x;
+            //        });
+
+            hub.On<TurnoDTO>("TicketCreado", x =>
             {
-				//Turno = x;
-				Turnocopy = x;
-                //CargarTurnos();
+                Turnocopy = x;
             });
+
 
             hub.On<TurnoDTO>("LlamadoCliente", x =>
             {
