@@ -12,30 +12,37 @@
     <title>Cajero</title>
 </head>
 <body class="BodyCajero">
-    <nav class="navbar-horizontal">
+    <nav class="navbar">
         <h1 class="navbar-logo">BancoTec</h1>
         <h1 class="navbar-username"><i class="fas fa-user"></i>@Model.NombreCaja</h1>
-        <div class="navbar-logout">
-            <a href="~/Operador/Turno/Logout"><i class="fas fa-sign-out-alt"></i>Cerrar Sesión</a>
+        <div class="logout">
+            <a href="~/Operador/Turno/Logout"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
         </div>
     </nav>
-    <div class="container">
-        <span>
-            <label>Estado turno:</label>
-            <label>@Model.EstadoTurno</label>
-        </span>
-        <div class="turno">
-            <p class="label">Turno:</p>
-            <p class="codigo"><i id="user" class="fas fa-user"></i>@Model.IdTurno</p>
-        </div>
-        <div class="botones">
-            <a style="text-decoration: none" class="btnAnterior" href="~/Operador/Turno/CancelarTurno/@Model.IdTurno">Cancelar</a>
-            <a style="text-decoration: none" class="btnAnterior" href="~/Operador/Turno/AtrasarTurno">Anterior</a>
-            <a style="text-decoration: none" class="btnSiguiente" href="~/Operador/Turno/LlamarCliente/@Model.IdTurno">Llamar</a>
-            <a style="text-decoration: none" class="btnSiguiente" href="~/Operador/Turno/AtenderCliente/@Model.IdTurno">Atender</a>
-            <a style="text-decoration: none" class="btnSiguiente" href="~/Operador/Turno/TerminarAtencion/@Model.IdTurno">Terminar</a>
-            <a style="text-decoration: none" class="btnSiguiente" href="~/Operador/Turno/AvanzarTurno">Siguiente</a>
+    <div class="content">
+        <div class="attendance">
+            <div class="attendance-list">
+                <div class="form-group">
+                    <div class="half-width">
+                        <label>Estado turno:</label>
+                        <label>@Model.EstadoTurno</label>
+                    </div>
+                    <div class="turno">
+                        <p class="label">Turno:</p>
+                        <p class="codigo"><i id="user" class="fas fa-user"></i>@Model.IdTurno</p>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons">
+                <a class="action-button" href="~/Operador/Turno/CancelarTurno/@Model.IdTurno">Cancelar</a>
+                <a class="action-button" href="~/Operador/Turno/AtrasarTurno">Anterior</a>
+                <a class="action-button" href="~/Operador/Turno/LlamarCliente/@Model.IdTurno">Llamar</a>
+                <a class="action-button" href="~/Operador/Turno/AtenderCliente/@Model.IdTurno">Atender</a>
+                <a class="action-button" href="~/Operador/Turno/TerminarAtencion/@Model.IdTurno">Terminar</a>
+                <a class="action-button" href="~/Operador/Turno/AvanzarTurno">Siguiente</a>
+            </div>
         </div>
     </div>
 </body>
+
 </html>
