@@ -26,8 +26,8 @@ namespace AdminApp.Services
             //HttpContextAccessor = httpContextAccessor;
             client = new()
             {
-				BaseAddress = new Uri("https://localhost:44385/api/")
-                //BaseAddress = new Uri("https://bancotec.websitos256.com/api/")
+				//BaseAddress = new Uri("https://localhost:44385/api/")
+                BaseAddress = new Uri("https://bancotec.websitos256.com/api/")
             };
         }
 

@@ -127,8 +127,8 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         private async Task Iniciar()
         {
             hub = new HubConnectionBuilder()
-                //.WithUrl("https://bancotec.websitos256.com/turnos")
-                .WithUrl("https://localhost:44385/turnos")
+                .WithUrl("https://bancotec.websitos256.com/turnos")
+                //.WithUrl("https://localhost:44385/turnos")
                 .WithAutomaticReconnect()
                 .Build();
 
