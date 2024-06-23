@@ -15,15 +15,15 @@
                     <span class="red-text">@Model.NombreCaja</span>
                 </div>
                 <p>¿Está seguro que desea eliminar esta caja?</p>
-
-            <!-- Botones -->
-            <div class="buttons">
-                <input type="hidden" value="@Model.Id" />
-                 <input type="submit" value="Aceptar" class="accept-button" />
-                <a href="~/Administrador/Cajas">
-                    <input type="button" value="Cancelar" class="cancel-button" />
-                </a>
+                <!-- Botones -->
+                <div class="buttons">
+                    <input type="hidden" name="Id" value="@Model.Id" />
+                    <input type="submit" value="Aceptar" class="accept-button" />
+                    <a href="~/Administrador/Cajas">
+                        <input type="button" value="Cancelar" class="cancel-button" />
+                    </a>
+                </div>
             </div>
+        </div>
     </form>
-        </section>
 </section>
