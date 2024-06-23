@@ -94,9 +94,11 @@ namespace API_Linea_Espera.Hubs
                     Posicion = turno.Posicion
                 };
 
+                await Groups.AddToGroupAsync(Context.ConnectionId, t.IdTurno.ToString());
+                await Clients.Group(turno.IdTurno.ToString()).SendAsync("TicketAbandonado", t);
+
                 await Clients.All.SendAsync("AbandonarTurno", t);
 
-                //await Clients.All.SendAsync("AbandonarTurno","Usted ha abandonado la fila.");
             }
         }
 
@@ -125,6 +127,10 @@ namespace API_Linea_Espera.Hubs
                             EstadoTurno = turno.Estado.Estado
                         }).FirstOrDefault();
 
+                    await Groups.AddToGroupAsync(Context.ConnectionId, turnoactualizado.IdTurno.ToString());
+                    await Clients.Group(turnoactualizado.IdTurno.ToString()).SendAsync("TicketLlamado", turnoactualizado);
+
+
                     await Clients.All.SendAsync("LlamadoCliente", turnoactualizado);
                 }
             }
@@ -152,6 +158,10 @@ namespace API_Linea_Espera.Hubs
                             //TiempoFin = DateTime.UtcNow
                         }).FirstOrDefault();
 
+
+                    await Groups.AddToGroupAsync(Context.ConnectionId, turnoactualizado.IdTurno.ToString());
+                    await Clients.Group(turnoactualizado.IdTurno.ToString()).SendAsync("TicketAtendido", turnoactualizado);
+
                     await Clients.All.SendAsync("AtenderCliente", turnoactualizado);
                 }
             }
@@ -178,6 +188,11 @@ namespace API_Linea_Espera.Hubs
                             EstadoTurno = turno.Estado.Estado
                         }).FirstOrDefault();
 
+
+                    await Groups.AddToGroupAsync(Context.ConnectionId, turnoactualizado.IdTurno.ToString());
+                    await Clients.Group(turnoactualizado.IdTurno.ToString()).SendAsync("TicketTerminado", turnoactualizado);
+
+
                     await Clients.All.SendAsync("Terminar", turnoactualizado);
                 }
             }
@@ -202,8 +217,8 @@ namespace API_Linea_Espera.Hubs
                 await Clients.All.SendAsync("Cerrar", NombreCaja);
                 await Clients.All.SendAsync("CerrarServicio");
 
-				//await Clients.All.SendAsync("CerrarServicio", "La caja elegida ha sido cerrada, favor de elegir otro servicio."); ;
-			}
+				
+            }
         }
     }
 }

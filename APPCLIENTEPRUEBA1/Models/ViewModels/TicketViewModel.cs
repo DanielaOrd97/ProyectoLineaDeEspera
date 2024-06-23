@@ -145,34 +145,61 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             });
 
 
-            hub.On<TurnoDTO>("LlamadoCliente", x =>
+            //hub.On<TurnoDTO>("LlamadoCliente", x =>
+            //{
+            //    Turnocopy = x;
+            //});
+
+            hub.On<TurnoDTO>("TicketLlamado", x =>
             {
-                //Turno = x;
                 Turnocopy = x;
-                //CargarTurnos();
             });
 
-            hub.On<TurnoDTO>("AbandonarTurno", x =>
+
+
+            //hub.On<TurnoDTO>("AbandonarTurno", x =>
+            //{
+            //    //Turno = x;
+            //    Turnocopy = null;
+            //    Mensaje = "Usted ha abandonado la fila.";
+            //    Activo = true;
+            //});
+
+            hub.On<TurnoDTO>("TicketAbandonado", x =>
             {
-                //Turno = x;
                 Turnocopy = null;
                 Mensaje = "Usted ha abandonado la fila.";
                 Activo = true;
             });
-            hub.On<TurnoDTO>("AtenderCliente", x =>
+
+
+
+            //hub.On<TurnoDTO>("AtenderCliente", x =>
+            //{
+            //    Turnocopy = x;
+            //});
+
+            hub.On<TurnoDTO>("TicketAtendido", x =>
             {
-                //Turno = x;
                 Turnocopy = x;
-                //CargarTurnos();
             });
-            hub.On<TurnoDTO>("Terminar", x =>
+
+
+            //hub.On<TurnoDTO>("Terminar", x =>
+            //{
+            //    Turnocopy = x;
+            //    Activo = true;
+            //    CargarCajas();
+            //});
+
+            hub.On<TurnoDTO>("TicketTerminado", x =>
             {
-                //Turno = x;
                 Turnocopy = x;
                 Activo = true;
                 CargarCajas();
-                //CargarTurnos();
             });
+
+
             hub.On<string>("CerrarServicio", x =>
             {
                //CargarCajas();
@@ -193,14 +220,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
                     Mensaje = "La caja elegida ha sido cerrada. Por favor, genere su ticket nuevamente.";
                     Activo = true;
                 }
-
-                //MainThread.BeginInvokeOnMainThread(() =>
-               // {
-                    //CargarCajas();
-               // });
-
 				
-
             });
         } 
     }

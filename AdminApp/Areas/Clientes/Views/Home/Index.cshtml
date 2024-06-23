@@ -34,7 +34,7 @@
         document.addEventListener('DOMContentLoaded', (event) => {
             ActualizarColores();
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://BancoTec.websitos256.com/turnos", {
+                .withUrl("https://localhost:44385/turnos", {
                     skipNegotiation: true,
                     transport: signalR.HttpTransportType.WebSockets,
                 })
