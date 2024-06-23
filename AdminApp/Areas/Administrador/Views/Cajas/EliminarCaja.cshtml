@@ -5,21 +5,16 @@
 }
 
 <section class="main">
-    <form method="post" href="~/Administrador/Cajas/EliminarCaja">
-        <input type="hidden" value="@Model.Id"/>
-        <section class="attendance">
-            <div class="attendance-list Card-Eliminar">
+    <form method="post" action="~/Administrador/Cajas/EliminarCaja">
+        <input type="hidden" name="Id" value="@Model.Id" />
+        <div class="content">
+            <div class="Card-Eliminar">
+                <h2 class="red-text"><i class="fas fa-trash-alt"></i> Eliminar Caja</h2>
                 <div class="half-width">
-                    <label for="Eliminar">
-                        <span class="red-text"><i class="fas fa-trash-alt"></i></span>Eliminar Caja
-                    </label>
-                    <br />
-                    <label>
-                        ¿Deseas Eliminar la Caja:
-                        <span class="red-text">@Model.NombreCaja</span>?
-                    </label>
+                    <label>Caja:</label>
+                    <span class="red-text">@Model.NombreCaja</span>
                 </div>
-            </div>
+                <p>¿Está seguro que desea eliminar esta caja?</p>
 
             <!-- Botones -->
             <div class="buttons">
@@ -29,6 +24,6 @@
                     <input type="button" value="Cancelar" class="cancel-button" />
                 </a>
             </div>
-        </section>
     </form>
+        </section>
 </section>
