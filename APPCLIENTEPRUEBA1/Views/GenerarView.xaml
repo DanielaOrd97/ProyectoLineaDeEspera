@@ -102,7 +102,7 @@
                >
         </Label>
 
-        <Label Text="{Binding Mensaje}"></Label>
+        <Label Text="{Binding Mensaje}" HorizontalTextAlignment="Center" FontAttributes="Bold"></Label>
 
         <!--<ListView ItemsSource="{Binding ListaTurnos}">
             <ListView.ItemTemplate>

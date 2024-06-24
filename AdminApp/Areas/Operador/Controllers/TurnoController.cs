@@ -103,6 +103,7 @@ namespace AdminApp.Areas.Operador.Controllers
         {
             hub = new HubConnectionBuilder()
               .WithUrl("https://bancotec.websitos256.com/turnos")
+             // .WithUrl("https://localhost:44385/turnos")
               .WithAutomaticReconnect()
               .Build();
 

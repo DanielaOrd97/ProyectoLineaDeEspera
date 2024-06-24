@@ -9,11 +9,13 @@ namespace API_Linea_Espera.Hubs
     public class TurnosHub : Hub
     {
         public IRepository<Turnos> Repository { get; }
+        public IRepository<Cajas> CajasRepository { get; }
         public static int UltimaPosicion { get; set; }
 
-        public TurnosHub(IRepository<Turnos> repository)
+        public TurnosHub(IRepository<Turnos> repository, IRepository<Cajas> cajasrepository)
         {
             this.Repository = repository;
+            this.CajasRepository = cajasrepository;
             UltimaPosicion = UltimaPosicion;
         }
 
@@ -37,13 +39,24 @@ namespace API_Linea_Espera.Hubs
                 UltimaPosicion = entity.Posicion;
                 Repository.Insert(entity);
 
+                var tGenerado = Repository.GetAllTurnosWithInclude()
+                    .FirstOrDefault(x => x.IdTurno == entity.IdTurno);
+
                 TurnoDTO turnoGenerado = new()
                 {
-                    IdTurno = entity.IdTurno,
-                    NombreCaja = entity.Caja.NombreCaja,
-                    EstadoTurno = entity.Estado.Estado,
-                    Posicion = entity.Posicion
+                    IdTurno = tGenerado.IdTurno,
+                    NombreCaja = tGenerado.Caja.NombreCaja,
+                    EstadoTurno = tGenerado.Estado.Estado,
+                    Posicion = tGenerado.Posicion
                 };
+
+                //TurnoDTO turnoGenerado = new()
+                //{
+                //    IdTurno = entity.IdTurno,
+                //    NombreCaja = entity.Caja.NombreCaja,
+                //    EstadoTurno = entity.Estado.Estado,
+                //    Posicion = entity.Posicion
+                //};
 
                 await Groups.AddToGroupAsync(Context.ConnectionId, turnoGenerado.IdTurno.ToString());
                 await Clients.Group(turnoGenerado.IdTurno.ToString()).SendAsync("TicketCreado", turnoGenerado);
@@ -214,8 +227,13 @@ namespace API_Linea_Espera.Hubs
                     Repository.Delete(turno);
                 }
 
+                //prueba
+                var b = CajasRepository.Get(idcaja);
+                b.Estado = 0;
+                CajasRepository.Update(b);
+
                 await Clients.All.SendAsync("Cerrar", NombreCaja);
-                await Clients.All.SendAsync("CerrarServicio");
+                await Clients.All.SendAsync("CerrarServicio","La caja que eligio ha cerrado. Favor de generar ticket de nuevo.");
 
 				
             }

@@ -55,6 +55,7 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
         {
             if (Caja != null)
             {
+                Mensaje = "";
                 await hub.InvokeAsync("AddTurno", Caja.Id);
                 Activo = false;
             }
@@ -200,28 +201,34 @@ namespace APPCLIENTEPRUEBA1.Models.ViewModels
             });
 
 
-            hub.On<string>("CerrarServicio", x =>
+            hub.On<string>("CerrarServicio", async x =>
             {
-               //CargarCajas();
+                //CargarCajas();
 
-                foreach (var item in ListaCajas)
+                await service.GetCajas();
+
+                //ListaCajas.Clear();
+                var cont = CajasRepository.GetAll().ToList();
+
+                foreach (var item in CajasRepository.GetAll())
                 {
-                    if(Turnocopy.NombreCaja == item.NombreCaja)
+                    if (turnocopy.NombreCaja == item.NombreCaja)
                     {
-                        Indicador = true;
+                        indicador = true;
                     }
                 }
 
-                if(Indicador == false)
+                if (Indicador == false && turnocopy.EstadoTurno != "Terminado")
                 {
-					CargarCajas();
-					Turnocopy = null;
-                    //Mensaje = x;
+                    CargarCajas();
+                    Turnocopy = null;
                     Mensaje = "La caja elegida ha sido cerrada. Por favor, genere su ticket nuevamente.";
                     Activo = true;
                 }
-				
+
             });
+
+
         } 
     }
 }

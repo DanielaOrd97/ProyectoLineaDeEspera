@@ -30,7 +30,7 @@ namespace APPCLIENTEPRUEBA1.Services
 			bool aviso = false;
 
 			var response = await cliente.GetFromJsonAsync<List<CajaDTO>>($"Cajas/Cliente/Activas");
-			var existentes = repository.GetAll().ToList();
+			var existentes = repository.GetAll();
 
 			if (response != null)
 			{
