@@ -121,7 +121,6 @@ body {
 /* Tables */
 .bank-table, .user-table {
     width: 100%;
-    height: 100%;
     border-collapse: collapse;
     margin: 25px 0;
     font-size: 18px;
@@ -177,8 +176,8 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     width: 100%;
-    max-width: 600px;
     box-sizing: border-box;
+   /* margin-left:10%;*/
 }
 
 .attendance-list .form-group {
@@ -193,7 +192,7 @@ body {
     flex-direction: column;
     align-items: center;
     font-size: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 20px;       vgbb
     font-weight: bold;
 }*/
 
@@ -236,6 +235,25 @@ body {
     font-weight: bold;
     color: #333;
 }
+.Datos-Card .Contenedor {
+    margin-bottom: 20px;
+}
+
+.Datos-Card label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.Datos-Card input[type="text"],
+.Datos-Card select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
 /* Table Styles */
 .contenidoTabla {
     width: 100%;
@@ -284,8 +302,18 @@ body {
     padding: 20px;
     margin: 20px 0;
     text-align: center;
-}
 
+}
+.Card-Eliminar{
+    width:800px;
+}
+#IdRol ,#IdCaja {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
 .Card-Eliminar, .Datos-Card {
     display: flex;
     flex-direction: column;
@@ -313,8 +341,9 @@ body {
 .buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
     margin-top: 20px;
+    flex-wrap:wrap;
 }
 
     .buttons button {
@@ -419,10 +448,12 @@ body {
 
 .accept-button:hover {
     background-color: #065b1e;
+    color: white;
 }
 
 .cancel-button:hover {
     background-color: #c91026;
+    color:white;
 }
 
 .add-button-container:hover {
@@ -448,6 +479,7 @@ body {
 
     .action-button:hover {
         background-color: #388E3C; /* Verde oscuro al pasar el cursor */
+        color: white;
     }
 
     .action-button.cancelar {
@@ -456,4 +488,5 @@ body {
 
         .action-button.cancelar:hover {
             background-color: #d32f2f; /* Rojo oscuro al pasar el cursor */
+            color: white;
         }
