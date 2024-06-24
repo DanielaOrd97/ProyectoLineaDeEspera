@@ -188,9 +188,14 @@ body {
     margin-bottom: 20px;
 }
 
-.half-width {
-    width: 100%;
-}
+/*.half-width {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}*/
 
     .half-width label {
         font-weight: bold;
@@ -203,6 +208,11 @@ body {
         border-radius: 5px;
         width: 100%;
     }
+.codigo {
+    font-size: 24px;
+    color: #000;
+    margin-top: 10px;
+}
 /* Search Section */
 .search-section {
     margin-top: 10px;
