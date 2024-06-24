@@ -324,6 +324,18 @@ body {
     background-color: #f11c31;
     color: white;
 }
+.turno .label {
+    font-weight: bold;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.turno .codigo {
+    font-size: 24px;
+    color: #000;
+    margin-top: 10px;
+}
+
 
 /* Admin Dashboard */
 .dashboard {
@@ -410,3 +422,28 @@ body {
 .add-button:hover {
     background-color: #c10f0f;
 }
+.action-button {
+    background-color: #4CAF50; /* Verde por defecto */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
+
+    .action-button:hover {
+        background-color: #388E3C; /* Verde oscuro al pasar el cursor */
+    }
+
+    .action-button.cancelar {
+        background-color: #f44336; /* Rojo brillante */
+    }
+
+        .action-button.cancelar:hover {
+            background-color: #d32f2f; /* Rojo oscuro al pasar el cursor */
+        }
